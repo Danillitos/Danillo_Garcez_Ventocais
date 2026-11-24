@@ -20,6 +20,16 @@ export function imagem(caminho?: string | null): ImageMetadata | undefined {
   return modulo.default;
 }
 
+/** Todas as imagens de uma pasta de src/assets, em ordem de nome. */
+export function imagensDaPasta(pasta?: string | null): ImageMetadata[] {
+  if (!pasta) return [];
+  const prefixo = `/src/assets/${pasta.replace(/^\/?(src\/)?(assets\/)?/, '').replace(/\/+$/, '')}/`;
+  return Object.keys(arquivos)
+    .filter((chave) => chave.startsWith(prefixo) && !chave.slice(prefixo.length).includes('/'))
+    .sort()
+    .map((chave) => arquivos[chave]!.default);
+}
+
 /** Atalho para imagens que o código usa diretamente. */
 export function imagemObrigatoria(caminho: string): ImageMetadata {
   const img = imagem(caminho);

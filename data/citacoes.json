@@ -1,14 +1,57 @@
 [
   {
-    "id": "discoemcena-arranjo",
-    "texto": "Arranjo matador",
-    "autor": "Iuri Freire",
-    "fonte": "DiscoEmCena"
+    "id": "gustavo-chagas",
+    "texto": "Não é exagero nenhum dizer que essa foi uma das melhores músicas que eu recebi aqui esse ano. Arranjo riquíssimo, ótima letra, groovada, divertida",
+    "autor": "Gustavo Chagas",
+    "fonte": "Groover · sobre “Promessas de Orfeu”"
+  },
+  {
+    "id": "canastra-records",
+    "texto": "Sensacional o som. Guitarras dançantes, o synth e metais trazendo um certo ar de mistério e as linhas vocais dando um tom pop para a canção",
+    "autor": "Canastra Records",
+    "fonte": "Groover · sobre “Promessas de Orfeu”"
   },
   {
     "id": "nova-mpb-fm",
     "texto": "Tudo está ótimo, desde as escolhas de arranjos, voz, até a produção e mixagem",
-    "autor": "NOVA MPB FM"
+    "autor": "NOVA MPB FM",
+    "fonte": "Groover · sobre “Promessas de Orfeu”"
+  },
+  {
+    "id": "tracklist",
+    "texto": "“Promessas de Orfeu” é uma daquelas faixas que nos cativa pela riqueza de detalhes",
+    "autor": "Tracklist",
+    "fonte": "Groover · sobre “Promessas de Orfeu”"
+  },
+  {
+    "id": "fa-da-clave-do-fa",
+    "texto": "Uma faixa muito gostosa e muito bem resolvida dentro dessa mistura de R&B, funk e música brasileira. Existe um gingado brasileiro que dá personalidade ao conjunto",
+    "autor": "Fá d'A Clave do Fá",
+    "fonte": "Groover · sobre “Promessas de Orfeu”"
+  },
+  {
+    "id": "sommelier-de-rnb",
+    "texto": "Meu amigo, que som é esse… Groove de verdade aí, viu? Tô apaixonado nesse som",
+    "autor": "Sommelier de R&B",
+    "fonte": "Groover · sobre “Promessas de Orfeu”"
+  },
+  {
+    "id": "tmdqa",
+    "texto": "Gostei bastante de como a composição tem uma identidade própria, que parece ter sido construída a partir de influências diversas",
+    "autor": "Tenho Mais Discos Que Amigos!",
+    "fonte": "Groover · sobre “Promessas de Orfeu”"
+  },
+  {
+    "id": "minuto-indie",
+    "texto": "Muito massa a track, gostamos muito da vibe",
+    "autor": "Minuto Indie",
+    "fonte": "Groover · sobre “Promessas de Orfeu”"
+  },
+  {
+    "id": "joaozinho-indica",
+    "texto": "Nesses tempos de IA, ver uma faixa assim, cheia de identidade e brasilidade, e poder deixar um sorriso no rosto",
+    "autor": "Joãozinho Indica",
+    "fonte": "Groover · sobre “Tudo é Mar”"
   },
   {
     "id": "alex-santana-dancar",
@@ -21,12 +64,6 @@
     "texto": "Som pulsante que mistura influências de Marku Ribas e Milton Nascimento, com letras poéticas e arranjos que flertam com a MPB e a música regional",
     "autor": "Caju Juice",
     "fonte": "produtora"
-  },
-  {
-    "id": "discoemcena-radio",
-    "texto": "Forte potencial radiofônico",
-    "autor": "Iuri Freire",
-    "fonte": "DiscoEmCena"
   },
   {
     "id": "alex-santana-classudas",

@@ -64,7 +64,7 @@ const fatos = [
     : []),
   { rotulo: 'Distribuição', valor: site.distribuidora },
   { rotulo: 'Associação', valor: site.associacao },
-  { rotulo: 'Contato', valor: `WhatsApp ${site.contato.whatsappExibicao}${site.contato.email ? ` · ${site.contato.email}` : ''}` },
+  { rotulo: 'Contato', valor: [`WhatsApp ${site.contato.whatsappExibicao}`, site.contato.email, site.contato.emailDanillo].filter(Boolean).join(' · ') },
 ];
 ---
 

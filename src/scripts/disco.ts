@@ -40,6 +40,11 @@ export function iniciarDisco(): void {
 
   const cancelar = aoNivel((nivel) => disco.style.setProperty('--nivel', nivel.toFixed(3)));
 
+  // Clicar no disco toca/pausa a mesma prévia do bloco "Lançamento".
+  disco.querySelector('[data-disco-tocar]')?.addEventListener('click', () => {
+    document.querySelector<HTMLButtonElement>('[data-lancamento] [data-player-botao]')?.click();
+  });
+
   parar = () => {
     cancelar();
     hero.removeEventListener('pointermove', aoMover);

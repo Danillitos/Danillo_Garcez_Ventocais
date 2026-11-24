@@ -7,7 +7,7 @@ import Pendente from './Pendente.astro';
 import { descricaoLocal } from '../lib/agenda';
 import type { Show } from '../lib/conteudo';
 import { diaPontoMes, formatarPreco, listaNatural, partes } from '../lib/datas';
-import { imagem } from '../lib/imagens';
+import { imagem, imagensDaPasta } from '../lib/imagens';
 
 interface Props {
   show: Show;
@@ -17,6 +17,12 @@ const { show } = Astro.props;
 const s = show.data;
 const cartaz = imagem(s.cartaz);
 const cartazGrande = cartaz ? await getImage({ src: cartaz, width: 1100, format: 'webp' }) : undefined;
+
+/* Fotos do show: 4 miniaturas visíveis; todas abrem na galeria. */
+const fotos = imagensDaPasta(s.fotos);
+const fotosGrandes = await Promise.all(fotos.map((f) => getImage({ src: f, width: 1600, format: 'webp' })));
+const legendaFotos = `${s.evento}${s.data ? ` (${s.data.split('-').reverse().join('/')})` : ''}${s.creditoFotos ? ` · Foto: ${s.creditoFotos}` : ''}`;
+const VISIVEIS = 4;
 const preco = s.precoTexto ?? formatarPreco(s.preco);
 const ano = s.data ? String(partes(s.data).ano) : 'sem-data';
 ---
@@ -43,6 +49,41 @@ const ano = s.data ? String(partes(s.data).ano) : 'sem-data';
     {s.notas && <p class="sl__detalhe">{s.notas}</p>}
     {s.destaque && <p class="sl__destaque">✦ {s.destaque}</p>}
     {preco && <p class="sl__preco">{preco}</p>}
+    {
+      fotos.length > 0 && (
+        <div class="sl__fotos">
+          <div class="sl__miniaturas">
+            {fotos.map((f, i) =>
+              i < VISIVEIS ? (
+                <button
+                  class="sl__foto"
+                  type="button"
+                  data-lightbox={`fotos-${show.id}`}
+                  data-src={fotosGrandes[i]?.src}
+                  data-legenda={legendaFotos}
+                  data-alt={`Foto do show ${s.evento}`}
+                  aria-label={`Ver fotos do show ${s.evento} (${fotos.length})`}
+                >
+                  <Image src={f} alt="" width={200} />
+                  {i === VISIVEIS - 1 && fotos.length > VISIVEIS && (
+                    <span class="sl__mais">+{fotos.length - VISIVEIS}</span>
+                  )}
+                </button>
+              ) : (
+                <span
+                  class="sl__foto-extra"
+                  data-lightbox={`fotos-${show.id}`}
+                  data-src={fotosGrandes[i]?.src}
+                  data-legenda={legendaFotos}
+                  data-alt={`Foto do show ${s.evento}`}
+                />
+              ),
+            )}
+          </div>
+          {s.creditoFotos && <p class="sl__credito">Fotos: {s.creditoFotos}</p>}
+        </div>
+      )
+    }
     <Pendente texto={s.pendente} rascunho={s.rascunho} />
   </div>
 
@@ -69,6 +110,63 @@ const ano = s.data ? String(partes(s.data).ano) : 'sem-data';
     gap: 8px 28px;
     padding-block: 26px;
     border-top: 1px solid var(--linha);
+  }
+
+  .sl__fotos {
+    margin-top: 14px;
+  }
+
+  .sl__miniaturas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .sl__foto {
+    position: relative;
+    width: 84px;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 6px;
+    cursor: zoom-in;
+  }
+
+  .sl__foto :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .sl__foto:hover :global(img) {
+    transform: scale(1.08);
+  }
+
+  .sl__mais {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgb(7 11 20 / 0.6);
+    color: var(--perola);
+    font-family: var(--fonte-display);
+    font-size: 1.4rem;
+  }
+
+  .sl__foto-extra {
+    display: none;
+  }
+
+  .sl__credito {
+    margin-top: 6px;
+    color: var(--perola-3);
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 640px) {
+    .sl__foto {
+      width: calc((100% - 24px) / 4);
+    }
   }
 
   .sl[hidden] {

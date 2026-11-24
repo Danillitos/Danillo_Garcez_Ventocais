@@ -43,6 +43,10 @@ const shows = defineCollection({
     notas: z.string().optional(),
     /** Caminho dentro de src/assets (ex.: "cartazes/2024-01-12-estreia.jpg"). */
     cartaz: z.string().optional(),
+    /** Pasta com as fotos do show, dentro de src/assets (ex.: "fotos/shows/2024-01-12-estreia"). */
+    fotos: z.string().optional(),
+    /** Quem fotografou (aparece como "Fotos: ..."). */
+    creditoFotos: z.string().optional(),
     status: z.enum(['confirmado', 'adiado', 'cancelado']).default('confirmado'),
     ...controle,
   }),
@@ -83,7 +87,10 @@ const lancamentos = defineCollection({
     ficha: z
       .array(z.object({ funcao: z.string(), nome: z.string(), link: z.string().optional() }))
       .default([]),
-    faixas: z.array(z.object({ titulo: z.string(), duracao: z.string().optional() })).default([]),
+    /** Faixas (EP/álbum). Cada uma pode ter a própria letra (uma estrofe por item). */
+    faixas: z
+      .array(z.object({ titulo: z.string(), duracao: z.string().optional(), letra: z.array(z.string()).default([]) }))
+      .default([]),
     referencias: z.array(z.string()).default([]),
     links,
     /** Caminho dentro de /public (ex.: "audio/minha-previa.mp3"). */

@@ -58,22 +58,30 @@ const faixa = Array.from({ length: repeticoes }, () => shows).flat();
     </div>
 
     <figure class="hero__disco" data-disco>
-      <div class="hero__disco-movimento">
-        <Image
-          class="hero__disco-img"
-          src={disco}
-          alt="Arte da capa de “Promessas de Orfeu”: um disco de pedra perolada com figuras em relevo e manchas azul-cobalto"
-          widths={[360, 560, 800, 1100]}
-          sizes="(max-width: 899px) 62vw, 44vw"
-          loading="eager"
-          fetchpriority="high"
-        />
-      </div>
+      <button
+        class="hero__disco-botao"
+        type="button"
+        data-disco-tocar
+        aria-label={destaque ? `Tocar a prévia de “${destaque.data.titulo}”` : 'Disco da capa'}
+        title={destaque ? `Tocar a prévia de “${destaque.data.titulo}”` : undefined}
+      >
+        <span class="hero__disco-movimento">
+          <Image
+            class="hero__disco-img"
+            src={disco}
+            alt="Arte da capa de “Promessas de Orfeu”: um disco de pedra perolada com figuras em relevo e manchas azul-cobalto"
+            widths={[360, 560, 800, 1100]}
+            sizes="(max-width: 899px) 62vw, 44vw"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </span>
+      </button>
       {
         destaque && (
           <figcaption class="hero__nota">
             <span class="anotacao">
-              novo single:
+              toca no disco pra ouvir:
               <br />“{destaque.data.titulo}”
             </span>
             <svg class="hero__seta" viewBox="0 0 120 70" aria-hidden="true">
@@ -205,7 +213,20 @@ const faixa = Array.from({ length: repeticoes }, () => shows).flat();
     transition: box-shadow 0.15s linear;
   }
 
+  /* O disco é um botão: tocar nele toca a prévia do lançamento. */
+  .hero__disco-botao {
+    display: block;
+    width: 100%;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .hero__disco-botao:focus-visible {
+    outline-offset: -12%;
+  }
+
   .hero__disco-movimento {
+    display: block;
     transform: translate3d(var(--tx, 0px), var(--ty, 0px), 0) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
       scale(calc(1 + var(--nivel, 0) * 0.045));
     transition: transform 0.9s var(--ease-out);

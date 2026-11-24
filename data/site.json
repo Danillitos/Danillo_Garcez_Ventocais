@@ -5,13 +5,21 @@
   "uf": "SE",
   "estreia": "2024-01-12",
   "descricao": "Banda autoral de Aracaju (SE) que mistura MPB, baião, bossa nova, jazz, soul e R&B. Ouça “Promessas de Orfeu”, veja a agenda da turnê e conheça a banda.",
-  "generos": ["MPB", "Baião", "Bossa nova", "Jazz", "Soul", "R&B", "Funk brasileiro"],
-  "bioCurta": "Danillo Garcez & Ventocais é uma banda autoral de Aracaju (SE) que mistura MPB, baião, bossa nova, jazz, soul e R&B numa sonoridade profundamente brasileira. Liderada por Danillo Garcez, ex-vocalista do Origami Aquém e compositor de “Pensamentos que me levam a você” (600 mil+ streams), a banda lançou em 2026 o single “Promessas de Orfeu” e faz sua primeira turnê por Sergipe e Alagoas.",
+  "generos": [
+    "MPB",
+    "Baião",
+    "Bossa nova",
+    "Jazz",
+    "Soul",
+    "R&B",
+    "Funk brasileiro"
+  ],
+  "bioCurta": "Danillo Garcez & Ventocais é uma banda autoral de Aracaju (SE) que mistura MPB, baião, bossa nova, jazz, soul e R&B numa sonoridade profundamente brasileira. Liderada pelo cantor e compositor Danillo Garcez, a banda lançou em 2026 o single “Promessas de Orfeu” e faz sua primeira turnê por Sergipe e Alagoas.",
   "bioLonga": [
     "Danillo Garcez & Ventocais é uma banda autoral de Aracaju (SE) que mistura MPB, baião, bossa nova, jazz, soul e R&B numa sonoridade profundamente brasileira, com influências como Marcos Valle, Marku Ribas, Jorge Ben Jor, Sandra de Sá e Ed Motta.",
-    "O projeto é liderado pelo cantor, compositor e guitarrista Danillo Garcez, ex-vocalista do Origami Aquém e autor de “Pensamentos que me levam a você”, faixa com mais de 600 mil streams no Spotify.",
+    "O projeto é liderado pelo cantor, compositor e guitarrista Danillo Garcez, ex-vocalista do Origami Aquém.",
     "A banda estreou nos palcos em janeiro de 2024 e lançou o single “Tudo é Mar” (2025), o EP Rosa Afim e, em 2026, o single “Promessas de Orfeu”, que entrou na programação da Rádio UFS e ganhou uma live session no YouTube. Ativa na cena autoral sergipana, a Ventocais já se apresentou em casas como Che Music Bar, Taberna Rock Bar, Freedom Discos e Onça, organizou o Festival Aquece no Vila Caju e, em dezembro de 2026, faz sua primeira turnê, com shows em Aracaju, Maceió e Arapiraca.",
-    "Seu trabalho já foi destaque em veículos como Disconecta, Divergent Beats, Cultura a Diesel e Mangue Jornalismo."
+    "Seu trabalho já foi destaque em veículos como Disconecta, Divergent Beats e Cultura a Diesel."
   ],
   "origemDoNome": "O nome “Ventocais” surgiu da música “Cais”, de Milton Nascimento. Danillo entendia o verso “Invento o cais” como “Em Ventocais”, como se fosse um lugar a se visitar e viver. O nome acabou escolhido por unanimidade para o projeto.",
   "formatoAcustico": "Também tocamos em formato acústico: um trio com voz, baixo e cajón, que já passou pela Feirinha da Gambiarra e está disponível para rádio e TV.",
@@ -19,49 +27,100 @@
   "influencias": [
     {
       "grupo": "Citadas pela banda",
-      "nomes": ["Marcos Valle", "Marku Ribas", "Jorge Ben Jor", "Sandra de Sá", "Ed Motta", "Cassiano", "Jamiroquai", "Quincy Jones"]
+      "nomes": [
+        "Marcos Valle",
+        "Marku Ribas",
+        "Jorge Ben Jor",
+        "Sandra de Sá",
+        "Ed Motta",
+        "Cassiano",
+        "Jamiroquai",
+        "Quincy Jones"
+      ]
     },
     {
       "grupo": "Lembradas por produtores",
-      "nomes": ["Milton Nascimento", "Marku Ribas"],
+      "nomes": [
+        "Milton Nascimento",
+        "Marku Ribas"
+      ],
       "nota": "Produtora Caju Juice"
     },
     {
       "grupo": "Na voz, segundo curadores",
-      "nomes": ["Marcelo Camelo", "Los Hermanos", "Banda do Mar", "Hélio Flanders"],
+      "nomes": [
+        "Marcelo Camelo",
+        "Los Hermanos",
+        "Banda do Mar",
+        "Hélio Flanders"
+      ],
       "nota": "Curadores da Groover"
     },
     {
       "grupo": "Na receita de “Promessas de Orfeu”",
-      "nomes": ["Ed Motta", "Marcos Valle", "Fat Family", "Quincy Jones", "Luther Vandross", "Michael Jackson"]
+      "nomes": [
+        "Ed Motta",
+        "Marcos Valle",
+        "Fat Family",
+        "Quincy Jones",
+        "Luther Vandross",
+        "Michael Jackson"
+      ]
     }
   ],
   "contato": {
     "whatsapp": "5579988476001",
     "whatsappExibicao": "(79) 9 8847-6001",
-    "email": "",
-    "pendente": "Criar um e-mail de contato da banda"
+    "email": "ventocaisbanda@gmail.com",
+    "emailDanillo": "danillo.garcez@live.com"
   },
   "redes": [
-    { "rede": "Instagram", "usuario": "@ventocais", "url": "https://www.instagram.com/ventocais/" },
-    { "rede": "Instagram", "usuario": "@danillogarcez_", "url": "https://www.instagram.com/danillogarcez_/" },
-    { "rede": "YouTube", "usuario": "@DanilloGarcezVentocais", "url": "https://www.youtube.com/@DanilloGarcezVentocais" }
+    {
+      "rede": "Instagram",
+      "usuario": "@ventocais",
+      "url": "https://www.instagram.com/ventocais/"
+    },
+    {
+      "rede": "Instagram",
+      "usuario": "@danillogarcez_",
+      "url": "https://www.instagram.com/danillogarcez_/"
+    },
+    {
+      "rede": "YouTube",
+      "usuario": "@DanilloGarcezVentocais",
+      "url": "https://www.youtube.com/@DanilloGarcezVentocais"
+    }
   ],
   "plataformas": [
-    { "nome": "Spotify", "url": "", "pendente": "Link do perfil no Spotify (e unificar os perfis “Danillo Garcez” e “Ventocais”)" },
-    { "nome": "Apple Music", "url": "" },
-    { "nome": "Deezer", "url": "" },
-    { "nome": "YouTube Music", "url": "" }
+    {
+      "nome": "Spotify",
+      "url": "",
+      "pendente": "Link do perfil no Spotify (e unificar os perfis “Danillo Garcez” e “Ventocais”)"
+    },
+    {
+      "nome": "Apple Music",
+      "url": ""
+    },
+    {
+      "nome": "Deezer",
+      "url": ""
+    },
+    {
+      "nome": "YouTube Music",
+      "url": ""
+    }
   ],
   "numeros": [
-    { "valor": 800, "sufixo": " mil+", "rotulo": "streams com a Origami Aquém" },
-    { "valor": 3, "rotulo": "cidades na primeira turnê" }
+    {
+      "valor": 3,
+      "rotulo": "cidades na primeira turnê"
+    }
   ],
   "distribuidora": "Ditto Music",
   "associacao": "Abramus",
   "creditos": {
     "capa": "Rodrigowod (@rodrigowod)",
-    "fotos": "",
-    "pendente": "Créditos das fotos"
+    "fotos": "Lia Teles, Luca Skate e arquivo da banda",
+    "pendente": "Crédito das fotos do ensaio no campo e do show no Onça"
   }
 }

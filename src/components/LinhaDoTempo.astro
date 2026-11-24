@@ -1,17 +1,29 @@
 ---
 /**
- * Trajetória: Origami Aquém → Ventocais. A linha vai se preenchendo
+ * Trajetória: Origami Aquém → Ventocais. Mistura os marcos (data/marcos.json)
+ * com os shows já realizados (data/shows.json). A linha vai se preenchendo
  * conforme a pessoa rola a página (scripts/linha-do-tempo.ts).
  */
-import type { CollectionEntry } from 'astro:content';
+import Icone from './Icone.astro';
 import Pendente from './Pendente.astro';
-import { dataLonga } from '../lib/datas';
 
-type Marco = CollectionEntry<'marcos'>;
+export interface ItemTempo {
+  id: string;
+  /** Chave de ordenação (AAAA-MM-DD). */
+  ordem?: string;
+  quando: string;
+  titulo: string;
+  texto?: string;
+  pendente?: string;
+  rascunho?: boolean;
+  /** Shows aparecem mais discretos, com link para a Agenda. */
+  show?: boolean;
+  link?: string;
+}
 
 interface Props {
-  origami: Marco[];
-  ventocais: Marco[];
+  origami: ItemTempo[];
+  ventocais: ItemTempo[];
 }
 
 const { origami, ventocais } = Astro.props;
@@ -31,11 +43,18 @@ const eras = [
         <h3 class="era__titulo" set:html={era.titulo} />
         <ol role="list" class="era__lista">
           {era.itens.map((m) => (
-            <li class="marco" data-revelar>
-              <p class="marco__data">{m.data.data ? dataLonga(m.data.data) : m.data.dataTexto}</p>
-              <h4 class="marco__titulo">{m.data.titulo}</h4>
-              {m.data.texto && <p class="marco__texto">{m.data.texto}</p>}
-              <Pendente texto={m.data.pendente} rascunho={m.data.rascunho} />
+            <li class:list={['marco', { 'marco--show': m.show }]} data-revelar>
+              <p class="marco__data">{m.quando}</p>
+              <h4 class="marco__titulo">
+                {m.show && (
+                  <span class="marco__tag">
+                    <Icone nome="ingresso" tamanho={14} /> show
+                  </span>
+                )}
+                {m.link ? <a href={m.link}>{m.titulo}</a> : m.titulo}
+              </h4>
+              {m.texto && <p class="marco__texto">{m.texto}</p>}
+              <Pendente texto={m.pendente} rascunho={m.rascunho} />
             </li>
           ))}
         </ol>
@@ -118,11 +137,30 @@ const eras = [
     box-shadow: none;
   }
 
+  /* Shows: ponto menor e azul, título menor. */
+  .marco--show::before {
+    top: 0.65em;
+    left: -37px;
+    width: 8px;
+    height: 8px;
+    border-color: var(--acento);
+  }
+
+  .marco--show:global(.visivel)::before {
+    background: var(--acento);
+    box-shadow: none;
+  }
+
   .marco__data {
     color: var(--kraft);
     font-family: var(--fonte-mao);
     font-size: 1.45rem;
     line-height: 1;
+  }
+
+  .marco--show .marco__data {
+    color: var(--perola-3);
+    font-size: 1.25rem;
   }
 
   .era--origami .marco__data {
@@ -135,10 +173,41 @@ const eras = [
     font-weight: 420;
   }
 
+  .marco--show .marco__titulo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 10px;
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+  }
+
+  .marco__titulo a:hover {
+    color: var(--acento);
+  }
+
+  .marco__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border: 1px solid var(--linha-forte);
+    border-radius: 999px;
+    color: var(--acento);
+    font-family: var(--fonte-texto);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
   .marco__texto {
     max-width: 52ch;
     margin-top: 6px;
     color: var(--perola-2);
+  }
+
+  .marco--show .marco__texto {
+    font-size: 0.95rem;
   }
 
   @media (min-width: 900px) {

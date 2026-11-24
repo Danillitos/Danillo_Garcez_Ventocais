@@ -43,7 +43,7 @@ const polaroid = imagemObrigatoria('fotos/polaroids/grupo-areia.webp');
           <li class="canal">
             <Icone nome="email" tamanho={26} />
             <div>
-              <p class="rotulo">E-mail</p>
+              <p class="rotulo">E-mail da banda</p>
               {
                 site.contato.email ? (
                   <a class="canal__valor" href={`mailto:${site.contato.email}`}>
@@ -57,6 +57,20 @@ const polaroid = imagemObrigatoria('fotos/polaroids/grupo-areia.webp');
             </div>
             {site.contato.email && <Copiar texto={site.contato.email} />}
           </li>
+          {
+            site.contato.emailDanillo && (
+              <li class="canal">
+                <Icone nome="email" tamanho={26} />
+                <div>
+                  <p class="rotulo">E-mail do Danillo</p>
+                  <a class="canal__valor" href={`mailto:${site.contato.emailDanillo}`}>
+                    {site.contato.emailDanillo}
+                  </a>
+                </div>
+                <Copiar texto={site.contato.emailDanillo} />
+              </li>
+            )
+          }
           {
             site.redes
               .filter((r) => r.url)

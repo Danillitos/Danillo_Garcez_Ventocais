@@ -5,8 +5,7 @@
     "papel": "Produtor musical",
     "detalhes": "Coprodutor de “Promessas de Orfeu” e responsável pela gravação, mixagem e masterização. Também gravou o set do Festival Aquece.",
     "destaque": true,
-    "foto": "",
-    "pendente": "Foto do Guilherme: coloque em src/assets/fotos/equipe/ e escreva o caminho em \"foto\" (ex.: \"fotos/equipe/guilherme.jpg\")"
+    "foto": "fotos/equipe/guilherme.jpg"
   },
   {
     "id": "produtora-sinestra",

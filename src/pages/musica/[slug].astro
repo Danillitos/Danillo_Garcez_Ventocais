@@ -40,7 +40,13 @@ const capaUrl = capa
   : undefined;
 const jsonLd = musicRelease(lancamento, urlAbsoluta('/', Astro.site), paginaUrl, capaUrl);
 const youtubeId = l.links.youtube?.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{6,})/)?.[1];
-const idLetra = `letra-${lancamento.id}`;
+/* Letras: a do lançamento (singles) e/ou a de cada faixa (EP). */
+const letras = [
+  ...(l.letra.length ? [{ titulo: 'Letra', id: `letra-${lancamento.id}`, estrofes: l.letra }] : []),
+  ...l.faixas
+    .filter((f) => f.letra.length)
+    .map((f, i) => ({ titulo: `Letra · ${f.titulo}`, id: `letra-${lancamento.id}-${i + 1}`, estrofes: f.letra })),
+];
 ---
 
 <Base
@@ -121,20 +127,24 @@ const idLetra = `letra-${lancamento.id}`;
   }
 
   {
-    (l.letra.length > 0 || l.ficha.length > 0 || l.faixas.length > 0) && (
+    (letras.length > 0 || l.ficha.length > 0 || l.faixas.length > 0) && (
       <section class="secao secao--escura" style={l.cor ? `--acento: ${l.cor}` : undefined}>
         <div class="container lp__colunas">
-          {l.letra.length > 0 && (
-            <div class="lp__letra">
-              <div class="lp__letra-topo">
-                <h2 class="lp__subtitulo">Letra</h2>
-                <Copiar alvo={`#${idLetra}`} rotulo="Copiar letra" />
-              </div>
-              <div class="lp__estrofes" id={idLetra}>
-                {l.letra.map((estrofe) => (
-                  <p data-revelar>{estrofe}</p>
-                ))}
-              </div>
+          {letras.length > 0 && (
+            <div class="lp__letras">
+              {letras.map((letra) => (
+                <div class="lp__letra">
+                  <div class="lp__letra-topo">
+                    <h2 class="lp__subtitulo">{letra.titulo}</h2>
+                    <Copiar alvo={`#${letra.id}`} rotulo="Copiar letra" />
+                  </div>
+                  <div class="lp__estrofes" id={letra.id}>
+                    {letra.estrofes.map((estrofe) => (
+                      <p data-revelar>{estrofe}</p>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 
@@ -326,6 +336,11 @@ const idLetra = `letra-${lancamento.id}`;
 
   .lp__subtitulo {
     font-size: clamp(1.8rem, 3vw, 2.4rem);
+  }
+
+  .lp__letras {
+    display: grid;
+    gap: 80px;
   }
 
   .lp__letra-topo {

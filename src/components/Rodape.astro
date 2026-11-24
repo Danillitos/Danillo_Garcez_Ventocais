@@ -76,9 +76,16 @@ const plataformas = site.plataformas.filter((p) => p.url);
           </li>
           {
             site.contato.email ? (
-              <li>
-                <a href={`mailto:${site.contato.email}`}>{site.contato.email}</a>
-              </li>
+              <>
+                <li>
+                  <a href={`mailto:${site.contato.email}`}>{site.contato.email}</a>
+                </li>
+                {site.contato.emailDanillo && (
+                  <li>
+                    <a href={`mailto:${site.contato.emailDanillo}`}>{site.contato.emailDanillo}</a>
+                  </li>
+                )}
+              </>
             ) : (
               <li>
                 <Pendente texto={site.contato.pendente} />

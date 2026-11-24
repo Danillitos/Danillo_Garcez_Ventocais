@@ -4,62 +4,38 @@
     "veiculo": "Disconecta",
     "tipo": "Matéria",
     "titulo": "Danillo Garcez lança “Tudo é Mar” e inicia nova fase musical",
-    "link": "",
-    "pendente": "Link da matéria"
+    "link": "https://disconecta.com.br/danillo-garcez-tudo-e-mar-single/"
   },
   {
     "id": "divergent-beats",
     "veiculo": "Divergent Beats",
     "tipo": "Resenha",
     "autor": "Ivan J Gorini",
-    "resumo": "Textos sobre o EP Rosa Afim e sobre o show na Freedom Discos.",
-    "link": "",
-    "pendente": "Links dos textos"
-  },
-  {
-    "id": "tmdqa-tudo-e-mar",
-    "veiculo": "TMDQA!",
-    "tipo": "Matéria",
-    "resumo": "Sobre “Tudo é Mar”: a faixa contempla várias brasilidades sem cair em clichês.",
-    "link": "",
-    "pendente": "Link"
-  },
-  {
-    "id": "discoemcena",
-    "veiculo": "DiscoEmCena",
-    "tipo": "Resenha",
-    "autor": "Iuri Freire",
-    "resumo": "“Arranjo matador” e “forte potencial radiofônico”.",
-    "link": "",
-    "pendente": "Link"
+    "resumo": "Sobre o EP Rosa Afim e o show na Freedom Discos.",
+    "link": "https://divergentbeats.com/2026/09/28/danillo-garcez-ventocais-fazem-rosa-afim-transbordar-do-disco-para-o-palco-em-aracaju/",
+    "titulo": "Danillo Garcez & Ventocais fazem “Rosa Afim” transbordar do disco para o palco em Aracaju"
   },
   {
     "id": "mangue-jornalismo",
     "veiculo": "Mangue Jornalismo",
     "tipo": "Agenda",
     "resumo": "Agenda cultural com o show de estreia, em janeiro de 2024.",
-    "link": ""
+    "link": "https://manguejornalismo.org/etn/alquimistas-de-atlantida-ventocais/"
   },
   {
     "id": "be-guimaraes",
     "veiculo": "Blog Be Guimarães",
     "tipo": "Blog",
-    "link": "",
-    "pendente": "Link do texto"
+    "link": "https://ladobemusica.wixsite.com/beguimaraes/post/tudo-%C3%A9-mar-danillo-garcez-ventocais",
+    "titulo": "“Tudo é Mar”, de Danillo Garcez & Ventocais"
   },
   {
     "id": "canastra-records",
     "veiculo": "Canastra Records",
-    "tipo": "Matéria",
-    "link": "",
-    "pendente": "O que saiu e o link"
-  },
-  {
-    "id": "music-es-un-voyage",
-    "veiculo": "Music es un Voyage",
-    "tipo": "Blog",
-    "link": "",
-    "pendente": "O que saiu e o link"
+    "tipo": "Vídeo",
+    "link": "https://www.instagram.com/reel/DQU20OnD0Sr/",
+    "resumo": "Vídeo no Instagram.",
+    "pendente": "Confirmar se o reel é da Canastra Records"
   },
   {
     "id": "radio-ufs-setlist",

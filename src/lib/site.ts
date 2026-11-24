@@ -31,6 +31,8 @@ const esquema = z.object({
     whatsapp: z.string(),
     whatsappExibicao: z.string(),
     email: z.string(),
+    /** E-mail pessoal do Danillo (opcional), mostrado junto do da banda. */
+    emailDanillo: z.string().optional(),
     pendente: z.string().optional(),
   }),
   redes: z.array(link.extend({ rede: z.string(), usuario: z.string() })),

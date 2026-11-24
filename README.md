@@ -173,13 +173,13 @@ Do dossiê, mais o que apareceu montando o site. Todas estão marcadas no modo d
 - [ ] **Formação:** quarteto ou quinteto?
 - [x] **Fotos dos integrantes:** confirmadas.
 - [ ] **Links:** perfil do Spotify (e unificar "Danillo Garcez" e "Ventocais"). Canal do YouTube, live session e smartlinks dos lançamentos já estão no site.
-- [ ] **Links das matérias:** Disconecta, Divergent Beats, Be Guimarães, TMDQA!, DiscoEmCena, Canastra Records, Music es un Voyage.
-- [ ] **E-mail** de contato da banda.
+- [x] **Links das matérias:** Disconecta, Divergent Beats, Mangue Jornalismo, Be Guimarães e o reel da Canastra Records (confirmar).
+- [x] **E-mail:** ventocaisbanda@gmail.com (banda) e danillo.garcez@live.com.
 - [ ] **Créditos das fotos.** (A capa de "Promessas de Orfeu" já está creditada: Rodrigowod.)
 - [x] **Lançamentos:** capas, datas e smartlinks de "Tudo é Mar", "Sensação do Mundo" e do EP Rosa Afim ("Rosa Afim" + "Incendiar").
-- [ ] **Letras** de "Tudo é Mar", "Sensação do Mundo", "Rosa Afim" e "Incendiar" (só "Promessas de Orfeu" tem letra no site).
-- [ ] **Nome:** Vico Fontes ou Vitor Fontes?
-- [ ] **Datas:** show no Onça com Anne Carol e Caju Summer Vibes.
+- [x] **Letras:** todas as músicas lançadas têm letra no site.
+- [x] **Nome:** Vico Fontes (confirmado pelo cartaz).
+- [x] **Datas:** todos os shows do portfólio têm data.
 - [ ] **Turnê:** local em Arapiraca; horários, preços e links de ingresso.
 - [x] **Prévia de áudio:** trecho de 1:39 a 2:09 de "Promessas de Orfeu".
 - [ ] **"Parar pra Ver":** querem anunciar a inédita no site?

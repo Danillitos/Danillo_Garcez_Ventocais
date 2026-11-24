@@ -9,14 +9,46 @@ import Pendente from '../components/Pendente.astro';
 import Polaroid from '../components/Polaroid.astro';
 import TituloSecao from '../components/TituloSecao.astro';
 import Base from '../layouts/Base.astro';
-import { obterCuriosidades, obterEquipe, obterIntegrantes, obterMarcos } from '../lib/conteudo';
+import type { ItemTempo } from '../components/LinhaDoTempo.astro';
+import { obterCuriosidades, obterEquipe, obterIntegrantes, obterMarcos, obterShows } from '../lib/conteudo';
+import { dataLonga, listaNatural } from '../lib/datas';
 import { imagem, imagemObrigatoria } from '../lib/imagens';
 import { musicGroup } from '../lib/seo';
 import { site } from '../lib/site';
-import { urlAbsoluta } from '../lib/url';
+import { url, urlAbsoluta } from '../lib/url';
 
 const integrantes = await obterIntegrantes();
 const marcos = await obterMarcos();
+const { realizados } = await obterShows();
+
+/* Linha do tempo: marcos + shows já realizados, em ordem de data. Show na
+   mesma data de um marco (ex.: a estreia) não aparece duas vezes. */
+const datasDeMarcos = new Set(marcos.ventocais.map((m) => m.data.data));
+const paraItem = (m: (typeof marcos.ventocais)[number]): ItemTempo => ({
+  id: m.id,
+  ordem: m.data.data ?? '',
+  quando: m.data.data ? dataLonga(m.data.data) : (m.data.dataTexto ?? ''),
+  titulo: m.data.titulo,
+  texto: m.data.texto,
+  pendente: m.data.pendente,
+  rascunho: m.data.rascunho,
+});
+const tempoOrigami = marcos.origami.map(paraItem);
+const tempoVentocais = [
+  ...marcos.ventocais.map(paraItem),
+  ...realizados
+    .filter((s) => s.data.data && !datasDeMarcos.has(s.data.data))
+    .map((s) => ({
+      id: `show-${s.id}`,
+      ordem: s.data.data!,
+      quando: dataLonga(s.data.data!),
+      titulo: s.data.evento,
+      texto: [s.data.local.nome, s.data.local.cidade].filter(Boolean).join(' · ') +
+        (s.data.lineup.length ? `, com ${listaNatural(s.data.lineup)}` : ''),
+      show: true,
+      link: url(`/agenda/#show-${s.id}`),
+    })),
+].sort((a, b) => a.ordem.localeCompare(b.ordem));
 const curiosidades = await obterCuriosidades();
 const equipe = await obterEquipe();
 
@@ -24,16 +56,26 @@ const fotoCapa = imagemObrigatoria('fotos/praia-caminhada.jpg');
 const giros = [-3, 2.5, -1.5, 3, -2.5];
 const papeis = ['', 'papel--ceu', 'papel--perola', 'papel--terracota'];
 
+const foto = (caminho: string, alt: string, credito?: string) => ({
+  src: imagemObrigatoria(caminho),
+  alt,
+  legenda: credito ? `${alt} · Foto: ${credito}` : alt,
+});
 const fotos = [
-  { src: imagemObrigatoria('fotos/pedras-mar.jpg'), alt: 'A banda sentada nas pedras, à beira-mar' },
-  { src: imagemObrigatoria('fotos/ao-vivo-che-music-bar.jpg'), alt: 'A banda tocando no palco do Che Music Bar' },
-  { src: imagemObrigatoria('fotos/praia-caminhada-horizonte.jpg'), alt: 'Os integrantes caminhando na areia, com o mar ao fundo' },
-  { src: imagemObrigatoria('fotos/estudio-1.jpg'), alt: 'Gravação em estúdio, sob luz laranja' },
-  { src: imagemObrigatoria('fotos/pb-baixo.jpg'), alt: 'Baixista no palco, em preto e branco' },
-  { src: imagemObrigatoria('fotos/mar-navio.jpg'), alt: 'Integrante nas pedras olhando o mar, com um navio no horizonte' },
-  { src: imagemObrigatoria('fotos/ao-vivo-luz-roxa.jpg'), alt: 'Show sob luz roxa' },
-  { src: imagemObrigatoria('fotos/estudio-3.jpg'), alt: 'Guitarra no estúdio, sob luz laranja' },
-  { src: imagemObrigatoria('fotos/pb-guitarra.jpg'), alt: 'Guitarrista no palco, em preto e branco' },
+  foto('fotos/ensaio-campo/02.jpg', 'Três integrantes contra o céu azul'),
+  foto('fotos/ensaio-praia/05.jpg', 'A banda à sombra de um guarda-sol, na praia', 'Lia Teles'),
+  foto('fotos/ensaio-campo/05.jpg', 'Três integrantes contra o sol'),
+  foto('fotos/shows/2024-01-12-estreia/03.jpg', 'O palco do Che Music Bar no show de estreia', 'Luca Skate'),
+  foto('fotos/ensaio-praia/03.jpg', 'Retrato na praia', 'Lia Teles'),
+  foto('fotos/ensaio-campo/04.jpg', 'Três integrantes vistos de baixo, com o céu ao fundo'),
+  foto('fotos/shows/caju-summer-vibes/05.jpg', 'Guitarra no Taberna Rock Bar, em preto e branco', 'Lia Teles'),
+  foto('fotos/ensaio-campo/01.jpg', 'A banda no alto de uma duna verde'),
+  foto('fotos/ensaio-praia/02.jpg', 'Os integrantes caminhando na areia', 'Lia Teles'),
+  foto('fotos/shows/2026-08-08-pareia/06.jpg', 'Show no Onça'),
+  foto('fotos/ensaio-campo/06.jpg', 'Três integrantes na luz dourada do fim de tarde'),
+  foto('fotos/ensaio-praia/04.jpg', 'Integrante de camisa florida na praia', 'Lia Teles'),
+  foto('fotos/ensaio-campo/03.jpg', 'Três integrantes olhando para a câmera, de baixo para cima'),
+  foto('fotos/ensaio-praia/01.jpg', 'A banda caminhando ao longe, à beira-mar', 'Lia Teles'),
 ];
 
 const jsonLd = musicGroup(
@@ -98,17 +140,13 @@ const jsonLd = musicGroup(
           ))
         }
       </div>
-      <p class="sobre-acustico" data-revelar>
-        <Icone nome="som" tamanho={22} />
-        <span>{site.formatoAcustico}</span>
-      </p>
     </div>
   </section>
 
   <section class="secao secao--escura" id="trajetoria">
     <div class="container container--estreito">
       <TituloSecao num="02.2" rotulo="Trajetória" titulo="Do Origami Aquém <em>à primeira turnê</em>" />
-      <LinhaDoTempo origami={marcos.origami} ventocais={marcos.ventocais} />
+      <LinhaDoTempo origami={tempoOrigami} ventocais={tempoVentocais} />
     </div>
   </section>
 
@@ -217,9 +255,10 @@ const jsonLd = musicGroup(
 
   <section class="secao" id="fotos">
     <div class="container">
-      <TituloSecao num="02.6" rotulo="Fotos" titulo="Praia, palco <em>e estúdio</em>" anotacao="clica pra ampliar" />
+      <TituloSecao num="02.6" rotulo="Fotos" titulo="Campo, praia <em>e palco</em>" anotacao="clica pra ampliar" />
       <Pendente texto={site.creditos.pendente} />
       <Galeria fotos={fotos} grupo="sobre" />
+      {site.creditos.fotos && <p class="sobre-credito">Fotos: {site.creditos.fotos}</p>}
     </div>
   </section>
 
@@ -285,23 +324,6 @@ const jsonLd = musicGroup(
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: clamp(20px, 3vw, 40px);
     margin-top: 16px;
-  }
-
-  .sobre-acustico {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    max-width: 60ch;
-    margin-top: clamp(48px, 6vw, 72px);
-    padding: 22px 26px;
-    border: 1px dashed var(--linha-forte);
-    border-radius: var(--raio);
-    color: var(--perola-2);
-  }
-
-  .sobre-acustico :global(svg) {
-    margin-top: 2px;
-    color: var(--kraft);
   }
 
   .influencias {

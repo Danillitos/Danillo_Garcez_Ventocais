@@ -121,7 +121,9 @@
       "Anabê",
       "Nagô Roots"
     ],
-    "cartaz": "cartazes/2026-08-08-pareia.jpg"
+    "cartaz": "cartazes/2026-08-08-pareia.jpg",
+    "fotos": "fotos/shows/2026-08-08-pareia",
+    "pendente": "Crédito das fotos (campo \"creditoFotos\")"
   },
   {
     "id": "2025-05-30-freedom-sessions",
@@ -198,7 +200,9 @@
     ],
     "preco": 22.5,
     "destaque": "A primeira vez da Ventocais num palco",
-    "cartaz": "cartazes/2024-01-12-estreia-che-music-bar.jpg"
+    "cartaz": "cartazes/2024-01-12-estreia-che-music-bar.jpg",
+    "fotos": "fotos/shows/2024-01-12-estreia",
+    "creditoFotos": "Luca Skate"
   },
   {
     "id": "mestre-cervejeiro",
@@ -247,6 +251,8 @@
     ],
     "notas": "Apoio da Caju Juice.",
     "hora": "20:00",
-    "cartaz": "cartazes/caju-summer-vibes.jpg"
+    "cartaz": "cartazes/caju-summer-vibes.jpg",
+    "fotos": "fotos/shows/caju-summer-vibes",
+    "creditoFotos": "Lia Teles"
   }
 ]

@@ -27,17 +27,52 @@
       "Tudo que você me prometeu\nVocê levou, você levou meu bem\nMeu coração, meu coração\nNada foi mais o mesmo, meu bem"
     ],
     "ficha": [
-      { "funcao": "Composição", "nome": "Danillo Garcez" },
-      { "funcao": "Produção musical", "nome": "Danillo Garcez e Guilherme Viana Bagio" },
-      { "funcao": "Gravação, mixagem e masterização", "nome": "Guilherme Viana Bagio" },
-      { "funcao": "Voz", "nome": "Danillo Garcez" },
-      { "funcao": "Guitarras", "nome": "Danillo Garcez e Vitor de Almeida Brito" },
-      { "funcao": "Baixo", "nome": "João Pedro França Lino" },
-      { "funcao": "Bateria", "nome": "Guilherme Mateus Santos Oliveira" },
-      { "funcao": "Teclado", "nome": "Lauro Antenor Augusto de Souza Santos" },
-      { "funcao": "Capa", "nome": "Rodrigowod", "link": "https://www.instagram.com/rodrigowod" }
+      {
+        "funcao": "Composição",
+        "nome": "Danillo Garcez"
+      },
+      {
+        "funcao": "Produção musical",
+        "nome": "Danillo Garcez e Guilherme Viana Bagio"
+      },
+      {
+        "funcao": "Gravação, mixagem e masterização",
+        "nome": "Guilherme Viana Bagio"
+      },
+      {
+        "funcao": "Voz",
+        "nome": "Danillo Garcez"
+      },
+      {
+        "funcao": "Guitarras",
+        "nome": "Danillo Garcez e Vitor de Almeida Brito"
+      },
+      {
+        "funcao": "Baixo",
+        "nome": "João Pedro França Lino"
+      },
+      {
+        "funcao": "Bateria",
+        "nome": "Guilherme Mateus Santos Oliveira"
+      },
+      {
+        "funcao": "Teclado",
+        "nome": "Lauro Antenor Augusto de Souza Santos"
+      },
+      {
+        "funcao": "Capa",
+        "nome": "Rodrigowod",
+        "link": "https://www.instagram.com/rodrigowod"
+      }
     ],
-    "referencias": ["Ed Motta", "Marcos Valle", "Fat Family", "Quincy Jones", "Luther Vandross", "Michael Jackson"],
+    "referencias": [
+      "Ed Motta",
+      "Marcos Valle",
+      "Fat Family",
+      "Quincy Jones",
+      "Luther Vandross",
+      "Michael Jackson"
+    ],
     "links": {
       "smartlink": "https://ditto.fm/promessas-de-orfeu",
       "spotify": "",
@@ -51,13 +86,15 @@
     "titulo": "Promessas de Orfeu (ao vivo)",
     "tipo": "Live session",
     "data": "2026-11-06",
-    "capa": "fotos/estudio-2.jpg",
+    "capa": "capas/promessas-de-orfeu-ao-vivo.jpg",
     "cor": "#f2a65a",
     "resumo": "A live session de “Promessas de Orfeu”, gravada em 2 de novembro de 2026 e lançada no YouTube.",
     "texto": [
       "Uma semana depois do lançamento, “Promessas de Orfeu” ganhou uma versão ao vivo, gravada com a banda completa em 2 de novembro de 2026."
     ],
-    "links": { "youtube": "https://www.youtube.com/watch?v=8p71zpeq0wg" }
+    "links": {
+      "youtube": "https://www.youtube.com/watch?v=8p71zpeq0wg"
+    }
   },
   {
     "id": "rosa-afim",
@@ -71,9 +108,40 @@
       "Faixa-título do primeiro EP, “Rosa Afim” é fortemente inspirada no soul e no jazz, com referências em Cassiano e Sandra de Sá. A música trata da coexistência entre o amor e as dores da vida, e defende que nada disso deve impedir alguém de amar. Afinal, “não é à toa que amor rima com dor”. A gravação de estúdio tem a participação especial de Manoel Choles no sax.",
       "“Incendiar”, escrita por Guima, o baterista, é uma canção de desejo construída inteiramente sobre imagens que alternam água e fogo: um soul que flerta com o rock para explorar a linha tênue entre desejar e precisar."
     ],
-    "referencias": ["Cassiano", "Sandra de Sá"],
-    "faixas": [{ "titulo": "Rosa Afim" }, { "titulo": "Incendiar" }],
-    "links": { "smartlink": "https://ditto.fm/rosa-afim" }
+    "referencias": [
+      "Cassiano",
+      "Sandra de Sá"
+    ],
+    "faixas": [
+      {
+        "titulo": "Rosa Afim",
+        "letra": [
+          "Ah, que bela era a dança ao mar\nDa imensidão, ó sonho sem fim.\nRodopiou, abriu os braços e assim\nDespetalou, ó rosa afim.",
+          "Me diga se doeu e eu lhe pergunto se você aprendeu\nAs coisas são assim, na luta\nOu sou só eu?",
+          "Olhe bem amor\nAs pragas que lhe afagam\nDo escuro à cor\nNão ache que não valem\nAs armadilhas que o mundo faz\nPois não é à toa que amor rima com dor",
+          "Olhe bem amor\nDaqui pra ali parece um mundo\nMas é só pudor\nDa agulha que lhe abre\nFalando assim parece tanto faz\nMas não é à atoa que amor rima com dor",
+          "Ah, que bela era a dança ao mar\nDa imensidão, ó sonho sem fim.\nRodopiou, abriu os braços e assim\nDespetalou, ó rosa afim.",
+          "Me diga se doeu e eu lhe pergunto se você aprendeu\nAs coisas são assim, na luta\nOu sou só eu?",
+          "Olhe bem amor\nAs pragas que lhe afagam\nDo escuro à cor\nNão ache que não valem\nAs armadilhas que o mundo faz\nPois não é à toa que amor rima com dor",
+          "Olhe bem amor\nDaqui pra ali parece um mundo\nMas é só pudor\nDa agulha que lhe abre\nFalando assim parece tanto faz\nMas não é à atoa que amor rima com dor"
+        ]
+      },
+      {
+        "titulo": "Incendiar",
+        "letra": [
+          "O seu formato\nPreenche a sala\nAté o quarto parou pra ver\nO sofá respira, tento toca-la\nQue feito nuvem, pois se a chover",
+          "Mas de onde é que vem\nSeus medos\nNão sei\nNão sei",
+          "Me entregue meu bem\nSeus desejos\nSó pra mim\nSó pra mim",
+          "Vem me beber\nVem me lavar\nVem me acender\nMe incendiar\nDeixa eu te ter\nPra derramar você",
+          "Vem me beber\nVem me lavar\nVem me acender\nMe incendiar\nDeixa eu te ter\nPra derramar você",
+          "Vem me beber\nVem me lavar\nVem me acender\nMe incendiar\nDeixa eu te ter\nPra derramar você",
+          "Vem me beber\nVem me lavar\nVem me acender\nMe incendiar\nDeixa eu te ter\nPra derramar você"
+        ]
+      }
+    ],
+    "links": {
+      "smartlink": "https://ditto.fm/rosa-afim"
+    }
   },
   {
     "id": "sensacao-do-mundo",
@@ -87,7 +155,19 @@
       "“Sensação do Mundo” era completamente diferente do que é hoje: em vez de uma MPB puxada para o samba, a canção era bem mais introspectiva, com uma levada de R&B.",
       "Ela mudou depois que Guima, o baterista, sugeriu a troca de estilo no ensaio da véspera do primeiro show. A banda gostou tanto que essa virou a versão definitiva."
     ],
-    "links": { "smartlink": "https://ditto.fm/sensacao-do-mundo" }
+    "links": {
+      "smartlink": "https://ditto.fm/sensacao-do-mundo"
+    },
+    "letra": [
+      "Quando eu era mais novo\nOs pássaros cantavam mais\nQuando ainda era cedo\nQuando tudo era história ou tanto faz",
+      "Noites tão lindas num jardim\nTempo que limpa e não desfaz\nSensação do mundo\nA noção de um mundo",
+      "Tudo se constrói ou se destrói\nSeja quem você quiser ser\nEnquanto ainda é tempo\nSeja além de um desejo",
+      "Então, viva\nOlhe ao redor\nEntão, sinta\nVeja do melhor",
+      "Quando eu era mais novo\nOs pássaros cantavam mais\nQuando ainda era cedo\nQuando tudo era história ou tanto faz",
+      "Noites tão lindas num jardim\nTempo que limpa e não desfaz\nSensação do mundo\nA noção de um mundo",
+      "Então, viva\nOlhe ao redor\nEntão, sinta\nVeja do melhor",
+      "Então, viva\nOlhe ao redor\nEntão, sinta\nVeja do melhor"
+    ]
   },
   {
     "id": "tudo-e-mar",
@@ -99,11 +179,26 @@
     "resumo": "O primeiro lançamento da banda, no fim de 2025: o marco inicial da Ventocais na música autoral sergipana.",
     "texto": [
       "Primeiro lançamento da banda, feito no fim de 2025 e marco inicial da Ventocais na música autoral sergipana. A letra fala sobre o medo de não alcançar os objetivos que se tem na vida.",
-      "O TMDQA! destacou que a faixa contempla várias brasilidades sem cair em clichês. O lançamento também virou matéria na Disconecta e entrou na playlist TMDQA! Brasil."
+      "O lançamento virou matéria na Disconecta e no blog Be Guimarães."
     ],
-    "ficha": [{ "funcao": "Percussão", "nome": "Daniel Nanume" }],
-    "links": { "smartlink": "https://ditto.fm/tudo-e-mar" },
-    "pendente": "Letra"
+    "ficha": [
+      {
+        "funcao": "Percussão",
+        "nome": "Daniel Nanume"
+      }
+    ],
+    "links": {
+      "smartlink": "https://ditto.fm/tudo-e-mar"
+    },
+    "letra": [
+      "Pergunto mais, o que que vês\nAo olhar, ouvir, não ver\nSe tudo é\nOu nada ser\nAo que vier\nSofrer, Viver",
+      "Extremo ao jeito de pensar\nPensar, pensar\nNão dói, mas corta o desejo\nDe chegar em algum lugar",
+      "Não sei mais quanto eu vou mais suportar\nO medo dos meus sonhos sempre vai me afundar\nO que custa nem ao menos eu tentar\nEu vi que tudo é mundo, tudo é sorte, tudo é mar",
+      "De volta ao meu lugar\nDe volta a sonhar\nDe volta ao meu lugar\nDe volta a sonhar",
+      "Pergunto mais, o que que vês\nAo olhar, ouvir, não ver\nSe tudo é\nOu nada ser\nAo que vier\nSofrer, Viver",
+      "Não sei mais quanto eu vou mais suportar\nO medo dos meus sonhos sempre vai me afundar\nO que custa nem ao menos eu tentar\nEu vi que tudo é mundo, tudo é sorte, tudo é mar",
+      "De volta ao meu lugar\nDe volta a sonhar\nDe volta ao meu lugar\nDe volta a sonhar\nDe voltar ao meu lugar\nDe volta a sonhar\nDe volta ao meu lugar\nDe volta a sonhar"
+    ]
   },
   {
     "id": "parar-pra-ver",
@@ -115,7 +210,11 @@
     "texto": [
       "Música fortemente inspirada em Quincy Jones, Jamiroquai e Ed Motta: bem técnica de se performar e igualmente divertida de tocar. Ainda inédita, já aparece nos shows e no Zine da banda."
     ],
-    "referencias": ["Quincy Jones", "Jamiroquai", "Ed Motta"],
+    "referencias": [
+      "Quincy Jones",
+      "Jamiroquai",
+      "Ed Motta"
+    ],
     "links": {},
     "pendente": "Confirmar se querem anunciar a inédita no site"
   }
