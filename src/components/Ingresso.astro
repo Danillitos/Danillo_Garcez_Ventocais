@@ -1,0 +1,346 @@
+---
+/**
+ * Próximo show em formato de ingresso: canhoto com a data + informações +
+ * ações (ingressos, salvar na agenda, mapa).
+ */
+import Icone from './Icone.astro';
+import Pendente from './Pendente.astro';
+import { descricaoLocal, linkGoogleAgenda, linkMapa } from '../lib/agenda';
+import type { Show } from '../lib/conteudo';
+import { diaDaSemana, formatarPreco, inicioISO, listaNatural, mesCurto, partes } from '../lib/datas';
+import { url, urlAbsoluta } from '../lib/url';
+
+interface Props {
+  show: Show;
+  atraso?: number;
+}
+
+const { show, atraso = 0 } = Astro.props;
+const s = show.data;
+const paginaAgenda = urlAbsoluta('/agenda/', Astro.site);
+const google = linkGoogleAgenda(s, paginaAgenda);
+const ics = s.data ? url(`/agenda/${show.id}.ics`) : undefined;
+const preco = s.precoTexto ?? formatarPreco(s.preco);
+const p = s.data ? partes(s.data) : undefined;
+---
+
+<article
+  class:list={['ingresso', { 'ingresso--turne': s.turne, 'ingresso--cancelado': s.status === 'cancelado' }]}
+  id={`show-${show.id}`}
+  data-show-inicio={s.data ? inicioISO(s.data, s.hora) : undefined}
+  data-revelar
+  style={`--atraso: ${atraso}s`}
+>
+  <div class="ingresso__canhoto">
+    {
+      s.data && p ? (
+        <time datetime={inicioISO(s.data, s.hora)}>
+          <span class="ingresso__semana">{diaDaSemana(s.data)}</span>
+          <span class="ingresso__dia">{String(p.dia).padStart(2, '0')}</span>
+          <span class="ingresso__mes">
+            {mesCurto(s.data)} {p.ano}
+          </span>
+        </time>
+      ) : (
+        <span class="ingresso__mes">{s.dataTexto ?? 'Data a definir'}</span>
+      )
+    }
+  </div>
+
+  <div class="ingresso__corpo">
+    {s.turne && <p class="ingresso__turne">Turnê {s.turne}</p>}
+    <h3 class="ingresso__evento">{s.evento}</h3>
+    <p class="ingresso__local">
+      <Icone nome="mapa" tamanho={16} />
+      {descricaoLocal(s)}
+    </p>
+    {s.lineup.length > 0 && <p class="ingresso__lineup">Com {listaNatural(s.lineup)}</p>}
+    {s.notas && <p class="ingresso__lineup">{s.notas}</p>}
+    {
+      (s.hora || preco || s.formato) && (
+        <p class="ingresso__extras">
+          {s.hora && (
+            <span>
+              <Icone nome="relogio" tamanho={15} /> {s.hora.replace(':', 'h')}
+            </span>
+          )}
+          {preco && (
+            <span>
+              <Icone nome="ingresso" tamanho={15} /> {preco}
+            </span>
+          )}
+          {s.formato && <span>{s.formato}</span>}
+        </p>
+      )
+    }
+    {s.status !== 'confirmado' && <p class="ingresso__status">{s.status === 'adiado' ? 'Adiado' : 'Cancelado'}</p>}
+    <p class="ingresso__passou" hidden>Esse já rolou. Obrigado por quem foi!</p>
+    <Pendente texto={s.pendente} rascunho={s.rascunho} />
+  </div>
+
+  <div class="ingresso__acoes">
+    {
+      s.ingressos && (
+        <a class="botao botao--pequeno botao--primario" href={s.ingressos} target="_blank" rel="noopener">
+          <Icone nome="ingresso" tamanho={16} /> Ingressos
+        </a>
+      )
+    }
+    {
+      google && ics && (
+        <details class="ingresso__salvar">
+          <summary class="botao botao--pequeno">
+            <Icone nome="calendario" tamanho={16} /> Salvar na agenda
+          </summary>
+          <div class="ingresso__menu">
+            <a href={google} target="_blank" rel="noopener">
+              Google Agenda
+            </a>
+            <a href={ics} download>
+              Apple / Outlook (.ics)
+            </a>
+          </div>
+        </details>
+      )
+    }
+    <a class="link-icone" href={linkMapa(s)} target="_blank" rel="noopener">
+      <Icone nome="mapa" tamanho={16} /> Ver no mapa
+    </a>
+  </div>
+</article>
+
+<style>
+  .ingresso {
+    --canhoto: 118px;
+    --fundo: var(--perola);
+    --tinta: var(--ink-900);
+
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--canhoto) 1fr auto;
+    background: var(--fundo);
+    color: var(--tinta);
+    border-radius: 16px;
+    transition: transform 0.5s var(--ease-elastico);
+  }
+
+  /* Os "picotes" do ingresso: dois semicírculos na cor do fundo da página. */
+  .ingresso::before,
+  .ingresso::after {
+    content: '';
+    position: absolute;
+    left: var(--canhoto);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--fundo-pagina, var(--ink-900));
+    translate: -50% 0;
+  }
+
+  .ingresso::before {
+    top: -11px;
+  }
+
+  .ingresso::after {
+    bottom: -11px;
+  }
+
+  .ingresso:hover {
+    transform: translateY(-4px) rotate(-0.4deg);
+  }
+
+  .ingresso--turne {
+    --fundo: var(--kraft);
+    --tinta: var(--kraft-texto);
+    background-image: var(--fibras);
+  }
+
+  .ingresso--cancelado {
+    opacity: 0.6;
+  }
+
+  .ingresso__canhoto {
+    display: grid;
+    place-items: center;
+    padding: 20px 12px;
+    border-right: 2px dashed rgb(13 19 32 / 0.25);
+    text-align: center;
+  }
+
+  .ingresso__canhoto time {
+    display: grid;
+    justify-items: center;
+  }
+
+  .ingresso__semana,
+  .ingresso__mes {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .ingresso__dia {
+    font-family: var(--fonte-display);
+    font-size: 3.4rem;
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .ingresso__corpo {
+    padding: 22px 24px;
+  }
+
+  .ingresso__turne {
+    margin-bottom: 6px;
+    font-family: var(--fonte-mao);
+    font-size: 1.3rem;
+    line-height: 1;
+    color: #7a3416;
+  }
+
+  .ingresso__evento {
+    font-size: clamp(1.4rem, 2.3vw, 1.85rem);
+    font-weight: 450;
+  }
+
+  .ingresso__local,
+  .ingresso__lineup,
+  .ingresso__extras {
+    margin-top: 8px;
+    font-size: 0.95rem;
+  }
+
+  .ingresso__local {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+  }
+
+  .ingresso__lineup {
+    opacity: 0.8;
+  }
+
+  .ingresso__extras {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    opacity: 0.85;
+  }
+
+  .ingresso__extras span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .ingresso__status,
+  .ingresso__passou {
+    width: fit-content;
+    margin-top: 10px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--tinta);
+    color: var(--fundo);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .ingresso__acoes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 22px 20px 0;
+  }
+
+  .ingresso__acoes .botao {
+    --botao-borda: rgb(13 19 32 / 0.3);
+    --botao-cor: var(--tinta);
+  }
+
+  .ingresso__acoes .botao--primario {
+    --botao-bg: var(--tinta);
+    --botao-cor: var(--fundo);
+    --botao-borda: var(--tinta);
+  }
+
+  .ingresso__acoes .link-icone {
+    color: inherit;
+    opacity: 0.75;
+  }
+
+  .ingresso__acoes .link-icone:hover {
+    opacity: 1;
+  }
+
+  .ingresso__salvar {
+    position: relative;
+  }
+
+  .ingresso__salvar summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .ingresso__salvar summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .ingresso__menu {
+    position: absolute;
+    z-index: 5;
+    top: calc(100% + 6px);
+    right: 0;
+    display: grid;
+    min-width: 220px;
+    padding: 6px;
+    border-radius: 12px;
+    background: var(--ink-900);
+    color: var(--perola);
+    box-shadow: 0 18px 40px rgb(0 0 0 / 0.45);
+  }
+
+  .ingresso__menu a {
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.92rem;
+  }
+
+  .ingresso__menu a:hover {
+    background: rgb(236 230 216 / 0.08);
+  }
+
+  @media (max-width: 720px) {
+    .ingresso {
+      --canhoto: 92px;
+      grid-template-columns: var(--canhoto) 1fr;
+    }
+
+    .ingresso__dia {
+      font-size: 2.6rem;
+    }
+
+    .ingresso__corpo {
+      padding: 18px;
+    }
+
+    .ingresso__acoes {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 14px 18px 18px;
+      border-top: 2px dashed rgb(13 19 32 / 0.2);
+    }
+
+    .ingresso__menu {
+      left: 0;
+      right: auto;
+    }
+  }
+</style>

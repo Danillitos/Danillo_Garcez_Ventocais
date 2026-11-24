@@ -1,0 +1,86 @@
+---
+/**
+ * Abertura das páginas internas: rótulo numerado, título enorme e introdução.
+ */
+interface Props {
+  num: string;
+  rotulo: string;
+  titulo: string;
+  intro?: string;
+  anotacao?: string;
+}
+
+const { num, rotulo, titulo, intro, anotacao } = Astro.props;
+---
+
+<section class="cp">
+  <div class="container cp__grade">
+    <div class="cp__texto">
+      <p class="ts__rotulo rotulo cp__rotulo">
+        <span class="ts__num">{num}</span>
+        {rotulo}
+      </p>
+      <h1 class="cp__titulo" set:html={titulo} />
+      {anotacao && <p class="anotacao cp__anotacao">{anotacao}</p>}
+      {intro && <p class="cp__intro texto-grande">{intro}</p>}
+    </div>
+    <div class="cp__extra">
+      <slot />
+    </div>
+  </div>
+  <div class="cp__onda divisoria-onda" aria-hidden="true"></div>
+</section>
+
+<style>
+  .cp__grade {
+    display: grid;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: end;
+  }
+
+  @media (min-width: 900px) {
+    .cp__grade:has(.cp__extra > *) {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+  }
+
+  .cp__extra:empty {
+    display: none;
+  }
+
+  .cp__rotulo,
+  .cp__titulo,
+  .cp__anotacao,
+  .cp__intro {
+    animation: cp-entrar 1s var(--ease-out) both;
+  }
+
+  .cp__titulo {
+    animation-delay: 0.08s;
+  }
+
+  .cp__anotacao {
+    margin-top: 14px;
+    rotate: -2deg;
+    transform-origin: left;
+    animation-delay: 0.2s;
+  }
+
+  .cp__intro {
+    animation-delay: 0.16s;
+  }
+
+  .cp__onda {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  @keyframes cp-entrar {
+    from {
+      opacity: 0;
+      translate: 0 30px;
+    }
+  }
+</style>

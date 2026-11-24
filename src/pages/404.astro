@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import Icone from '../components/Icone.astro';
+import Base from '../layouts/Base.astro';
+import { imagemObrigatoria } from '../lib/imagens';
+import { url } from '../lib/url';
+
+const disco = imagemObrigatoria('disco-orfeu.webp');
+---
+
+<Base titulo="Página não encontrada" semIndice>
+  <section class="nao-achei">
+    <div class="container nao-achei__grade">
+      <Image class="nao-achei__disco" src={disco} alt="" width={420} />
+      <div>
+        <p class="rotulo">Erro 404</p>
+        <h1 class="nao-achei__titulo">Essa página foi <em>com o vento.</em></h1>
+        <p class="texto-grande nao-achei__texto">O link pode ter mudado ou nunca ter existido. Que tal voltar pro cais?</p>
+        <div class="nao-achei__acoes">
+          <a class="botao botao--primario" href={url('/')}><Icone nome="seta-esquerda" tamanho={18} /> Página inicial</a>
+          <a class="botao" href={url('/musica/')}>Música</a>
+          <a class="botao" href={url('/agenda/')}>Agenda</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nao-achei {
+    display: grid;
+    align-items: center;
+    min-height: 100svh;
+    padding-block: calc(var(--altura-topo) + 48px) 80px;
+  }
+
+  .nao-achei__grade {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .nao-achei__grade {
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+  }
+
+  .nao-achei :global(.nao-achei__disco) {
+    width: min(70vw, 360px);
+    justify-self: center;
+    animation: girar 30s linear infinite;
+    filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.5));
+  }
+
+  .nao-achei__titulo {
+    margin-top: 16px;
+    font-size: clamp(2.8rem, 7vw, 5.6rem);
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  }
+
+  .nao-achei__titulo em {
+    color: var(--kraft);
+  }
+
+  .nao-achei__texto {
+    max-width: 40ch;
+    margin-top: 20px;
+    color: var(--perola-2);
+  }
+
+  .nao-achei__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+</style>

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "discoemcena-arranjo",
+    "texto": "Arranjo matador",
+    "autor": "Iuri Freire",
+    "fonte": "DiscoEmCena"
+  },
+  {
+    "id": "nova-mpb-fm",
+    "texto": "Tudo está ótimo, desde as escolhas de arranjos, voz, até a produção e mixagem",
+    "autor": "NOVA MPB FM"
+  },
+  {
+    "id": "alex-santana-dancar",
+    "texto": "Vai botar o povo pra dançar",
+    "autor": "Alex Santana",
+    "fonte": "organizador de eventos autorais"
+  },
+  {
+    "id": "caju-juice",
+    "texto": "Som pulsante que mistura influências de Marku Ribas e Milton Nascimento, com letras poéticas e arranjos que flertam com a MPB e a música regional",
+    "autor": "Caju Juice",
+    "fonte": "produtora"
+  },
+  {
+    "id": "discoemcena-radio",
+    "texto": "Forte potencial radiofônico",
+    "autor": "Iuri Freire",
+    "fonte": "DiscoEmCena"
+  },
+  {
+    "id": "alex-santana-classudas",
+    "texto": "Classudas",
+    "autor": "Alex Santana",
+    "fonte": "sobre as inéditas"
+  }
+]

@@ -1,0 +1,220 @@
+---
+/**
+ * Formulário que monta uma mensagem e abre o WhatsApp da banda já com o
+ * texto pronto. Funciona em site estático (não precisa de servidor).
+ */
+import Icone from './Icone.astro';
+import { linkWhatsApp, site } from '../lib/site';
+
+const motivos = ['Contratar um show', 'Imprensa / entrevista', 'Parceria', 'Outro assunto'];
+---
+
+<form class="compositor papel" data-compositor data-numero={site.contato.whatsapp} action={linkWhatsApp()} method="get" target="_blank">
+  <p class="compositor__titulo anotacao">manda um alô</p>
+
+  <fieldset class="compositor__motivos">
+    <legend class="rotulo">Assunto</legend>
+    <div class="compositor__opcoes">
+      {
+        motivos.map((m, i) => (
+          <label class="compositor__opcao">
+            <input type="radio" name="motivo" value={m} checked={i === 0} />
+            <span>{m}</span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <div class="compositor__grade">
+    <label class="campo">
+      <span>Seu nome</span>
+      <input type="text" name="nome" autocomplete="name" required placeholder="Como podemos te chamar?" />
+    </label>
+    <label class="campo">
+      <span>Cidade <small>(opcional)</small></span>
+      <input type="text" name="cidade" autocomplete="address-level2" placeholder="Ex.: Aracaju" />
+    </label>
+    <label class="campo" data-campo-show>
+      <span>Data do evento <small>(opcional)</small></span>
+      <input type="date" name="data" />
+    </label>
+    <label class="campo campo--largo">
+      <span>Mensagem</span>
+      <textarea name="mensagem" rows="4" placeholder="Conta pra gente o que você tem em mente."></textarea>
+    </label>
+  </div>
+
+  <div class="compositor__previa" aria-live="polite">
+    <p class="rotulo">Prévia da mensagem</p>
+    <p class="compositor__balao" data-compositor-previa>Olá, Ventocais!</p>
+  </div>
+
+  <button class="botao botao--primario compositor__enviar" type="submit">
+    <Icone nome="whatsapp" tamanho={20} /> Abrir no WhatsApp
+  </button>
+</form>
+
+<style>
+  .compositor {
+    --papel-cor: #e9e1cf;
+    display: grid;
+    gap: 22px;
+    padding: clamp(24px, 4vw, 40px);
+    border-radius: 6px;
+    box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.8);
+  }
+
+  .compositor__titulo {
+    color: #7a3416;
+    font-size: 2.1rem;
+    rotate: -2deg;
+    transform-origin: left;
+  }
+
+  .compositor .rotulo {
+    color: rgb(43 32 21 / 0.7);
+  }
+
+  .compositor__motivos {
+    border: 0;
+    padding: 0;
+  }
+
+  .compositor__opcoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .compositor__opcao input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .compositor__opcao span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 0.4em 0.95em;
+    border: 1px solid rgb(43 32 21 / 0.35);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+
+  .compositor__opcao input:checked + span {
+    border-color: var(--kraft-texto);
+    background: var(--kraft-texto);
+    color: #e9e1cf;
+  }
+
+  .compositor__opcao input:focus-visible + span {
+    outline: 2px solid var(--cobalto);
+    outline-offset: 2px;
+  }
+
+  .compositor__grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: 16px;
+  }
+
+  .campo {
+    display: grid;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .campo small {
+    font-weight: 400;
+    opacity: 0.7;
+  }
+
+  .campo--largo {
+    grid-column: 1 / -1;
+  }
+
+  .campo input,
+  .campo textarea {
+    width: 100%;
+    padding: 0.75em 0.9em;
+    border: 1px solid rgb(43 32 21 / 0.3);
+    border-radius: 10px;
+    background: rgb(255 255 255 / 0.55);
+    color: var(--kraft-texto);
+    font-size: 1rem;
+    font-weight: 400;
+    transition:
+      border-color 0.2s,
+      background-color 0.2s;
+  }
+
+  .campo textarea {
+    resize: vertical;
+  }
+
+  .campo input::placeholder,
+  .campo textarea::placeholder {
+    color: rgb(43 32 21 / 0.5);
+  }
+
+  .campo input:focus,
+  .campo textarea:focus {
+    outline: none;
+    border-color: var(--kraft-texto);
+    background: rgb(255 255 255 / 0.85);
+  }
+
+  .campo[hidden] {
+    display: none;
+  }
+
+  .compositor__previa {
+    display: grid;
+    gap: 10px;
+  }
+
+  .compositor__balao {
+    position: relative;
+    max-width: 92%;
+    justify-self: end;
+    padding: 12px 14px;
+    border-radius: 12px 0 12px 12px;
+    background: #d9fdd3;
+    color: #111b21;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    white-space: pre-line;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.12);
+  }
+
+  .compositor__balao::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -8px;
+    border-top: 10px solid #d9fdd3;
+    border-right: 10px solid transparent;
+  }
+
+  .compositor__enviar {
+    justify-self: start;
+    --botao-bg: var(--kraft-texto);
+    --botao-borda: var(--kraft-texto);
+    --botao-cor: #e9e1cf;
+  }
+
+  .compositor__enviar:hover {
+    --botao-bg: #25d366;
+    --botao-borda: #25d366;
+    --botao-cor: #0b1f12;
+  }
+</style>

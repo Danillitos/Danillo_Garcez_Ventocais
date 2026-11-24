@@ -1,0 +1,69 @@
+---
+/**
+ * Botão "Copiar". Copia `texto` ou o conteúdo do elemento `alvo` (seletor CSS).
+ */
+import Icone from './Icone.astro';
+
+interface Props {
+  texto?: string;
+  alvo?: string;
+  rotulo?: string;
+  class?: string;
+}
+
+const { texto, alvo, rotulo = 'Copiar', class: classe } = Astro.props;
+---
+
+<button
+  class:list={['copiar', classe]}
+  type="button"
+  data-copiar={texto}
+  data-copiar-alvo={alvo}
+  data-copiar-rotulo={rotulo}
+>
+  <span class="copiar__icone copiar__icone--copiar"><Icone nome="copiar" tamanho={16} /></span>
+  <span class="copiar__icone copiar__icone--ok"><Icone nome="check" tamanho={16} /></span>
+  <span data-copiar-texto>{rotulo}</span>
+</button>
+
+<style>
+  .copiar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    min-height: 36px;
+    padding: 0.35em 0.9em;
+    border: 1px solid var(--linha-forte);
+    border-radius: 999px;
+    color: var(--perola-2);
+    font-size: 0.86rem;
+    font-weight: 600;
+    transition:
+      color 0.2s,
+      border-color 0.2s,
+      background-color 0.2s;
+  }
+
+  .copiar:hover {
+    border-color: var(--perola);
+    color: var(--perola);
+  }
+
+  .copiar__icone {
+    display: grid;
+  }
+
+  .copiar__icone--ok,
+  .copiar:global(.copiado) .copiar__icone--copiar {
+    display: none;
+  }
+
+  .copiar:global(.copiado) .copiar__icone--ok {
+    display: grid;
+  }
+
+  .copiar:global(.copiado) {
+    border-color: #7fd4a0;
+    color: #7fd4a0;
+  }
+</style>

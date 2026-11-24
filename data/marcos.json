@@ -1,0 +1,76 @@
+[
+  {
+    "id": "origami-vocalista",
+    "era": "origami",
+    "dataTexto": "Antes de 2024",
+    "titulo": "Vocalista e compositor do Origami Aquém",
+    "texto": "Antes da Ventocais, Danillo foi vocalista e compositor da banda. Dele são “Pensamentos que me levam a você”, “Com Você” e “Não me deixe morrer”."
+  },
+  {
+    "id": "origami-streams",
+    "era": "origami",
+    "dataTexto": "Origami Aquém",
+    "titulo": "Mais de 800 mil streams",
+    "texto": "“Pensamentos que me levam a você” virou a faixa mais ouvida da banda, com mais de 600 mil streams no Spotify. As músicas ainda tocam na Rádio UFS."
+  },
+  {
+    "id": "estreia",
+    "data": "2024-01-12",
+    "titulo": "Estreia nos palcos",
+    "texto": "No Che Music Bar, dividindo a noite com Alquimistas de Atlântida e Yves Deluc & Fábio Aricawa."
+  },
+  {
+    "id": "anne-carol-luno-torres",
+    "data": "2024-08-16",
+    "titulo": "Noite com Anne Carol e Luno Torres",
+    "texto": "Jazz, soul e rock psicodélico no Che Music Bar."
+  },
+  {
+    "id": "tudo-e-mar",
+    "data": "2025-10-24",
+    "titulo": "Sai “Tudo é Mar”",
+    "texto": "O primeiro lançamento da banda, com matéria na Disconecta."
+  },
+  {
+    "id": "sensacao-do-mundo",
+    "data": "2026-02-27",
+    "titulo": "Sai “Sensação do Mundo”",
+    "texto": "A música que virou samba no ensaio da véspera da estreia ganha versão de estúdio."
+  },
+  {
+    "id": "rosa-afim",
+    "data": "2026-06-11",
+    "titulo": "EP Rosa Afim",
+    "texto": "“Rosa Afim” e “Incendiar” no mesmo dia: soul e jazz, com sax de Manoel Choles na faixa-título."
+  },
+  {
+    "id": "freedom-session",
+    "data": "2026-09-26",
+    "titulo": "Freedom Session",
+    "texto": "Show na Freedom Discos, que rendeu matéria na Divergent Beats."
+  },
+  {
+    "id": "radio-ufs",
+    "data": "2026-10-29",
+    "titulo": "Entrevista na Rádio UFS",
+    "texto": "No programa Setlist, um dia antes do lançamento."
+  },
+  {
+    "id": "promessas-de-orfeu",
+    "data": "2026-10-30",
+    "titulo": "Sai “Promessas de Orfeu”",
+    "texto": "O single que abre uma nova fase. Uma semana depois, ganhou live session no YouTube."
+  },
+  {
+    "id": "festival-aquece",
+    "data": "2026-11-14",
+    "titulo": "Festival Aquece",
+    "texto": "A banda organiza o próprio festival, no Vila Caju."
+  },
+  {
+    "id": "primeira-turne",
+    "data": "2026-12",
+    "titulo": "Primeira turnê",
+    "texto": "Aracaju, Maceió e Arapiraca."
+  }
+]

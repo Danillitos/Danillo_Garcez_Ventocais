@@ -1,0 +1,63 @@
+---
+/**
+ * Números que contam até o valor quando aparecem na tela.
+ */
+interface Item {
+  valor: number;
+  prefixo?: string;
+  sufixo?: string;
+  rotulo: string;
+}
+
+interface Props {
+  itens: Item[];
+}
+
+const { itens } = Astro.props;
+const formatar = (n: number) => n.toLocaleString('pt-BR');
+---
+
+<dl class="numeros">
+  {
+    itens.map((item, i) => (
+      <div class="numeros__item" data-revelar style={`--atraso: ${i * 0.1}s`}>
+        <dt class="numeros__rotulo">{item.rotulo}</dt>
+        <dd class="numeros__valor">
+          {item.prefixo}
+          <span data-contar={item.valor}>{formatar(item.valor)}</span>
+          {item.sufixo}
+        </dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .numeros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+    gap: 28px;
+  }
+
+  .numeros__item {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 6px;
+    padding-top: 18px;
+    border-top: 1px solid var(--linha-forte);
+  }
+
+  .numeros__valor {
+    font-family: var(--fonte-display);
+    font-size: clamp(2.6rem, 5vw, 3.8rem);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .numeros__rotulo {
+    color: var(--perola-2);
+    font-size: 0.95rem;
+  }
+</style>

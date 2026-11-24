@@ -1,0 +1,32 @@
+[
+  {
+    "id": "nome",
+    "tag": "O nome",
+    "titulo": "Invento o cais",
+    "texto": "“Ventocais” saiu de um verso de “Cais”, de Milton Nascimento: Danillo entendia “Invento o cais” como “Em Ventocais”, como se fosse um lugar a se visitar e viver. O nome foi escolhido por unanimidade."
+  },
+  {
+    "id": "quase-rock",
+    "tag": "Origens",
+    "titulo": "Quase uma banda de rock",
+    "texto": "A Ventocais quase foi uma banda de rock. A formação reúne integrantes das antigas bandas de rock sergipanas Araúnas/Amagatos (Guima e Jompas) e Origami Aquém (Danillo Garcez e Vitor Brito), além de Lauro, que também já tinha tocado em projetos de mesmo estilo. Por isso, nos primeiros meses, a banda compôs e tocou várias músicas de rock inspiradas em nomes como Jeff Buckley, Muse e Radiohead. A virada para a brasilidade veio da vontade de explorar os riquíssimos horizontes da música nacional e de abrir espaço para um novo estilo na carreira de cada um."
+  },
+  {
+    "id": "sensacao-do-mundo",
+    "tag": "Bastidores",
+    "titulo": "Virou samba na véspera",
+    "texto": "“Sensação do Mundo” era introspectiva, com levada de R&B. No ensaio da véspera do primeiro show, Guima sugeriu puxar a música para o samba. A banda gostou tanto que essa virou a versão definitiva."
+  },
+  {
+    "id": "rosa-afim",
+    "tag": "Rosa Afim",
+    "titulo": "Amor rima com dor",
+    "texto": "A gravação de “Rosa Afim” tem Manoel Choles no sax. A canção defende que as dores da vida não devem impedir ninguém de amar: afinal, “não é à toa que amor rima com dor”."
+  },
+  {
+    "id": "tudo-e-mar",
+    "tag": "Tudo é Mar",
+    "titulo": "Onde tudo começou",
+    "texto": "“Tudo é Mar” foi o primeiro lançamento da banda. A gravação contou com a participação de Daniel Nanume nas percussões, e a letra fala sobre o medo de não alcançar os objetivos que se tem na vida."
+  }
+]

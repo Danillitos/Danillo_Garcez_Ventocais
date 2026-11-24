@@ -1,0 +1,127 @@
+---
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import ChamadaContato from '../components/ChamadaContato.astro';
+import EmbedYouTube from '../components/EmbedYouTube.astro';
+import Galeria from '../components/Galeria.astro';
+import Pendente from '../components/Pendente.astro';
+import TituloSecao from '../components/TituloSecao.astro';
+import Base from '../layouts/Base.astro';
+import { obterVideos } from '../lib/conteudo';
+import { dataLonga } from '../lib/datas';
+import { imagem, imagemObrigatoria } from '../lib/imagens';
+import { site } from '../lib/site';
+
+const videos = await obterVideos();
+const destaque = videos.find((v) => v.data.destaque) ?? videos[0];
+const outros = videos.filter((v) => v.id !== destaque?.id);
+
+const bastidores = [
+  { src: imagemObrigatoria('fotos/estudio-2.jpg'), alt: 'Teclado e equipamentos no estúdio, sob luz laranja' },
+  { src: imagemObrigatoria('fotos/ao-vivo-bateria.jpg'), alt: 'Bateria e guitarra no palco, sob luz azul' },
+  { src: imagemObrigatoria('fotos/estudio-1.jpg'), alt: 'Gravação em estúdio, sob luz laranja' },
+  { src: imagemObrigatoria('fotos/pb-sopro.jpg'), alt: 'Foto em preto e branco de um músico em ação no palco' },
+  { src: imagemObrigatoria('fotos/estudio-3.jpg'), alt: 'Guitarra no estúdio, sob luz laranja' },
+  { src: imagemObrigatoria('fotos/ao-vivo-luz-roxa.jpg'), alt: 'Show sob luz roxa' },
+];
+---
+
+<Base titulo="Vídeos" descricao={`Live sessions, clipes e registros de palco de ${site.nome}.`}>
+  <CabecalhoPagina
+    num="05"
+    rotulo="Vídeos"
+    titulo="Pra ver <em>e ouvir</em>"
+    intro="Live sessions, clipes e registros de palco."
+  />
+
+  {
+    destaque && (
+      <section class="secao secao--colada">
+        <div class="container video-destaque">
+          <div data-revelar>
+            <EmbedYouTube id={destaque.data.youtubeId} titulo={destaque.data.titulo} capa={imagem(destaque.data.capa)} />
+          </div>
+          <div class="video-destaque__info" data-revelar style="--atraso: .12s">
+            <p class="rotulo video-destaque__meta">
+              {destaque.data.tipo}
+              {destaque.data.data && ` · ${dataLonga(destaque.data.data)}`}
+            </p>
+            <h2 class="video-destaque__titulo">{destaque.data.titulo}</h2>
+            {destaque.data.descricao && <p class="texto-grande">{destaque.data.descricao}</p>}
+            <Pendente texto={destaque.data.pendente} rascunho={destaque.data.rascunho} />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    outros.length > 0 && (
+      <section class="secao secao--colada">
+        <div class="container">
+          <TituloSecao num="05.1" rotulo="Mais vídeos" titulo="Outros <em>registros</em>" />
+          <div class="videos-grade">
+            {outros.map((v) => (
+              <article class="videos-grade__item" data-revelar>
+                <EmbedYouTube id={v.data.youtubeId} titulo={v.data.titulo} capa={imagem(v.data.capa)} />
+                <h3>{v.data.titulo}</h3>
+                <p class="rotulo">
+                  {v.data.tipo}
+                  {v.data.data && ` · ${dataLonga(v.data.data)}`}
+                </p>
+                <Pendente texto={v.data.pendente} rascunho={v.data.rascunho} />
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="secao secao--escura">
+    <div class="container">
+      <TituloSecao num="05.2" rotulo="Bastidores" titulo="Entre o estúdio <em>e o palco</em>" anotacao="clica pra ampliar" />
+      <Galeria fotos={bastidores} grupo="bastidores" />
+    </div>
+  </section>
+
+  <ChamadaContato />
+</Base>
+
+<style>
+  .video-destaque {
+    display: grid;
+    gap: clamp(28px, 4vw, 56px);
+    align-items: end;
+  }
+
+  @media (min-width: 1000px) {
+    .video-destaque {
+      grid-template-columns: 1.6fr 1fr;
+    }
+  }
+
+  .video-destaque__meta {
+    color: var(--acento);
+  }
+
+  .video-destaque__titulo {
+    margin: 12px 0 16px;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-style: italic;
+  }
+
+  .video-destaque__info .texto-grande {
+    color: var(--perola-2);
+  }
+
+  .videos-grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: 40px 28px;
+  }
+
+  .videos-grade__item h3 {
+    margin: 18px 0 6px;
+    font-size: 1.5rem;
+  }
+</style>

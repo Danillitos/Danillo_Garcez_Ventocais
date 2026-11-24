@@ -1,0 +1,29 @@
+---
+import { icones, type NomeIcone } from '../lib/icones';
+
+interface Props {
+  nome: NomeIcone;
+  tamanho?: number;
+  class?: string;
+  /** Texto para leitores de tela. Sem título, o ícone é decorativo. */
+  titulo?: string;
+}
+
+const { nome, tamanho = 20, class: classe, titulo } = Astro.props;
+const conteudo = (titulo ? `<title>${titulo}</title>` : '') + icones[nome];
+---
+
+<svg
+  class:list={['icone', `icone-${nome}`, classe]}
+  width={tamanho}
+  height={tamanho}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden={titulo ? undefined : 'true'}
+  role={titulo ? 'img' : undefined}
+  set:html={conteudo}
+/>

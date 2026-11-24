@@ -1,0 +1,199 @@
+---
+/**
+ * Página "link na bio": tudo da banda num lugar só, pensada para o
+ * Instagram. Endereço: /links/
+ */
+import { Image } from 'astro:assets';
+import Icone from '../components/Icone.astro';
+import Base from '../layouts/Base.astro';
+import { obterLancamentos, obterShows } from '../lib/conteudo';
+import { diaPontoMes } from '../lib/datas';
+import type { NomeIcone } from '../lib/icones';
+import { imagemObrigatoria } from '../lib/imagens';
+import { linkWhatsApp, site } from '../lib/site';
+import { url } from '../lib/url';
+
+const { destaque } = await obterLancamentos();
+const { proximos } = await obterShows();
+const proximo = proximos[0];
+const disco = imagemObrigatoria('disco-orfeu.webp');
+
+const icones: Record<string, NomeIcone> = {
+  Spotify: 'spotify',
+  YouTube: 'youtube',
+  'YouTube Music': 'youtube',
+  Instagram: 'instagram',
+  'Apple Music': 'nota',
+  Deezer: 'ondas',
+};
+
+const links: { rotulo: string; detalhe?: string; href: string; icone: NomeIcone; destaque?: boolean; externo?: boolean }[] = [
+  ...(destaque
+    ? [
+        {
+          rotulo: `Ouça “${destaque.data.titulo}”`,
+          detalhe: destaque.data.links.smartlink ? 'em todas as plataformas' : 'o single novo',
+          // Com smartlink, o link da bio vai direto para o streaming.
+          href: destaque.data.links.smartlink ?? url(`/musica/${destaque.id}/`),
+          icone: 'play' as NomeIcone,
+          destaque: true,
+          externo: Boolean(destaque.data.links.smartlink),
+        },
+      ]
+    : []),
+  ...(proximo?.data.data
+    ? [
+        {
+          rotulo: `Próximo show: ${diaPontoMes(proximo.data.data)}`,
+          detalhe: `${proximo.data.local.nome ? `${proximo.data.local.nome} · ` : ''}${proximo.data.local.cidade}`,
+          href: url('/agenda/'),
+          icone: 'ingresso' as NomeIcone,
+        },
+      ]
+    : []),
+  ...site.plataformas.filter((p) => p.url).map((p) => ({ rotulo: p.nome, href: p.url, icone: icones[p.nome] ?? 'ondas', externo: true })),
+  ...site.redes.filter((r) => r.url).map((r) => ({ rotulo: `${r.rede} ${r.usuario}`, href: r.url, icone: icones[r.rede] ?? 'link', externo: true })),
+  { rotulo: 'Fale com a gente', detalhe: 'WhatsApp', href: linkWhatsApp(), icone: 'whatsapp', externo: true },
+  { rotulo: 'Kit de imprensa', href: url('/imprensa/'), icone: 'baixar' },
+  { rotulo: 'Site completo', href: url('/'), icone: 'seta' },
+];
+---
+
+<Base titulo="Links" descricao={`Todos os links de ${site.nome}.`} minima>
+  <div class="links">
+    <Image class="links__disco" src={disco} alt="" width={240} loading="eager" />
+    <h1 class="links__nome">Danillo Garcez <em>&amp;</em> Ventocais</h1>
+    {site.slogan && <p class="links__slogan">{site.slogan}</p>}
+
+    <ul role="list" class="links__lista">
+      {
+        links.map((l, i) => (
+          <li style={`--i: ${i}`}>
+            <a
+              class:list={['links__item', { 'links__item--destaque': l.destaque }]}
+              href={l.href}
+              target={l.externo ? '_blank' : undefined}
+              rel={l.externo ? 'noopener' : undefined}
+            >
+              <Icone nome={l.icone} tamanho={22} />
+              <span class="links__texto">
+                <strong>{l.rotulo}</strong>
+                {l.detalhe && <small>{l.detalhe}</small>}
+              </span>
+              <Icone nome={l.externo ? 'seta-diagonal' : 'seta'} tamanho={18} class="links__seta" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="links__rodape anotacao">feito à mão em {site.cidade} ✦</p>
+  </div>
+</Base>
+
+<style>
+  .links {
+    display: grid;
+    justify-items: center;
+    width: min(100% - 32px, 520px);
+    min-height: 100dvh;
+    margin-inline: auto;
+    padding-block: 56px 40px;
+    text-align: center;
+  }
+
+  :global(body.pagina-minima) {
+    background:
+      radial-gradient(ellipse 90% 50% at 50% 0%, rgb(61 99 224 / 0.25), transparent 70%),
+      var(--ink-900);
+  }
+
+  .links :global(.links__disco) {
+    width: 132px;
+    animation: girar 40s linear infinite;
+    filter: drop-shadow(0 20px 30px rgb(0 0 0 / 0.5));
+  }
+
+  .links__nome {
+    margin-top: 24px;
+    font-size: clamp(2rem, 8vw, 2.6rem);
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  }
+
+  .links__nome em {
+    color: var(--kraft);
+  }
+
+  .links__slogan {
+    max-width: 36ch;
+    margin-top: 12px;
+    color: var(--perola-2);
+    font-size: 0.98rem;
+  }
+
+  .links__lista {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+    margin-top: 36px;
+  }
+
+  .links__lista li {
+    animation: links-entrar 0.7s var(--ease-out) both;
+    animation-delay: calc(var(--i) * 60ms + 150ms);
+  }
+
+  .links__item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 14px;
+    align-items: center;
+    min-height: 64px;
+    padding: 12px 20px;
+    border: 1px solid var(--linha-forte);
+    border-radius: 18px;
+    background: rgb(236 230 216 / 0.03);
+    text-align: left;
+    transition:
+      background-color 0.25s,
+      color 0.25s,
+      transform 0.45s var(--ease-elastico);
+  }
+
+  .links__item:hover {
+    background: var(--perola);
+    color: var(--ink-900);
+    transform: scale(1.02);
+  }
+
+  .links__item--destaque {
+    border-color: var(--kraft);
+    background: var(--kraft);
+    color: var(--kraft-texto);
+  }
+
+  .links__texto {
+    display: grid;
+    line-height: 1.3;
+  }
+
+  .links__texto small {
+    opacity: 0.75;
+  }
+
+  .links__item :global(.links__seta) {
+    opacity: 0.6;
+  }
+
+  .links__rodape {
+    margin-top: 40px;
+    font-size: 1.3rem;
+  }
+
+  @keyframes links-entrar {
+    from {
+      opacity: 0;
+      translate: 0 16px;
+    }
+  }
+</style>

@@ -1,0 +1,344 @@
+---
+/**
+ * Abertura da página inicial: o disco da capa de "Promessas de Orfeu" flutua
+ * como uma lua sobre linhas de vento (canvas em scripts/vento.ts) que reagem
+ * ao mouse e à prévia da música.
+ */
+import { Image } from 'astro:assets';
+import Icone from './Icone.astro';
+import Letreiro from './Letreiro.astro';
+import type { Lancamento, Show } from '../lib/conteudo';
+import { diaPontoMes } from '../lib/datas';
+import { imagemObrigatoria } from '../lib/imagens';
+import { site } from '../lib/site';
+import { url } from '../lib/url';
+
+interface Props {
+  destaque?: Lancamento;
+  proximos: Show[];
+}
+
+const { destaque, proximos } = Astro.props;
+const disco = imagemObrigatoria('disco-orfeu.webp');
+
+const shows = proximos.map((s) => ({
+  data: s.data.data ? diaPontoMes(s.data.data) : (s.data.dataTexto ?? ''),
+  cidade: `${s.data.local.cidade} (${s.data.local.uf})`,
+  local: s.data.local.nome,
+}));
+// Repete os itens para a faixa nunca ficar com buraco em telas largas.
+const repeticoes = shows.length ? Math.ceil(8 / shows.length) : 0;
+const faixa = Array.from({ length: repeticoes }, () => shows).flat();
+---
+
+<section class="hero" data-hero>
+  <canvas class="hero__vento" data-vento aria-hidden="true"></canvas>
+
+  <div class="container hero__grade">
+    <div class="hero__texto">
+      <h1 class="hero__titulo">
+        <span class="hero__linha"><span style="--i: 0">Danillo Garcez</span></span>
+        <span class="hero__linha"><span style="--i: 1"><em>&amp;</em> Ventocais</span></span>
+      </h1>
+      {site.slogan && <p class="hero__slogan">{site.slogan}</p>}
+      <div class="hero__acoes">
+        {
+          destaque && (
+            <a class="botao botao--primario" href={url(`/musica/${destaque.id}/`)} data-magnetico>
+              <Icone nome="play" tamanho={16} />
+              Ouvir “{destaque.data.titulo}”
+            </a>
+          )
+        }
+        <a class="botao" href={url('/agenda/')} data-magnetico>
+          <Icone nome="calendario" tamanho={18} />
+          Agenda de shows
+        </a>
+      </div>
+    </div>
+
+    <figure class="hero__disco" data-disco>
+      <div class="hero__disco-movimento">
+        <Image
+          class="hero__disco-img"
+          src={disco}
+          alt="Arte da capa de “Promessas de Orfeu”: um disco de pedra perolada com figuras em relevo e manchas azul-cobalto"
+          widths={[360, 560, 800, 1100]}
+          sizes="(max-width: 899px) 62vw, 44vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      {
+        destaque && (
+          <figcaption class="hero__nota">
+            <span class="anotacao">
+              novo single:
+              <br />“{destaque.data.titulo}”
+            </span>
+            <svg class="hero__seta" viewBox="0 0 120 70" aria-hidden="true">
+              <path d="M6 10 C 40 2, 78 14, 100 50" />
+              <path d="M86 46 L 101 52 L 104 36" />
+            </svg>
+          </figcaption>
+        )
+      }
+    </figure>
+  </div>
+
+  {
+    faixa.length > 0 && (
+      <div class="hero__faixa">
+        <Letreiro rotulo="Próximos shows" duracao={Math.max(30, faixa.length * 5)}>
+          {faixa.map((s) => (
+            <a class="hero__show" href={url('/agenda/')}>
+              <b>{s.data}</b>
+              <span>{s.cidade}</span>
+              {s.local && <span class="hero__show-local">· {s.local}</span>}
+              <span class="hero__sep" aria-hidden="true">
+                ✦
+              </span>
+            </a>
+          ))}
+        </Letreiro>
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    align-items: center;
+    min-height: max(660px, 100svh);
+    padding-top: calc(var(--altura-topo) + 32px);
+    padding-bottom: 120px;
+    overflow: clip;
+    background:
+      radial-gradient(ellipse 65% 60% at 76% 42%, rgb(61 99 224 / 0.24), transparent 65%),
+      radial-gradient(ellipse 60% 45% at 0% 100%, rgb(201 166 121 / 0.12), transparent 60%),
+      var(--ink-900);
+  }
+
+  .hero__vento {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__grade {
+    display: grid;
+    gap: 28px;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .hero__grade {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+  }
+
+  .hero__titulo {
+    font-size: clamp(3.3rem, 10.2vw, 9.4rem);
+    font-weight: 340;
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  }
+
+  .hero__linha {
+    display: block;
+    padding-bottom: 0.08em;
+    overflow: clip;
+    overflow-clip-margin: 0.3em;
+  }
+
+  .hero__linha > span {
+    display: inline-block;
+    animation: hero-linha 1.25s var(--ease-out) both;
+    animation-delay: calc(var(--i) * 130ms + 120ms);
+  }
+
+  .hero__titulo em {
+    color: var(--kraft);
+    font-weight: 300;
+  }
+
+  .hero__slogan {
+    max-width: 34ch;
+    margin-top: 28px;
+    color: var(--perola-2);
+    font-size: clamp(1.12rem, 1.6vw, 1.34rem);
+    animation: hero-subir 1s var(--ease-out) 0.45s both;
+  }
+
+  .hero__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+    animation: hero-subir 1s var(--ease-out) 0.6s both;
+  }
+
+  /* --- Disco ------------------------------------------------------------- */
+  .hero__disco {
+    position: relative;
+    justify-self: center;
+    width: min(100%, 580px);
+    margin: 0;
+    perspective: 1100px;
+    animation: hero-disco 1.8s var(--ease-out) 0.15s both;
+  }
+
+  .hero__disco::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 8%;
+    border-radius: 50%;
+    box-shadow: 0 0 calc(70px + var(--nivel, 0) * 160px) calc(var(--nivel, 0) * 30px)
+      rgb(138 164 255 / calc(0.18 + var(--nivel, 0) * 0.5));
+    transition: box-shadow 0.15s linear;
+  }
+
+  .hero__disco-movimento {
+    transform: translate3d(var(--tx, 0px), var(--ty, 0px), 0) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
+      scale(calc(1 + var(--nivel, 0) * 0.045));
+    transition: transform 0.9s var(--ease-out);
+    animation: flutuar 9s ease-in-out infinite;
+  }
+
+  .hero__disco :global(.hero__disco-img) {
+    width: 100%;
+    animation: girar 150s linear infinite;
+    filter: drop-shadow(0 40px 60px rgb(0 0 0 / 0.55));
+  }
+
+  .hero__nota {
+    position: absolute;
+    top: -1%;
+    left: -6%;
+    display: grid;
+    rotate: -8deg;
+    animation: hero-subir 1s var(--ease-out) 1.1s both;
+  }
+
+  .hero__nota .anotacao {
+    font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  }
+
+  .hero__seta {
+    width: 96px;
+    margin: 2px 0 0 34px;
+    fill: none;
+    stroke: var(--kraft);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* --- Faixa com os próximos shows -------------------------------------- */
+  .hero__faixa {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-block: 16px;
+    border-top: 1px solid var(--linha);
+    background: rgb(13 19 32 / 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .hero__show {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5em;
+    padding-left: 26px;
+    color: var(--perola-2);
+    font-size: 0.95rem;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+
+  .hero__show:hover {
+    color: var(--perola);
+  }
+
+  .hero__show b {
+    color: var(--perola);
+    font-family: var(--fonte-display);
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+
+  .hero__show-local {
+    color: var(--perola-3);
+  }
+
+  .hero__sep {
+    padding-left: 18px;
+    color: var(--kraft);
+  }
+
+  @media (max-width: 899px) {
+    .hero {
+      padding-bottom: 96px;
+    }
+
+    .hero__disco {
+      order: -1;
+      width: min(62vw, 320px);
+    }
+
+    .hero__nota {
+      top: auto;
+      bottom: 4%;
+      left: auto;
+      right: -18%;
+      rotate: -6deg;
+    }
+
+    .hero__seta {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    /* No celular o botão "Ouvir" já diz o mesmo; a nota cobriria o disco. */
+    .hero__nota {
+      display: none;
+    }
+  }
+
+  @keyframes hero-linha {
+    from {
+      transform: translateY(108%);
+    }
+  }
+
+  @keyframes hero-subir {
+    from {
+      opacity: 0;
+      translate: 0 24px;
+    }
+  }
+
+  @keyframes hero-disco {
+    from {
+      opacity: 0;
+      scale: 0.85;
+      rotate: -25deg;
+    }
+  }
+
+  @keyframes flutuar {
+    50% {
+      translate: 0 -14px;
+    }
+  }
+</style>

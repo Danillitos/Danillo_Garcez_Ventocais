@@ -1,0 +1,618 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getImage, Image } from 'astro:assets';
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import Copiar from '../components/Copiar.astro';
+import Icone from '../components/Icone.astro';
+import Pendente from '../components/Pendente.astro';
+import TituloSecao from '../components/TituloSecao.astro';
+import Base from '../layouts/Base.astro';
+import {
+  obterCitacoes,
+  obterImprensa,
+  obterIntegrantes,
+  obterLancamentos,
+  obterPlaylists,
+} from '../lib/conteudo';
+import { dataCurta, dataLonga } from '../lib/datas';
+import { imagem, imagemObrigatoria } from '../lib/imagens';
+import { linkWhatsApp, site } from '../lib/site';
+import { url } from '../lib/url';
+
+const { destaque } = await obterLancamentos();
+const { textos, radios } = await obterImprensa();
+const citacoes = await obterCitacoes();
+const playlists = await obterPlaylists();
+const integrantes = await obterIntegrantes();
+const capaDestaque = imagem(destaque?.data.capa);
+
+/* Fotos para download em alta (geradas no build a partir de src/assets). */
+type ParaBaixar = {
+  src: ImageMetadata;
+  nome: string;
+  alt: string;
+  credito?: { nome: string; link?: string };
+};
+// Quem fez a capa vem da ficha técnica (função "Capa" ou "Arte").
+const creditoCapa = destaque?.data.ficha.find((f) => /capa|arte/i.test(f.funcao));
+const paraBaixar: ParaBaixar[] = [
+  { src: imagemObrigatoria('fotos/praia-guarda-sol.jpg'), nome: 'ventocais-praia-guarda-sol', alt: 'A banda na praia, à sombra de um guarda-sol' },
+  { src: imagemObrigatoria('fotos/praia-caminhada.jpg'), nome: 'ventocais-praia-caminhada', alt: 'Os integrantes caminhando na praia' },
+  { src: imagemObrigatoria('fotos/pedras-mar.jpg'), nome: 'ventocais-pedras-mar', alt: 'A banda nas pedras, à beira-mar' },
+  { src: imagemObrigatoria('fotos/trio-ceu-azul.jpg'), nome: 'ventocais-ceu-azul', alt: 'Três integrantes contra o céu azul' },
+  { src: imagemObrigatoria('fotos/ao-vivo-che-music-bar.jpg'), nome: 'ventocais-ao-vivo', alt: 'A banda ao vivo no Che Music Bar' },
+  ...(capaDestaque && destaque
+    ? [{ src: capaDestaque, nome: `capa-${destaque.id}`, alt: `Capa de “${destaque.data.titulo}”`, credito: creditoCapa }]
+    : []),
+];
+const downloads = await Promise.all(
+  paraBaixar.map(async (f) => ({
+    ...f,
+    arquivo: await getImage({ src: f.src, width: Math.min(2400, f.src.width), format: 'jpg', quality: 90 }),
+  })),
+);
+
+const formacao = integrantes.map((i) => `${i.data.nome} (${i.data.funcao.toLowerCase()})`).join(', ');
+const fatos = [
+  { rotulo: 'Nome', valor: site.nome },
+  { rotulo: 'Cidade', valor: `${site.cidade} (${site.uf})` },
+  { rotulo: 'Estreia', valor: dataLonga(site.estreia) },
+  { rotulo: 'Gêneros', valor: site.generos.join(', ') },
+  { rotulo: 'Formação', valor: formacao },
+  ...(destaque
+    ? [{ rotulo: 'Lançamento atual', valor: `“${destaque.data.titulo}” (${destaque.data.tipo.toLowerCase()}, ${dataCurta(destaque.data.data!)})` }]
+    : []),
+  { rotulo: 'Distribuição', valor: site.distribuidora },
+  { rotulo: 'Associação', valor: site.associacao },
+  { rotulo: 'Contato', valor: `WhatsApp ${site.contato.whatsappExibicao}${site.contato.email ? ` · ${site.contato.email}` : ''}` },
+];
+---
+
+<Base
+  titulo="Imprensa (EPK)"
+  descricao={`Kit de imprensa de ${site.nome}: bio, release, ficha técnica, fotos em alta e contato.`}
+  imagem={capaDestaque}
+>
+  <CabecalhoPagina
+    num="06"
+    rotulo="Imprensa"
+    titulo="Kit de <em>imprensa</em>"
+    intro="Bio, release, ficha técnica, fotos em alta e contato, tudo num lugar só. Copie o que precisar."
+  >
+    <div class="epk-acoes">
+      <button class="botao botao--primario" type="button" data-imprimir>
+        <Icone nome="imprimir" tamanho={18} /> Salvar como PDF
+      </button>
+      <a class="botao" href="#fotos"><Icone nome="baixar" tamanho={18} /> Fotos em alta</a>
+      <a
+        class="botao"
+        href={linkWhatsApp('Olá, Ventocais! Sou da imprensa e gostaria de falar com a banda.')}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icone nome="whatsapp" tamanho={18} /> Contato para imprensa
+      </a>
+    </div>
+  </CabecalhoPagina>
+
+  <section class="secao secao--colada">
+    <div class="container epk-grade">
+      <dl class="epk-fatos" data-revelar>
+        {
+          fatos.map((f) => (
+            <div>
+              <dt>{f.rotulo}</dt>
+              <dd>{f.valor}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <div class="epk-bios">
+        <article class="epk-bloco" data-revelar>
+          <header class="epk-bloco__topo">
+            <h2 class="epk-bloco__titulo">Bio curta</h2>
+            <span class="epk-bloco__conta">{site.bioCurta.length} caracteres</span>
+            <Copiar alvo="#bio-curta" />
+          </header>
+          <p id="bio-curta" class="prosa">{site.bioCurta}</p>
+        </article>
+
+        <article class="epk-bloco" data-revelar>
+          <header class="epk-bloco__topo">
+            <h2 class="epk-bloco__titulo">Bio longa</h2>
+            <span class="epk-bloco__conta">{site.bioLonga.join(' ').length} caracteres</span>
+            <Copiar alvo="#bio-longa" />
+          </header>
+          <div id="bio-longa" class="prosa">
+            {site.bioLonga.map((p) => <p>{p}</p>)}
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {
+    destaque && (
+      <section class="secao secao--escura" id="release">
+        <div class="container epk-release">
+          <div>
+            <TituloSecao num="06.1" rotulo="Release" titulo={`“${destaque.data.titulo}”`} />
+            {capaDestaque && (
+              <Image class="epk-release__capa" src={capaDestaque} alt={`Capa de “${destaque.data.titulo}”`} widths={[320, 480]} sizes="320px" />
+            )}
+          </div>
+          <div>
+            <article class="epk-bloco" data-revelar>
+              <header class="epk-bloco__topo">
+                <h3 class="epk-bloco__titulo">Texto do release</h3>
+                <Copiar alvo="#release-texto" />
+              </header>
+              <div id="release-texto" class="prosa">
+                {destaque.data.texto.map((p) => (
+                  <p>{p}</p>
+                ))}
+              </div>
+            </article>
+            {destaque.data.ficha.length > 0 && (
+              <article class="epk-bloco" data-revelar>
+                <header class="epk-bloco__topo">
+                  <h3 class="epk-bloco__titulo">Ficha técnica</h3>
+                </header>
+                <dl class="epk-ficha">
+                  {destaque.data.ficha.map((f) => (
+                    <div>
+                      <dt>{f.funcao}</dt>
+                      <dd>
+                        {f.link ? (
+                          <a class="sublinhado" href={f.link} target="_blank" rel="noopener">
+                            {f.nome}
+                          </a>
+                        ) : (
+                          f.nome
+                        )}
+                      </dd>
+                    </div>
+                  ))}
+                  {destaque.data.isrc && (
+                    <div>
+                      <dt>ISRC</dt>
+                      <dd>{destaque.data.isrc}</dd>
+                    </div>
+                  )}
+                  {destaque.data.duracao && (
+                    <div>
+                      <dt>Duração</dt>
+                      <dd>{destaque.data.duracao}</dd>
+                    </div>
+                  )}
+                </dl>
+              </article>
+            )}
+            <p>
+              <a class="link-seta" href={url(`/musica/${destaque.id}/`)}>
+                Letra completa e prévia <Icone nome="seta" tamanho={18} />
+              </a>
+            </p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    citacoes.length > 0 && (
+      <section class="secao" id="frases">
+        <div class="container">
+          <TituloSecao num="06.2" rotulo="Frases" titulo="O que <em>disseram</em>" />
+          <ul role="list" class="epk-frases">
+            {citacoes.map((c, i) => (
+              <li data-revelar style={`--atraso: ${(i % 3) * 0.08}s`}>
+                <blockquote>“{c.data.texto}”</blockquote>
+                <p>
+                  {c.data.autor}
+                  {c.data.fonte && `, ${c.data.fonte}`}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="secao secao--colada" id="na-midia">
+    <div class="container epk-midia">
+      <div>
+        <TituloSecao num="06.3" rotulo="Na imprensa" titulo="Matérias <em>e resenhas</em>" />
+        <ul role="list" class="epk-lista">
+          {
+            textos.map((t) => (
+              <li data-revelar>
+                <p class="epk-lista__veiculo">
+                  {t.data.veiculo}
+                  <span class="chip">{t.data.tipo}</span>
+                </p>
+                {t.data.titulo &&
+                  (t.data.link ? (
+                    <a class="epk-lista__titulo sublinhado" href={t.data.link} target="_blank" rel="noopener">
+                      {t.data.titulo}
+                    </a>
+                  ) : (
+                    <p class="epk-lista__titulo">{t.data.titulo}</p>
+                  ))}
+                {t.data.autor && <p class="epk-lista__info">Por {t.data.autor}</p>}
+                {t.data.resumo && <p class="epk-lista__info">{t.data.resumo}</p>}
+                {!t.data.titulo && t.data.link && (
+                  <a class="link-icone" href={t.data.link} target="_blank" rel="noopener">
+                    Ler <Icone nome="seta-diagonal" tamanho={16} />
+                  </a>
+                )}
+                <Pendente texto={t.data.pendente} rascunho={t.data.rascunho} />
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <TituloSecao num="06.4" rotulo="Rádio" titulo="No <em>dial</em>" />
+        <ul role="list" class="epk-lista">
+          {
+            radios.map((r) => (
+              <li data-revelar>
+                <p class="epk-lista__veiculo">{r.data.veiculo}</p>
+                {r.data.titulo && <p class="epk-lista__titulo">{r.data.titulo}</p>}
+                {(r.data.autor || r.data.data) && (
+                  <p class="epk-lista__info">
+                    {r.data.autor}
+                    {r.data.autor && r.data.data && ' · '}
+                    {r.data.data && dataCurta(r.data.data)}
+                  </p>
+                )}
+                {r.data.resumo && <p class="epk-lista__info">{r.data.resumo}</p>}
+                <Pendente texto={r.data.pendente} rascunho={r.data.rascunho} />
+              </li>
+            ))
+          }
+        </ul>
+
+        <h3 class="epk-sub">Playlists</h3>
+        <ul role="list" class="lista-chips">
+          {
+            playlists.map((p) => (
+              <li class="chip">
+                {p.data.nome}
+                {p.data.faixa && ` · “${p.data.faixa}”`}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao secao--escura" id="fotos">
+    <div class="container">
+      <TituloSecao num="06.5" rotulo="Fotos e capa" titulo="Para <em>baixar</em>" anotacao="liberadas para divulgação" />
+      <Pendente texto={site.creditos.pendente} />
+      <ul role="list" class="epk-fotos">
+        {
+          downloads.map((d, i) => (
+            <li data-revelar style={`--atraso: ${(i % 3) * 0.08}s`}>
+              <Image src={d.src} alt={d.alt} widths={[360, 560]} sizes="(max-width: 700px) 90vw, 360px" />
+              {d.credito && (
+                <p class="epk-fotos__credito">
+                  Arte da capa:{' '}
+                  {d.credito.link ? (
+                    <a class="sublinhado" href={d.credito.link} target="_blank" rel="noopener">
+                      {d.credito.nome}
+                    </a>
+                  ) : (
+                    d.credito.nome
+                  )}
+                </p>
+              )}
+              <a class="botao botao--pequeno" href={d.arquivo.src} download={`${d.nome}.jpg`}>
+                <Icone nome="baixar" tamanho={16} /> Baixar JPG
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao" id="rider">
+    <div class="container epk-rider">
+      <TituloSecao num="06.6" rotulo="Técnico" titulo="Rider e <em>mapa de palco</em>" />
+      <div class="epk-rider__caixa papel rasgado" data-revelar>
+        <p class="anotacao">em breve por aqui</p>
+        <p>
+          Enquanto o rider não sobe, fale com a banda pelo WhatsApp {site.contato.whatsappExibicao}. Temos formato com
+          banda completa e trio acústico (voz, baixo e cajón).
+        </p>
+        <Pendente texto="Adicionar o rider técnico e o mapa de palco (PDF em /public)" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .epk-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    animation: cp-entrar 1s var(--ease-out) 0.25s both;
+  }
+
+  .epk-grade {
+    display: grid;
+    gap: clamp(40px, 6vw, 80px);
+    align-items: start;
+  }
+
+  @media (min-width: 1000px) {
+    .epk-grade {
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+
+    .epk-fatos {
+      position: sticky;
+      top: calc(var(--altura-topo) + 32px);
+    }
+  }
+
+  .epk-fatos div {
+    display: grid;
+    gap: 2px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .epk-fatos dt,
+  .epk-ficha dt {
+    color: var(--perola-3);
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .epk-fatos dd,
+  .epk-ficha dd {
+    margin: 0;
+  }
+
+  .epk-bios {
+    display: grid;
+    gap: 28px;
+  }
+
+  .epk-bloco {
+    padding: clamp(22px, 3vw, 32px);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio-grande);
+    background: rgb(236 230 216 / 0.025);
+  }
+
+  .epk-bloco + .epk-bloco {
+    margin-top: 24px;
+  }
+
+  .epk-bloco__topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    margin-bottom: 18px;
+  }
+
+  .epk-bloco__titulo {
+    margin-right: auto;
+    font-size: 1.6rem;
+  }
+
+  .epk-bloco__conta {
+    color: var(--perola-3);
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .epk-release {
+    display: grid;
+    gap: 40px;
+  }
+
+  @media (min-width: 1000px) {
+    .epk-release {
+      grid-template-columns: 0.7fr 1.3fr;
+      gap: 72px;
+    }
+  }
+
+  .epk-release :global(.epk-release__capa) {
+    width: min(100%, 320px);
+    border-radius: 4px;
+    box-shadow: 0 30px 60px -24px rgb(0 0 0 / 0.8);
+  }
+
+  .epk-release p:last-child {
+    margin-top: 28px;
+  }
+
+  .epk-ficha div {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .epk-frases {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 20px;
+  }
+
+  .epk-frases li {
+    padding: 26px 28px;
+    border-left: 3px solid var(--kraft);
+    background: rgb(236 230 216 / 0.03);
+  }
+
+  .epk-frases blockquote {
+    font-family: var(--fonte-display);
+    font-size: 1.4rem;
+    font-style: italic;
+    line-height: 1.25;
+  }
+
+  .epk-frases p {
+    margin-top: 10px;
+    color: var(--perola-3);
+    font-size: 0.9rem;
+  }
+
+  .epk-midia {
+    display: grid;
+    gap: clamp(56px, 7vw, 96px);
+  }
+
+  @media (min-width: 1000px) {
+    .epk-midia {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+  }
+
+  .epk-lista {
+    border-top: 1px solid var(--linha);
+  }
+
+  .epk-lista li {
+    display: grid;
+    gap: 4px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .epk-lista__veiculo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--fonte-display);
+    font-size: 1.35rem;
+  }
+
+  .epk-lista__veiculo .chip {
+    min-height: 26px;
+    padding: 0.1em 0.7em;
+    font-family: var(--fonte-texto);
+    font-size: 0.75rem;
+  }
+
+  .epk-lista__titulo {
+    color: var(--perola);
+    font-weight: 600;
+  }
+
+  .epk-lista__info {
+    color: var(--perola-2);
+    font-size: 0.95rem;
+  }
+
+  .epk-sub {
+    margin: 48px 0 18px;
+    font-size: 1.6rem;
+  }
+
+  .epk-fotos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 28px;
+  }
+
+  .epk-fotos li {
+    display: grid;
+    gap: 14px;
+    justify-items: start;
+  }
+
+  .epk-fotos__credito {
+    color: var(--perola-3);
+    font-size: 0.85rem;
+  }
+
+  .epk-fotos :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .epk-rider__caixa {
+    max-width: 620px;
+    padding: 40px 34px;
+  }
+
+  .epk-rider__caixa .anotacao {
+    color: #7a3416;
+    font-size: 2rem;
+  }
+
+  .epk-rider__caixa p + p {
+    margin-top: 10px;
+  }
+
+  @keyframes cp-entrar {
+    from {
+      opacity: 0;
+      translate: 0 30px;
+    }
+  }
+
+  /* Versão para imprimir / salvar em PDF. */
+  @media print {
+    :global(.topo),
+    :global(.rodape),
+    :global(.grao),
+    :global(.modo-edicao),
+    :global(.pendente),
+    :global(.cp__onda),
+    .epk-acoes,
+    :global(.copiar),
+    .epk-fotos :global(.botao),
+    #rider {
+      display: none !important;
+    }
+
+    :global(body) {
+      background: #fff !important;
+      color: #111 !important;
+      font-size: 11pt;
+    }
+
+    :global(.secao),
+    :global(.secao--escura),
+    :global(.cp) {
+      padding-block: 16pt !important;
+      background: #fff !important;
+    }
+
+    :global(*) {
+      color: #111 !important;
+      box-shadow: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      translate: none !important;
+    }
+
+    .epk-bloco,
+    .epk-frases li {
+      break-inside: avoid;
+      border-color: #ccc !important;
+      background: none !important;
+    }
+  }
+</style>

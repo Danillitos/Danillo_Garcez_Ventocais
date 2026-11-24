@@ -1,0 +1,421 @@
+---
+import { getCollection } from 'astro:content';
+import { getImage, Image } from 'astro:assets';
+import CartaoLancamento from '../../components/CartaoLancamento.astro';
+import ChamadaContato from '../../components/ChamadaContato.astro';
+import Copiar from '../../components/Copiar.astro';
+import EmbedSpotify from '../../components/EmbedSpotify.astro';
+import EmbedYouTube from '../../components/EmbedYouTube.astro';
+import Icone from '../../components/Icone.astro';
+import Pendente from '../../components/Pendente.astro';
+import PlataformaLinks from '../../components/PlataformaLinks.astro';
+import Previa from '../../components/Previa.astro';
+import TituloSecao from '../../components/TituloSecao.astro';
+import Vinil from '../../components/Vinil.astro';
+import Base from '../../layouts/Base.astro';
+import { obterLancamentos, visivel, type Lancamento } from '../../lib/conteudo';
+import { dataLonga } from '../../lib/datas';
+import { imagem } from '../../lib/imagens';
+import { musicRelease } from '../../lib/seo';
+import { url, urlAbsoluta } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const lancamentos = (await getCollection('lancamentos')).filter(visivel);
+  return lancamentos.map((lancamento) => ({ params: { slug: lancamento.id }, props: { lancamento } }));
+}
+
+interface Props {
+  lancamento: Lancamento;
+}
+
+const { lancamento } = Astro.props;
+const l = lancamento.data;
+const capa = imagem(l.capa);
+const { todos } = await obterLancamentos();
+const outros = todos.filter((o) => o.id !== lancamento.id).slice(0, 3);
+
+const paginaUrl = urlAbsoluta(`/musica/${lancamento.id}/`, Astro.site);
+const capaUrl = capa
+  ? new URL((await getImage({ src: capa, width: 1200, format: 'jpg' })).src, Astro.site).toString()
+  : undefined;
+const jsonLd = musicRelease(lancamento, urlAbsoluta('/', Astro.site), paginaUrl, capaUrl);
+const youtubeId = l.links.youtube?.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{6,})/)?.[1];
+const idLetra = `letra-${lancamento.id}`;
+---
+
+<Base
+  titulo={l.titulo}
+  descricao={l.resumo}
+  imagem={capa}
+  tipo={l.tipo === 'EP' || l.tipo === 'Álbum' ? 'music.album' : 'music.song'}
+  jsonLd={jsonLd}
+>
+  <section class="lp" data-lancamento style={l.cor ? `--acento: ${l.cor}` : undefined}>
+    {
+      capa && (
+        <div class="lp__fundo" aria-hidden="true">
+          <Image src={capa} alt="" width={640} />
+        </div>
+      )
+    }
+    <div class="container lp__grade">
+      <div class="lp__arte">
+        <Vinil capa={capa} titulo={l.titulo} artista={l.artista} prioridade tamanhos="(max-width: 900px) 80vw, 520px" />
+      </div>
+
+      <div class="lp__info">
+        <a class="link-icone lp__voltar" href={url('/musica/')}>
+          <Icone nome="seta-esquerda" tamanho={18} /> Toda a discografia
+        </a>
+        <p class="rotulo lp__meta">
+          <span>{l.tipo}</span>
+          {l.data ? <time datetime={l.data}>{dataLonga(l.data)}</time> : <span>Em breve</span>}
+          {l.duracao && <span>{l.duracao}</span>}
+        </p>
+        <h1 class="lp__titulo">{l.titulo}</h1>
+        <p class="lp__artista">{l.artista ?? 'Danillo Garcez & Ventocais'}</p>
+        <p class="texto-grande lp__resumo">{l.resumo}</p>
+        {l.previa && <Previa src={l.previa} titulo={l.titulo} />}
+        {l.tipo !== 'Inédita' && <PlataformaLinks links={l.links} />}
+        <EmbedSpotify link={l.links.spotify} titulo={l.titulo} />
+        <Pendente texto={l.pendente} rascunho={l.rascunho} />
+      </div>
+    </div>
+  </section>
+
+  {
+    youtubeId && (
+      <section class="secao secao--colada">
+        <div class="container container--estreito">
+          <EmbedYouTube id={youtubeId} titulo={l.titulo} capa={capa} />
+        </div>
+      </section>
+    )
+  }
+
+  {
+    l.texto.length > 0 && (
+      <section class="secao secao--colada">
+        <div class="container lp__historia">
+          <TituloSecao rotulo="Sobre a música" titulo="A <em>história</em>" />
+          <div>
+            <div class="prosa texto-grande" data-revelar>
+              {l.texto.map((p) => (
+                <p>{p}</p>
+              ))}
+            </div>
+            {l.referencias.length > 0 && (
+              <div class="lp__refs" data-revelar>
+                <p class="rotulo">Referências</p>
+                <ul class="lista-chips">
+                  {l.referencias.map((r) => (
+                    <li class="chip">{r}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    (l.letra.length > 0 || l.ficha.length > 0 || l.faixas.length > 0) && (
+      <section class="secao secao--escura" style={l.cor ? `--acento: ${l.cor}` : undefined}>
+        <div class="container lp__colunas">
+          {l.letra.length > 0 && (
+            <div class="lp__letra">
+              <div class="lp__letra-topo">
+                <h2 class="lp__subtitulo">Letra</h2>
+                <Copiar alvo={`#${idLetra}`} rotulo="Copiar letra" />
+              </div>
+              <div class="lp__estrofes" id={idLetra}>
+                {l.letra.map((estrofe) => (
+                  <p data-revelar>{estrofe}</p>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div class="lp__lateral">
+            {l.faixas.length > 0 && (
+              <div class="lp__bloco">
+                <h2 class="lp__subtitulo">Faixas</h2>
+                <ol class="lp__faixas">
+                  {l.faixas.map((f) => (
+                    <li>
+                      <span>{f.titulo}</span>
+                      {f.duracao && <span>{f.duracao}</span>}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
+            {l.ficha.length > 0 && (
+              <div class="lp__bloco">
+                <h2 class="lp__subtitulo">Ficha técnica</h2>
+                <dl class="lp__ficha">
+                  {l.ficha.map((f) => (
+                    <div>
+                      <dt>{f.funcao}</dt>
+                      <dd>
+                        {f.link ? (
+                          <a class="sublinhado" href={f.link} target="_blank" rel="noopener">
+                            {f.nome}
+                          </a>
+                        ) : (
+                          f.nome
+                        )}
+                      </dd>
+                    </div>
+                  ))}
+                  {l.isrc && (
+                    <div>
+                      <dt>ISRC</dt>
+                      <dd>{l.isrc}</dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    outros.length > 0 && (
+      <section class="secao">
+        <div class="container">
+          <TituloSecao rotulo="Continue ouvindo" titulo="Outros <em>lançamentos</em>" />
+          <div class="lp__outros">
+            {outros.map((o, i) => (
+              <CartaoLancamento lancamento={o} atraso={i * 0.1} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <ChamadaContato />
+</Base>
+
+<style>
+  .lp {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    padding-top: calc(var(--altura-topo) + clamp(48px, 7vw, 96px));
+    padding-bottom: clamp(72px, 9vw, 120px);
+  }
+
+  /* A capa vira um fundo desfocado, como luz de palco. */
+  .lp__fundo {
+    position: absolute;
+    z-index: -1;
+    inset: -10%;
+    opacity: 0.35;
+    filter: blur(80px) saturate(1.4);
+  }
+
+  .lp__fundo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lp::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(13 19 32 / 0.35), var(--ink-900) 92%);
+  }
+
+  .lp__grade {
+    display: grid;
+    gap: clamp(40px, 6vw, 88px);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .lp__grade {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .lp__arte {
+    padding-right: 12%;
+    animation: lp-entrar 1.2s var(--ease-out) both;
+  }
+
+  .lp__info {
+    animation: lp-entrar 1.2s var(--ease-out) 0.12s both;
+  }
+
+  .lp__voltar {
+    margin-bottom: 28px;
+  }
+
+  .lp__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    color: var(--acento);
+  }
+
+  .lp__meta > * + *::before {
+    content: '·';
+    margin-right: 14px;
+    color: var(--perola-3);
+  }
+
+  .lp__titulo {
+    margin-top: 16px;
+    font-size: clamp(3rem, 7.4vw, 6.4rem);
+    font-style: italic;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+
+  .lp__artista {
+    margin-top: 14px;
+    color: var(--perola-2);
+    font-weight: 600;
+  }
+
+  .lp__resumo {
+    max-width: 42ch;
+    margin-top: 22px;
+    color: var(--perola-2);
+  }
+
+  .lp__historia {
+    display: grid;
+    gap: 24px;
+  }
+
+  @media (min-width: 960px) {
+    .lp__historia {
+      grid-template-columns: 0.7fr 1.3fr;
+      gap: 72px;
+    }
+  }
+
+  .lp__refs {
+    display: grid;
+    gap: 12px;
+    margin-top: 36px;
+  }
+
+  .lp__colunas {
+    display: grid;
+    gap: clamp(56px, 7vw, 96px);
+  }
+
+  @media (min-width: 960px) {
+    .lp__colunas {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+  }
+
+  .lp__subtitulo {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+  }
+
+  .lp__letra-topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .lp__estrofes {
+    display: grid;
+    gap: 1.6em;
+    font-family: var(--fonte-display);
+    font-size: clamp(1.25rem, 2.1vw, 1.6rem);
+    font-style: italic;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+    line-height: 1.45;
+    white-space: pre-line;
+  }
+
+  .lp__estrofes p:nth-child(even) {
+    padding-left: clamp(16px, 4vw, 48px);
+    color: var(--acento);
+  }
+
+  .lp__lateral {
+    display: grid;
+    gap: 56px;
+    align-content: start;
+  }
+
+  @media (min-width: 960px) {
+    .lp__lateral {
+      position: sticky;
+      top: calc(var(--altura-topo) + 32px);
+    }
+  }
+
+  .lp__faixas {
+    display: grid;
+    margin-top: 20px;
+    padding-left: 1.4em;
+  }
+
+  .lp__faixas li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .lp__faixas li span + span {
+    float: right;
+    color: var(--perola-3);
+  }
+
+  .lp__ficha {
+    display: grid;
+    margin-top: 20px;
+  }
+
+  .lp__ficha div {
+    display: grid;
+    gap: 2px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .lp__ficha dt {
+    color: var(--perola-3);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .lp__ficha dd {
+    margin: 0;
+  }
+
+  .lp__outros {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 56px clamp(28px, 4vw, 48px);
+  }
+
+  @keyframes lp-entrar {
+    from {
+      opacity: 0;
+      translate: 0 32px;
+    }
+  }
+</style>

@@ -1,0 +1,198 @@
+---
+import Icone from './Icone.astro';
+import Pendente from './Pendente.astro';
+import { numero, paginas } from '../lib/navegacao';
+import { linkWhatsApp, site } from '../lib/site';
+import { url } from '../lib/url';
+
+const ano = new Date().getFullYear();
+const redes = site.redes;
+const plataformas = site.plataformas.filter((p) => p.url);
+---
+
+<footer class="rodape">
+  <div class="divisoria-onda" aria-hidden="true"></div>
+  <div class="container">
+    <div class="rodape__chamada">
+      <p class="anotacao rodape__nota">bora fazer som junto?</p>
+      <a class="rodape__marca" href={url('/contato/')}>
+        Danillo Garcez <em>&amp;</em> Ventocais
+        <Icone nome="seta-diagonal" tamanho={44} class="rodape__seta" />
+      </a>
+    </div>
+
+    <div class="rodape__grade">
+      <nav aria-label="Rodapé">
+        <p class="rotulo rodape__titulo">Páginas</p>
+        <ul role="list" class="rodape__lista">
+          {
+            paginas.map((p, i) => (
+              <li>
+                <a href={url(p.href)}>
+                  <span aria-hidden="true">{numero(i)}</span> {p.rotulo}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a href={url('/links/')}><span aria-hidden="true">✦</span> Links</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div>
+        <p class="rotulo rodape__titulo">Redes</p>
+        <ul role="list" class="rodape__lista">
+          {
+            redes.map((r) => (
+              <li>
+                {r.url ? (
+                  <a href={r.url} target="_blank" rel="noopener">
+                    {r.rede} · {r.usuario}
+                  </a>
+                ) : (
+                  <Pendente texto={r.pendente} />
+                )}
+              </li>
+            ))
+          }
+          {
+            plataformas.map((p) => (
+              <li>
+                <a href={p.url} target="_blank" rel="noopener">
+                  {p.nome}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <p class="rotulo rodape__titulo">Contato</p>
+        <ul role="list" class="rodape__lista">
+          <li>
+            <a href={linkWhatsApp()} target="_blank" rel="noopener">WhatsApp · {site.contato.whatsappExibicao}</a>
+          </li>
+          {
+            site.contato.email ? (
+              <li>
+                <a href={`mailto:${site.contato.email}`}>{site.contato.email}</a>
+              </li>
+            ) : (
+              <li>
+                <Pendente texto={site.contato.pendente} />
+              </li>
+            )
+          }
+          <li><a href={url('/imprensa/')}>Kit de imprensa (EPK)</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rodape__base">
+      <p>
+        © {ano} {site.nome} · Feito em {site.cidade}, {site.uf} · Distribuição {site.distribuidora} · {site.associacao}
+      </p>
+      <button class="link-icone" type="button" data-voltar-topo>
+        Voltar ao topo <Icone nome="seta-cima" tamanho={18} />
+      </button>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .rodape {
+    position: relative;
+    padding-bottom: 32px;
+    background: var(--ink-950);
+  }
+
+  .rodape__chamada {
+    padding-block: clamp(72px, 10vw, 128px) clamp(56px, 7vw, 88px);
+  }
+
+  .rodape__nota {
+    margin-bottom: 10px;
+    rotate: -2deg;
+    transform-origin: left;
+  }
+
+  .rodape__marca {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.15em;
+    font-family: var(--fonte-display);
+    font-size: clamp(2.6rem, 8.4vw, 7.6rem);
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    transition: color 0.3s;
+  }
+
+  .rodape__marca em {
+    font-style: italic;
+    color: var(--kraft);
+  }
+
+  .rodape__marca:hover {
+    color: var(--acento);
+  }
+
+  .rodape__marca :global(.rodape__seta) {
+    width: 0.42em;
+    height: 0.42em;
+    margin-top: 0.12em;
+    transition: transform 0.5s var(--ease-elastico);
+  }
+
+  .rodape__marca:hover :global(.rodape__seta) {
+    transform: translate(6px, -6px);
+  }
+
+  .rodape__grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 40px;
+    padding-block: 40px;
+    border-top: 1px solid var(--linha);
+  }
+
+  .rodape__titulo {
+    margin-bottom: 14px;
+  }
+
+  .rodape__lista {
+    display: grid;
+    gap: 6px;
+  }
+
+  .rodape__lista a {
+    color: var(--perola-2);
+    transition: color 0.2s;
+  }
+
+  .rodape__lista a:hover {
+    color: var(--perola);
+  }
+
+  .rodape__lista a span {
+    display: inline-block;
+    min-width: 1.8em;
+    color: var(--perola-3);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .rodape__base {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--linha);
+    color: var(--perola-3);
+    font-size: 0.85rem;
+  }
+</style>

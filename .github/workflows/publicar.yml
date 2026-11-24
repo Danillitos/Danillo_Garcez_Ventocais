@@ -1,0 +1,41 @@
+name: Publicar no GitHub Pages
+
+on:
+  # A cada push na branch main.
+  push:
+    branches: [main]
+  # Todo dia às 6h de Aracaju (9h UTC): reconstrói o site para os shows que
+  # já passaram saírem de "Próximos" e irem para o portfólio sozinhos.
+  schedule:
+    - cron: '0 9 * * *'
+  # Botão "Run workflow" na aba Actions.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v7
+      - name: Instalar, gerar e empacotar o site
+        uses: withastro/action@v6
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v5

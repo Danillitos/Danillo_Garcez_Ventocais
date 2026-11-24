@@ -1,0 +1,197 @@
+---
+/**
+ * Capa + disco de vinil que desliza para fora no hover e gira quando a
+ * prévia está tocando (classe .tocando no [data-lancamento] mais próximo).
+ */
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  capa?: ImageMetadata;
+  titulo: string;
+  artista?: string;
+  tamanhos?: string;
+  prioridade?: boolean;
+}
+
+const {
+  capa,
+  titulo,
+  artista = 'Danillo Garcez & Ventocais',
+  tamanhos = '(max-width: 760px) 78vw, 460px',
+  prioridade = false,
+} = Astro.props;
+---
+
+<div class="vinil">
+  <div class="vinil__disco" aria-hidden="true">
+    <div class="vinil__giro">
+      <div class="vinil__selo">
+        {capa ? <Image src={capa} alt="" width={260} /> : <span class="vinil__selo-cor" />}
+      </div>
+    </div>
+  </div>
+  <div class="vinil__capa">
+    {
+      capa ? (
+        <Image
+          src={capa}
+          alt={`Capa de “${titulo}”`}
+          widths={[360, 540, 720, 960]}
+          sizes={tamanhos}
+          loading={prioridade ? 'eager' : 'lazy'}
+        />
+      ) : (
+        <div class="vinil__sem-capa" role="img" aria-label={`Capa provisória de “${titulo}”`}>
+          <span class="vinil__sem-capa-artista">{artista}</span>
+          <span class="vinil__sem-capa-titulo">{titulo}</span>
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .vinil {
+    position: relative;
+    width: 78%;
+    aspect-ratio: 1;
+  }
+
+  .vinil__disco {
+    position: absolute;
+    z-index: 0;
+    inset: 3%;
+    border-radius: 50%;
+    /* O disco já espia um pouco para fora: dica de que ele se mexe. */
+    transform: translateX(11%);
+    transition: transform 1.1s var(--ease-out);
+  }
+
+  /* Reflexo parado sobre o disco que gira. */
+  .vinil__disco::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 35deg,
+      transparent 0 9%,
+      rgb(255 255 255 / 0.09) 13%,
+      transparent 19% 52%,
+      rgb(255 255 255 / 0.07) 63%,
+      transparent 69%
+    );
+    pointer-events: none;
+  }
+
+  .vinil__giro {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle, transparent 0 30.5%, #0a0a0d 31% 32%, transparent 32.5%),
+      repeating-radial-gradient(circle, #121217 0 1.4px, #1c1c23 1.6px 3.1px);
+    box-shadow:
+      0 24px 50px -12px rgb(0 0 0 / 0.75),
+      inset 0 0 0 1px rgb(255 255 255 / 0.05);
+  }
+
+  .vinil__selo {
+    position: absolute;
+    inset: 33%;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--acento);
+  }
+
+  .vinil__selo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Furo central */
+  .vinil__selo::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 9%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--ink-900);
+    translate: -50% -50%;
+  }
+
+  .vinil__selo-cor {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / 0.35), transparent 60%), var(--acento);
+  }
+
+  .vinil__capa {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow:
+      0 30px 60px -24px rgb(0 0 0 / 0.8),
+      0 0 0 1px rgb(255 255 255 / 0.06);
+  }
+
+  .vinil__capa :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .vinil__sem-capa {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    padding: 9%;
+    background:
+      radial-gradient(circle at 80% 15%, rgb(255 255 255 / 0.28), transparent 45%),
+      radial-gradient(ellipse 120% 70% at 10% 110%, rgb(13 19 32 / 0.55), transparent 60%),
+      var(--acento);
+    color: var(--ink-950);
+  }
+
+  .vinil__sem-capa-artista {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .vinil__sem-capa-titulo {
+    font-family: var(--fonte-display);
+    font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+    font-style: italic;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+
+  /* Interação: o disco sai da capa e gira. */
+  :global([data-lancamento]:hover) .vinil__disco,
+  :global([data-lancamento]:focus-within) .vinil__disco,
+  :global(.tocando) .vinil__disco {
+    transform: translateX(32%);
+  }
+
+  :global([data-lancamento]:hover) .vinil__giro {
+    animation: girar 7s linear infinite;
+  }
+
+  :global(.tocando) .vinil__giro {
+    animation: girar 1.9s linear infinite;
+  }
+</style>

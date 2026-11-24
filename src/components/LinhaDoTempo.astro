@@ -1,0 +1,160 @@
+---
+/**
+ * Trajetória: Origami Aquém → Ventocais. A linha vai se preenchendo
+ * conforme a pessoa rola a página (scripts/linha-do-tempo.ts).
+ */
+import type { CollectionEntry } from 'astro:content';
+import Pendente from './Pendente.astro';
+import { dataLonga } from '../lib/datas';
+
+type Marco = CollectionEntry<'marcos'>;
+
+interface Props {
+  origami: Marco[];
+  ventocais: Marco[];
+}
+
+const { origami, ventocais } = Astro.props;
+const eras = [
+  { titulo: 'Antes: <em>Origami Aquém</em>', itens: origami, classe: 'era--origami' },
+  { titulo: 'Danillo Garcez <em>&amp;</em> Ventocais', itens: ventocais, classe: 'era--ventocais' },
+].filter((e) => e.itens.length > 0);
+---
+
+<div class="tempo" data-linha-tempo>
+  <div class="tempo__trilho" aria-hidden="true">
+    <span class="tempo__progresso"></span>
+  </div>
+  {
+    eras.map((era) => (
+      <section class:list={['era', era.classe]}>
+        <h3 class="era__titulo" set:html={era.titulo} />
+        <ol role="list" class="era__lista">
+          {era.itens.map((m) => (
+            <li class="marco" data-revelar>
+              <p class="marco__data">{m.data.data ? dataLonga(m.data.data) : m.data.dataTexto}</p>
+              <h4 class="marco__titulo">{m.data.titulo}</h4>
+              {m.data.texto && <p class="marco__texto">{m.data.texto}</p>}
+              <Pendente texto={m.data.pendente} rascunho={m.data.rascunho} />
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .tempo {
+    position: relative;
+    padding-left: 44px;
+  }
+
+  .tempo__trilho {
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 11px;
+    width: 2px;
+    background: var(--linha);
+  }
+
+  .tempo__progresso {
+    display: block;
+    width: 100%;
+    height: calc(var(--progresso, 0) * 100%);
+    background: linear-gradient(var(--kraft), var(--acento));
+    box-shadow: 0 0 12px var(--acento);
+  }
+
+  .era + .era {
+    margin-top: 56px;
+  }
+
+  .era__titulo {
+    margin-bottom: 24px;
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+  }
+
+  .era__titulo :global(em) {
+    color: var(--kraft);
+  }
+
+  .era__lista {
+    display: grid;
+    gap: 36px;
+  }
+
+  .marco {
+    position: relative;
+  }
+
+  .marco::before {
+    content: '';
+    position: absolute;
+    top: 0.55em;
+    left: -39px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--kraft);
+    border-radius: 50%;
+    background: var(--ink-900);
+    transition:
+      background-color 0.4s,
+      box-shadow 0.4s;
+  }
+
+  .marco:global(.visivel)::before {
+    background: var(--kraft);
+    box-shadow: 0 0 0 6px rgb(201 166 121 / 0.15);
+  }
+
+  .era--origami .marco::before {
+    border-color: var(--perola-3);
+  }
+
+  .era--origami .marco:global(.visivel)::before {
+    background: var(--perola-3);
+    box-shadow: none;
+  }
+
+  .marco__data {
+    color: var(--kraft);
+    font-family: var(--fonte-mao);
+    font-size: 1.45rem;
+    line-height: 1;
+  }
+
+  .era--origami .marco__data {
+    color: var(--perola-3);
+  }
+
+  .marco__titulo {
+    margin-top: 6px;
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+    font-weight: 420;
+  }
+
+  .marco__texto {
+    max-width: 52ch;
+    margin-top: 6px;
+    color: var(--perola-2);
+  }
+
+  @media (min-width: 900px) {
+    .marco {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      column-gap: 32px;
+    }
+
+    .marco__data {
+      grid-row: span 3;
+      padding-top: 0.2em;
+    }
+
+    .marco > :global(.pendente) {
+      grid-column: 2;
+    }
+  }
+</style>

@@ -1,0 +1,355 @@
+---
+import { Image } from 'astro:assets';
+import Baralho from '../components/Baralho.astro';
+import ChamadaContato from '../components/ChamadaContato.astro';
+import Contagem from '../components/Contagem.astro';
+import Hero from '../components/Hero.astro';
+import Icone from '../components/Icone.astro';
+import Ingresso from '../components/Ingresso.astro';
+import LancamentoDestaque from '../components/LancamentoDestaque.astro';
+import Letreiro from '../components/Letreiro.astro';
+import Numeros from '../components/Numeros.astro';
+import TituloSecao from '../components/TituloSecao.astro';
+import Base from '../layouts/Base.astro';
+import {
+  obterCitacoes,
+  obterCuriosidades,
+  obterIntegrantes,
+  obterLancamentos,
+  obterShows,
+} from '../lib/conteudo';
+import { imagemObrigatoria } from '../lib/imagens';
+import { musicEvent, musicGroup } from '../lib/seo';
+import { site } from '../lib/site';
+import { url, urlAbsoluta } from '../lib/url';
+
+const { proximos, realizados, semData } = await obterShows();
+const { destaque, lancados } = await obterLancamentos();
+const curiosidades = await obterCuriosidades();
+const citacoes = await obterCitacoes();
+const integrantes = await obterIntegrantes();
+
+const siteUrl = urlAbsoluta('/', Astro.site);
+const imagemPadrao = urlAbsoluta('/og/og-padrao.jpg', Astro.site);
+const agendaUrl = urlAbsoluta('/agenda/', Astro.site);
+const jsonLd = [
+  musicGroup(siteUrl, imagemPadrao, integrantes),
+  ...proximos.map((s) => musicEvent(s, siteUrl, agendaUrl, imagemPadrao)).filter((e) => e !== undefined),
+];
+
+const numeros = [
+  site.numeros[0],
+  { valor: realizados.length + semData.length, rotulo: 'shows no portfólio desde a estreia' },
+  { valor: lancados.filter((l) => l.data.tipo !== 'Live session').length, rotulo: 'lançamentos até agora' },
+  ...site.numeros.slice(1),
+].filter((n) => n !== undefined);
+
+// Citações em duas faixas, rolando em sentidos opostos.
+const metade = Math.ceil(citacoes.length / 2);
+const faixas = [citacoes.slice(0, metade), citacoes.slice(metade)].filter((f) => f.length > 0);
+
+const fotoPraia = imagemObrigatoria('fotos/praia-guarda-sol.jpg');
+const polaroidAreia = imagemObrigatoria('fotos/polaroids/grupo-areia.webp');
+const polaroidBarco = imagemObrigatoria('fotos/polaroids/grupo-barco.webp');
+const estrela = imagemObrigatoria('deco/estrela.webp');
+---
+
+<Base jsonLd={jsonLd}>
+  <Hero destaque={destaque} proximos={proximos} />
+
+  {
+    destaque && (
+      <section class="secao" id="lancamento">
+        <div class="container">
+          <TituloSecao num="01" rotulo="Lançamento" titulo="O single <em>novo</em>" anotacao="aperta o play e olha o disco ↓" />
+          <LancamentoDestaque lancamento={destaque} />
+        </div>
+      </section>
+    )
+  }
+
+  {
+    proximos.length > 0 && (
+      <section class="secao secao--colada" id="shows">
+        <div class="container inicio-shows">
+          <div class="inicio-shows__lado">
+            <TituloSecao num="02" rotulo="Agenda" titulo="Pé na <em>estrada</em>" anotacao="primeira turnê: Sergipe + Alagoas!" />
+            <Contagem show={proximos[0]!} />
+          </div>
+          <div class="inicio-shows__lista">
+            {proximos.slice(0, 4).map((s, i) => (
+              <Ingresso show={s} atraso={i * 0.08} />
+            ))}
+            <p class="inicio-shows__mais">
+              <a class="link-seta" href={url('/agenda/')}>
+                Agenda completa e todos os palcos
+                <Icone nome="seta" tamanho={18} />
+              </a>
+            </p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    curiosidades.length > 0 && (
+      <section class="secao secao--escura inicio-curiosidades" style="--fundo-pagina: var(--ink-950)">
+        <div class="container inicio-curiosidades__grade">
+          <div>
+            <TituloSecao num="03" rotulo="Curiosidades" titulo="Você <em>sabia?</em>" anotacao="clica no cartão ou arrasta pro lado" />
+            <p class="prosa texto-grande">
+              Histórias de bastidor, de estúdio e de estrada, do nome da banda à música que virou samba na véspera da
+              estreia.
+            </p>
+            <p class="inicio-curiosidades__mais">
+              <a class="link-seta" href={url('/sobre/#curiosidades')}>
+                Ver todas de uma vez
+                <Icone nome="seta" tamanho={18} />
+              </a>
+            </p>
+          </div>
+          <Baralho itens={curiosidades} />
+        </div>
+      </section>
+    )
+  }
+
+  <section class="secao inicio-banda">
+    <div class="container inicio-banda__grade">
+      <div class="colagem" aria-label="Fotos da banda">
+        <figure class="colagem__foto fita" data-revelar style="--fita-rot: -6deg">
+          <Image
+            src={fotoPraia}
+            alt="A banda reunida na praia, à sombra de um guarda-sol"
+            widths={[480, 720, 960]}
+            sizes="(max-width: 900px) 80vw, 520px"
+          />
+        </figure>
+        <div class="colagem__polaroid colagem__polaroid--1" data-revelar style="--atraso: .15s">
+          <Image src={polaroidAreia} alt="Polaroid da banda sentada na areia" widths={[260, 400]} sizes="220px" />
+        </div>
+        <div class="colagem__polaroid colagem__polaroid--2" data-revelar style="--atraso: .3s">
+          <Image src={polaroidBarco} alt="Polaroid da banda na beira do mar, com um barco ao fundo" widths={[260, 400]} sizes="200px" />
+        </div>
+        <Image class="colagem__estrela" src={estrela} alt="" width={120} />
+      </div>
+
+      <div class="inicio-banda__texto">
+        <TituloSecao num="04" rotulo="A banda" titulo="Um cais <em>inventado</em>" anotacao="de Aracaju pro mundo" />
+        <p class="texto-grande inicio-banda__bio" data-revelar>{site.bioCurta}</p>
+        <Numeros itens={numeros} />
+        <p class="inicio-banda__mais" data-revelar>
+          <a class="link-seta" href={url('/sobre/')}>
+            Formação, trajetória e influências
+            <Icone nome="seta" tamanho={18} />
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {
+    faixas.length > 0 && (
+      <section class="secao secao--colada inicio-citacoes">
+        <div class="container">
+          <TituloSecao num="05" rotulo="Imprensa e curadoria" titulo="O que andam <em>dizendo</em>" centro />
+        </div>
+        <div class="inicio-citacoes__faixas">
+          {faixas.map((faixa, i) => (
+            <Letreiro duracao={70 + i * 12} reverso={i % 2 === 1}>
+              {[...faixa, ...faixa].map((c) => (
+                <figure class="citacao">
+                  <blockquote>“{c.data.texto}”</blockquote>
+                  <figcaption>
+                    {c.data.autor}
+                    {c.data.fonte && <span>, {c.data.fonte}</span>}
+                  </figcaption>
+                </figure>
+              ))}
+            </Letreiro>
+          ))}
+        </div>
+        <p class="inicio-citacoes__mais">
+          <a class="link-seta" href={url('/imprensa/')}>
+            Matérias, rádios e playlists
+            <Icone nome="seta" tamanho={18} />
+          </a>
+        </p>
+      </section>
+    )
+  }
+
+  <ChamadaContato />
+</Base>
+
+<style>
+  /* --- Shows ------------------------------------------------------------- */
+  .inicio-shows {
+    display: grid;
+    gap: clamp(40px, 6vw, 80px);
+    align-items: start;
+  }
+
+  @media (min-width: 1000px) {
+    .inicio-shows {
+      grid-template-columns: 0.85fr 1.15fr;
+    }
+
+    .inicio-shows__lado {
+      position: sticky;
+      top: calc(var(--altura-topo) + 32px);
+    }
+  }
+
+  .inicio-shows__lista {
+    display: grid;
+    gap: 22px;
+  }
+
+  .inicio-shows__mais {
+    margin-top: 12px;
+  }
+
+  /* --- Curiosidades ------------------------------------------------------ */
+  .inicio-curiosidades__grade {
+    display: grid;
+    gap: clamp(48px, 7vw, 96px);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .inicio-curiosidades__grade {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .inicio-curiosidades__mais {
+    margin-top: 28px;
+  }
+
+  /* --- A banda (colagem) ------------------------------------------------- */
+  .inicio-banda__grade {
+    display: grid;
+    gap: clamp(56px, 8vw, 112px);
+    align-items: center;
+  }
+
+  @media (min-width: 960px) {
+    .inicio-banda__grade {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .colagem {
+    position: relative;
+    width: min(100%, 560px);
+    margin-inline: auto;
+    padding: 6% 12% 24% 0;
+  }
+
+  .colagem__foto {
+    margin: 0;
+    padding: 10px 10px 44px;
+    rotate: -3deg;
+    background: #efe8d8;
+    box-shadow: 0 40px 60px -30px rgb(0 0 0 / 0.8);
+  }
+
+  .colagem__foto :global(img) {
+    width: 100%;
+  }
+
+  .colagem__polaroid {
+    position: absolute;
+    filter: drop-shadow(0 20px 24px rgb(0 0 0 / 0.55));
+    transition:
+      rotate 0.6s var(--ease-elastico),
+      transform 0.6s var(--ease-elastico);
+  }
+
+  .colagem__polaroid:hover {
+    rotate: 0deg;
+    transform: scale(1.05);
+    z-index: 2;
+  }
+
+  .colagem__polaroid :global(img) {
+    width: 100%;
+  }
+
+  .colagem__polaroid--1 {
+    right: -2%;
+    bottom: 2%;
+    width: 42%;
+    rotate: 7deg;
+  }
+
+  .colagem__polaroid--2 {
+    left: 6%;
+    bottom: -4%;
+    width: 36%;
+    rotate: -9deg;
+  }
+
+  .colagem :global(.colagem__estrela) {
+    position: absolute;
+    top: -4%;
+    right: 6%;
+    width: 17%;
+    rotate: 14deg;
+    filter: drop-shadow(0 8px 12px rgb(0 0 0 / 0.4));
+    animation: girar 40s linear infinite;
+  }
+
+  .inicio-banda__bio {
+    color: var(--perola-2);
+    margin-bottom: 44px;
+  }
+
+  .inicio-banda__mais {
+    margin-top: 40px;
+  }
+
+  /* --- Citações ---------------------------------------------------------- */
+  .inicio-citacoes__faixas {
+    display: grid;
+    gap: 18px;
+  }
+
+  .citacao {
+    display: grid;
+    gap: 10px;
+    width: min(78vw, 440px);
+    margin: 0 9px;
+    padding: 26px 28px;
+    border: 1px solid var(--linha);
+    border-radius: var(--raio-grande);
+    background: rgb(236 230 216 / 0.03);
+  }
+
+  .citacao blockquote {
+    font-family: var(--fonte-display);
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    font-style: italic;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+    line-height: 1.2;
+    white-space: normal;
+  }
+
+  .citacao figcaption {
+    color: var(--kraft);
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  .citacao figcaption span {
+    color: var(--perola-3);
+    font-weight: 400;
+  }
+
+  .inicio-citacoes__mais {
+    margin-top: 40px;
+    text-align: center;
+  }
+</style>

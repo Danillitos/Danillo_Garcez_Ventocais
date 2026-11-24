@@ -1,0 +1,103 @@
+---
+/**
+ * Bloco grande de um lançamento: vinil + texto + prévia + plataformas.
+ */
+import Icone from './Icone.astro';
+import Pendente from './Pendente.astro';
+import PlataformaLinks from './PlataformaLinks.astro';
+import Previa from './Previa.astro';
+import Vinil from './Vinil.astro';
+import type { Lancamento } from '../lib/conteudo';
+import { dataLonga } from '../lib/datas';
+import { imagem } from '../lib/imagens';
+import { url } from '../lib/url';
+
+interface Props {
+  lancamento: Lancamento;
+  /** Mostra o link para a página do lançamento. */
+  comLink?: boolean;
+}
+
+const { lancamento, comLink = true } = Astro.props;
+const l = lancamento.data;
+const capa = imagem(l.capa);
+---
+
+<article class="ld" data-lancamento style={l.cor ? `--acento: ${l.cor}` : undefined}>
+  <div class="ld__arte" data-revelar>
+    <Vinil capa={capa} titulo={l.titulo} artista={l.artista} prioridade />
+  </div>
+
+  <div class="ld__info" data-revelar style="--atraso: .12s">
+    <p class="ld__meta rotulo">
+      <span>{l.tipo}</span>
+      {l.data && <time datetime={l.data}>{dataLonga(l.data)}</time>}
+      {l.duracao && <span>{l.duracao}</span>}
+    </p>
+    <h3 class="ld__titulo">{l.titulo}</h3>
+    <p class="ld__resumo texto-grande">{l.resumo}</p>
+    {l.previa && <Previa src={l.previa} titulo={l.titulo} />}
+    <PlataformaLinks links={l.links} />
+    <Pendente texto={l.pendente} rascunho={l.rascunho} />
+    {
+      comLink && (
+        <p class="ld__mais">
+          <a class="link-seta" href={url(`/musica/${lancamento.id}/`)}>
+            Letra, ficha técnica e história
+            <Icone nome="seta" tamanho={18} />
+          </a>
+        </p>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .ld {
+    display: grid;
+    gap: clamp(40px, 6vw, 96px);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .ld {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .ld__arte {
+    padding-right: 12%;
+  }
+
+  .ld__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    color: var(--acento);
+  }
+
+  .ld__meta > * + *::before {
+    content: '·';
+    margin-right: 14px;
+    color: var(--perola-3);
+  }
+
+  .ld__titulo {
+    margin-top: 16px;
+    font-size: clamp(2.8rem, 6.6vw, 5.6rem);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    font-style: italic;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  }
+
+  .ld__resumo {
+    max-width: 40ch;
+    margin-top: 22px;
+    color: var(--perola-2);
+  }
+
+  .ld__mais {
+    margin-top: 32px;
+  }
+</style>

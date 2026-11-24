@@ -1,0 +1,77 @@
+---
+/**
+ * Cartão da discografia: vinil + título, link para a página do lançamento.
+ */
+import Pendente from './Pendente.astro';
+import Vinil from './Vinil.astro';
+import type { Lancamento } from '../lib/conteudo';
+import { partes } from '../lib/datas';
+import { imagem } from '../lib/imagens';
+import { url } from '../lib/url';
+
+interface Props {
+  lancamento: Lancamento;
+  atraso?: number;
+}
+
+const { lancamento, atraso = 0 } = Astro.props;
+const l = lancamento.data;
+const capa = imagem(l.capa);
+const ano = l.data ? partes(l.data).ano : undefined;
+---
+
+<article
+  class="cl"
+  data-lancamento
+  data-revelar
+  style={`--atraso: ${atraso}s;${l.cor ? ` --acento: ${l.cor};` : ''}`}
+>
+  <a class="cl__link" href={url(`/musica/${lancamento.id}/`)}>
+    <Vinil capa={capa} titulo={l.titulo} artista={l.artista} tamanhos="(max-width: 700px) 70vw, 340px" />
+    <span class="cl__texto">
+      <span class="cl__meta rotulo">{l.tipo}{ano && ` · ${ano}`}</span>
+      <span class="cl__titulo">{l.titulo}</span>
+      <span class="cl__resumo">{l.resumo}</span>
+    </span>
+  </a>
+  <Pendente texto={l.pendente} rascunho={l.rascunho} />
+</article>
+
+<style>
+  .cl__link {
+    display: grid;
+    gap: 22px;
+  }
+
+  .cl__link :global(.vinil) {
+    width: 82%;
+  }
+
+  .cl__texto {
+    display: grid;
+    gap: 8px;
+  }
+
+  .cl__meta {
+    color: var(--acento);
+  }
+
+  .cl__titulo {
+    font-family: var(--fonte-display);
+    font-size: clamp(1.7rem, 2.6vw, 2.2rem);
+    font-style: italic;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    transition: color 0.2s;
+  }
+
+  .cl__link:hover .cl__titulo {
+    color: var(--acento);
+  }
+
+  .cl__resumo {
+    color: var(--perola-2);
+    font-size: 0.95rem;
+  }
+</style>

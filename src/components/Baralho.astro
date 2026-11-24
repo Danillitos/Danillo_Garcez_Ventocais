@@ -1,0 +1,166 @@
+---
+/**
+ * "Você sabia?": pilha de cartões de papel com as curiosidades da banda.
+ * Clique (ou arraste) para passar; sem JavaScript vira uma lista simples.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Icone from './Icone.astro';
+import Pendente from './Pendente.astro';
+
+interface Props {
+  itens: CollectionEntry<'curiosidades'>[];
+}
+
+const { itens } = Astro.props;
+const papeis = ['', 'papel--ceu', 'papel--perola', 'papel--terracota'];
+const total = String(itens.length).padStart(2, '0');
+---
+
+<div class="baralho" data-baralho>
+  <div class="baralho__pilha" data-baralho-pilha>
+    {
+      itens.map((c, i) => (
+        <article
+          class:list={['carta', 'papel', papeis[i % papeis.length]]}
+          data-carta
+          style={`--i: ${i}; --giro: ${((i * 37) % 7) - 3}deg`}
+          aria-hidden={i === 0 ? undefined : 'true'}
+        >
+          <p class="carta__tag">{c.data.tag ?? 'Você sabia?'}</p>
+          <h3 class="carta__titulo">{c.data.titulo}</h3>
+          <p class="carta__texto">{c.data.texto}</p>
+          <Pendente texto={c.data.pendente} rascunho={c.data.rascunho} />
+          <p class="carta__num">
+            {String(i + 1).padStart(2, '0')}/{total}
+          </p>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="baralho__controles">
+    <button class="botao botao--kraft" type="button" data-baralho-proxima>
+      Próxima curiosidade <Icone nome="seta" tamanho={18} class="icone-seta" />
+    </button>
+    <button class="link-icone" type="button" data-baralho-embaralhar>
+      <Icone nome="embaralhar" tamanho={18} /> Embaralhar
+    </button>
+  </div>
+  <p class="sr-only" aria-live="polite" data-baralho-aviso></p>
+</div>
+
+<style>
+  .baralho {
+    display: grid;
+    gap: 28px;
+    justify-items: center;
+  }
+
+  .baralho__pilha {
+    display: grid;
+    gap: 16px;
+    width: min(100%, 440px);
+  }
+
+  .carta {
+    display: flex;
+    flex-direction: column;
+    padding: 34px 30px 26px;
+    border-radius: 4px;
+    box-shadow: 0 18px 40px -18px rgb(0 0 0 / 0.7);
+  }
+
+  /* Com JavaScript, os cartões viram uma pilha: todos na mesma célula da
+     grade, então a pilha cresce até caber o cartão de texto mais longo
+     (nenhuma curiosidade fica cortada, mesmo no celular). */
+  :global(.js) .baralho__pilha {
+    position: relative;
+    display: grid;
+    gap: 0;
+    min-height: min(484px, 110vw);
+    /* Os cartões de trás descem ~40px (deslocados e inclinados): espaço para os botões. */
+    margin-bottom: 24px;
+    touch-action: pan-y;
+  }
+
+  :global(.js) .carta {
+    grid-area: 1 / 1;
+    position: relative;
+    z-index: calc(50 - var(--i));
+    /* Cartões do fundo da pilha ficam parados atrás do 4º (não vazam da tela). */
+    transform: translate(calc(min(var(--i), 3) * 7px), calc(min(var(--i), 3) * 9px)) rotate(var(--giro));
+    transition:
+      transform 0.6s var(--ease-out),
+      opacity 0.4s;
+    user-select: none;
+  }
+
+  :global(.js) .carta.carta--topo {
+    cursor: grab;
+  }
+
+  :global(.js) .carta.carta--longe {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  :global(.js) .carta.carta--saindo {
+    animation: carta-sair 0.55s var(--ease-out) forwards;
+  }
+
+  :global(.js) .carta.carta--arrastando {
+    transition: none;
+  }
+
+  .carta__tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  .carta__titulo {
+    margin-top: 10px;
+    font-family: var(--fonte-mao);
+    font-size: clamp(2.2rem, 5vw, 2.8rem);
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: 0;
+  }
+
+  .carta__texto {
+    margin-top: 16px;
+    font-size: 1.04rem;
+    line-height: 1.55;
+  }
+
+  .carta__num {
+    margin-top: auto;
+    padding-top: 16px;
+    font-family: var(--fonte-display);
+    font-size: 0.95rem;
+    font-style: italic;
+    text-align: right;
+    opacity: 0.7;
+  }
+
+  .baralho__controles {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px 20px;
+  }
+
+  :global(html:not(.js)) .baralho__controles {
+    display: none;
+  }
+
+  @keyframes carta-sair {
+    to {
+      opacity: 0;
+      transform: translate(115%, -8%) rotate(16deg);
+    }
+  }
+</style>

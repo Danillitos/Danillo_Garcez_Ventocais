@@ -1,0 +1,174 @@
+---
+import CabecalhoPagina from '../../components/CabecalhoPagina.astro';
+import ChamadaContato from '../../components/ChamadaContato.astro';
+import Contagem from '../../components/Contagem.astro';
+import Icone from '../../components/Icone.astro';
+import Ingresso from '../../components/Ingresso.astro';
+import ShowLinha from '../../components/ShowLinha.astro';
+import TituloSecao from '../../components/TituloSecao.astro';
+import Base from '../../layouts/Base.astro';
+import { obterShows } from '../../lib/conteudo';
+import { partes } from '../../lib/datas';
+import { musicEvent } from '../../lib/seo';
+import { linkWhatsApp, site } from '../../lib/site';
+import { url, urlAbsoluta } from '../../lib/url';
+
+const { proximos, aDefinir, realizados, semData } = await obterShows();
+const portfolio = [...realizados, ...semData];
+const anos = [...new Set(realizados.map((s) => String(partes(s.data.data!).ano)))];
+const cidades = [...new Set(portfolio.map((s) => s.data.local.cidade))];
+
+const siteUrl = urlAbsoluta('/', Astro.site);
+const paginaUrl = urlAbsoluta('/agenda/', Astro.site);
+const imagemPadrao = urlAbsoluta('/og/og-padrao.jpg', Astro.site);
+const jsonLd = proximos.map((s) => musicEvent(s, siteUrl, paginaUrl, imagemPadrao)).filter((e) => e !== undefined);
+const totalTexto = (n: number) => `${n} ${n === 1 ? 'show' : 'shows'}`;
+---
+
+<Base
+  titulo="Agenda"
+  descricao={`Próximos shows de ${site.nome}, incluindo a turnê “Promessas de Orfeu” por Aracaju, Maceió e Arapiraca, e o portfólio de palcos desde 2024.`}
+  jsonLd={jsonLd}
+>
+  <CabecalhoPagina
+    num="04"
+    rotulo="Agenda"
+    titulo="Onde a gente <em>vai tocar</em>"
+    intro="Os próximos shows, a primeira turnê e o portfólio de palcos desde a estreia, em janeiro de 2024."
+  >
+    {proximos[0] && <Contagem show={proximos[0]} />}
+  </CabecalhoPagina>
+
+  <section class="secao secao--colada" id="proximos">
+    <div class="container">
+      <TituloSecao num="04.1" rotulo="Próximos shows" titulo="Na <em>agenda</em>">
+        <p class="agenda-assinar">
+          <a class="link-icone" href={url('/agenda.ics')}>
+            <Icone nome="calendario" tamanho={18} /> Assinar a agenda no seu calendário (.ics)
+          </a>
+        </p>
+      </TituloSecao>
+      {
+        proximos.length + aDefinir.length > 0 ? (
+          <div class="agenda-lista">
+            {[...proximos, ...aDefinir].map((s, i) => (
+              <Ingresso show={s} atraso={(i % 4) * 0.08} />
+            ))}
+          </div>
+        ) : (
+          <div class="agenda-vazia papel rasgado">
+            <p class="anotacao">agenda zerada... por enquanto!</p>
+            <p>
+              Quer a Ventocais no seu palco?{' '}
+              <a class="sublinhado" href={linkWhatsApp('Olá, Ventocais! Quero conversar sobre um show.')}>
+                Chama no WhatsApp
+              </a>
+              .
+            </p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  {
+    portfolio.length > 0 && (
+      <section class="secao secao--escura" id="portfolio" style="--fundo-pagina: var(--ink-950)">
+        <div class="container">
+          <TituloSecao num="04.2" rotulo="Portfólio" titulo="Palcos por onde <em>a gente passou</em>" anotacao="clica nos cartazes pra ver grande" />
+
+          <div class="filtros" data-filtros>
+            <div class="filtros__grupo" role="group" aria-label="Filtrar por ano">
+              <button class="chip" type="button" aria-pressed="true" data-filtro="ano" data-valor="todos">
+                Todos os anos
+              </button>
+              {anos.map((ano) => (
+                <button class="chip" type="button" aria-pressed="false" data-filtro="ano" data-valor={ano}>
+                  {ano}
+                </button>
+              ))}
+            </div>
+            {cidades.length > 1 && (
+              <div class="filtros__grupo" role="group" aria-label="Filtrar por cidade">
+                <button class="chip" type="button" aria-pressed="true" data-filtro="cidade" data-valor="todos">
+                  Todas as cidades
+                </button>
+                {cidades.map((c) => (
+                  <button class="chip" type="button" aria-pressed="false" data-filtro="cidade" data-valor={c}>
+                    {c}
+                  </button>
+                ))}
+              </div>
+            )}
+            <p class="filtros__contagem" aria-live="polite" data-filtros-contagem>
+              {totalTexto(portfolio.length)}
+            </p>
+          </div>
+
+          <ol role="list" class="portfolio" data-portfolio>
+            {portfolio.map((s) => (
+              <ShowLinha show={s} />
+            ))}
+          </ol>
+          <p class="portfolio__vazio" data-filtros-vazio hidden>
+            Nenhum show com esses filtros.
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  <ChamadaContato />
+</Base>
+
+<style>
+  .agenda-assinar {
+    margin-top: 6px;
+  }
+
+  .agenda-lista {
+    display: grid;
+    gap: 22px;
+    max-width: 960px;
+  }
+
+  .agenda-vazia {
+    max-width: 560px;
+    padding: 36px 32px;
+  }
+
+  .agenda-vazia .anotacao {
+    color: #7a3416;
+    font-size: 2rem;
+  }
+
+  .filtros {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 28px;
+    margin-bottom: 24px;
+  }
+
+  .filtros__grupo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .filtros__contagem {
+    margin-left: auto;
+    color: var(--perola-3);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .portfolio {
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .portfolio__vazio {
+    padding: 32px 0;
+    color: var(--perola-3);
+  }
+</style>

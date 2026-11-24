@@ -1,0 +1,78 @@
+---
+/**
+ * Player do Spotify que só carrega quando a pessoa clica (mais leve e sem
+ * cookies de terceiros até lá). Aceita link de faixa, álbum, artista ou playlist.
+ */
+import Icone from './Icone.astro';
+
+interface Props {
+  link?: string;
+  titulo: string;
+}
+
+const { link, titulo } = Astro.props;
+const achado = link?.match(/open\.spotify\.com\/(?:intl-[a-z]+\/)?(track|album|artist|playlist)\/([A-Za-z0-9]+)/);
+const tipo = achado?.[1];
+const id = achado?.[2];
+const src = tipo && id ? `https://open.spotify.com/embed/${tipo}/${id}?utm_source=generator&theme=0` : undefined;
+const altura = tipo === 'track' ? 152 : 352;
+---
+
+{
+  src && (
+    <div class="embed-spotify" data-embed-alvo style={`--altura: ${altura}px`}>
+      <button
+        class="embed-spotify__fachada"
+        type="button"
+        data-embed={src}
+        data-embed-titulo={`Ouvir “${titulo}” no Spotify`}
+        data-embed-altura={altura}
+      >
+        <Icone nome="spotify" tamanho={30} />
+        <span>
+          <strong>Ouvir “{titulo}” aqui</strong>
+          <small>Carrega o player do Spotify</small>
+        </span>
+      </button>
+    </div>
+  )
+}
+
+<style>
+  .embed-spotify {
+    margin-top: 24px;
+    min-height: var(--altura);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .embed-spotify__fachada {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    min-height: var(--altura);
+    padding: 24px;
+    border: 1px dashed var(--linha-forte);
+    border-radius: 12px;
+    color: var(--perola);
+    text-align: left;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s;
+  }
+
+  .embed-spotify__fachada:hover {
+    border-color: var(--acento);
+    background: rgb(236 230 216 / 0.04);
+  }
+
+  .embed-spotify__fachada span {
+    display: grid;
+    gap: 2px;
+  }
+
+  .embed-spotify__fachada small {
+    color: var(--perola-3);
+  }
+</style>

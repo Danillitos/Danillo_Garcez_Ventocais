@@ -1,0 +1,103 @@
+---
+/**
+ * Botões para ouvir um lançamento. O smartlink (ex.: ditto.fm) vira o botão
+ * principal; links diretos de cada plataforma aparecem embaixo.
+ * Links vazios não aparecem.
+ */
+import Icone from './Icone.astro';
+import Pendente from './Pendente.astro';
+import type { NomeIcone } from '../lib/icones';
+
+interface Props {
+  links: Record<string, string | undefined>;
+  rotulo?: string;
+}
+
+const { links, rotulo = 'Ouvir em' } = Astro.props;
+
+const plataformas: [chave: string, nome: string, icone: NomeIcone][] = [
+  ['spotify', 'Spotify', 'spotify'],
+  ['appleMusic', 'Apple Music', 'nota'],
+  ['deezer', 'Deezer', 'ondas'],
+  ['youtube', 'YouTube', 'youtube'],
+  ['youtubeMusic', 'YouTube Music', 'youtube'],
+  ['amazonMusic', 'Amazon Music', 'ondas'],
+  ['tidal', 'Tidal', 'ondas'],
+  ['outro', 'Ouvir', 'seta-diagonal'],
+];
+
+const smartlink = links.smartlink;
+const disponiveis = plataformas.filter(([chave]) => Boolean(links[chave]));
+---
+
+{
+  smartlink || disponiveis.length > 0 ? (
+    <div class="plataformas">
+      {smartlink && (
+        <a class="botao botao--primario plataformas__smartlink" href={smartlink} target="_blank" rel="noopener" data-magnetico>
+          <Icone nome="ondas" tamanho={18} />
+          Ouvir em todas as plataformas
+          <Icone nome="seta-diagonal" tamanho={16} />
+        </a>
+      )}
+      {disponiveis.length > 0 && (
+        <>
+          <p class="rotulo">{smartlink ? 'Ou direto em' : rotulo}</p>
+          <ul role="list" class="plataformas__lista">
+            {disponiveis.map(([chave, nome, icone]) => (
+              <li>
+                <a class="plataformas__link" href={links[chave]} target="_blank" rel="noopener">
+                  <Icone nome={icone} tamanho={18} />
+                  {nome}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  ) : (
+    <Pendente texto="Links das plataformas ainda não adicionados" />
+  )
+}
+
+<style>
+  .plataformas {
+    display: grid;
+    justify-items: start;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .plataformas__smartlink {
+    margin-bottom: 8px;
+  }
+
+  .plataformas__lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .plataformas__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    min-height: 40px;
+    padding: 0.45em 1em;
+    border: 1px solid var(--linha-forte);
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      border-color 0.2s;
+  }
+
+  .plataformas__link:hover {
+    border-color: var(--perola);
+    background: var(--perola);
+    color: var(--ink-900);
+  }
+</style>

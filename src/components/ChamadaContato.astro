@@ -1,0 +1,117 @@
+---
+/**
+ * Faixa final das páginas: convite para contratar a banda.
+ */
+import { Image } from 'astro:assets';
+import Icone from './Icone.astro';
+import { imagemObrigatoria } from '../lib/imagens';
+import { linkWhatsApp } from '../lib/site';
+import { url } from '../lib/url';
+
+const foto = imagemObrigatoria('fotos/trio-ceu-azul.jpg');
+---
+
+<section class="cta secao">
+  <div class="container cta__grade">
+    <div class="cta__texto" data-revelar>
+      <p class="anotacao cta__nota">bora tocar junto?</p>
+      <h2 class="cta__titulo">Leve a Ventocais <em>pro seu palco</em></h2>
+      <p class="cta__descricao texto-grande">
+        Banda completa ou trio acústico (voz, baixo e cajón), para casas de show, festivais, eventos, rádio e TV.
+      </p>
+      <div class="cta__acoes">
+        <a
+          class="botao botao--primario"
+          href={linkWhatsApp('Olá, Ventocais! Quero conversar sobre um show.')}
+          target="_blank"
+          rel="noopener"
+          data-magnetico
+        >
+          <Icone nome="whatsapp" tamanho={20} /> Chamar no WhatsApp
+        </a>
+        <a class="botao" href={url('/imprensa/')} data-magnetico>Kit de imprensa</a>
+      </div>
+    </div>
+    <figure class="cta__foto fita" data-revelar style="--atraso: .15s; --fita-rot: 5deg">
+      <Image
+        src={foto}
+        alt="Três integrantes da banda contra o céu azul"
+        widths={[420, 640, 900]}
+        sizes="(max-width: 900px) 90vw, 480px"
+      />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .cta {
+    overflow: clip;
+    background:
+      radial-gradient(ellipse 70% 80% at 85% 50%, rgb(61 99 224 / 0.2), transparent 70%),
+      var(--ink-900);
+  }
+
+  .cta__grade {
+    display: grid;
+    gap: clamp(48px, 7vw, 96px);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .cta__grade {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+  }
+
+  .cta__nota {
+    rotate: -3deg;
+    transform-origin: left;
+  }
+
+  .cta__titulo {
+    margin-top: 12px;
+    font-size: clamp(2.6rem, 6.4vw, 5.4rem);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  }
+
+  .cta__titulo em {
+    display: block;
+    color: var(--kraft);
+  }
+
+  .cta__descricao {
+    max-width: 42ch;
+    margin-top: 24px;
+    color: var(--perola-2);
+  }
+
+  .cta__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .cta__foto {
+    justify-self: center;
+    width: min(100%, 460px);
+    margin: 0;
+    padding: 12px 12px 56px;
+    rotate: 3deg;
+    background: #efe8d8;
+    box-shadow: 0 40px 60px -30px rgb(0 0 0 / 0.8);
+    transition: rotate 0.6s var(--ease-elastico);
+  }
+
+  .cta__foto:hover {
+    rotate: 0deg;
+  }
+
+  .cta__foto :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 4.2;
+    object-fit: cover;
+  }
+</style>

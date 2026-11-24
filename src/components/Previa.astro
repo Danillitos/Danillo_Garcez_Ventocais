@@ -1,0 +1,190 @@
+---
+/**
+ * Player da prévia de 30s. O anel em volta do botão mostra o progresso e o
+ * áudio também mexe no "vento" do topo da página inicial (scripts/audio.ts).
+ */
+import Icone from './Icone.astro';
+import { url } from '../lib/url';
+
+interface Props {
+  src: string;
+  titulo: string;
+}
+
+const { src, titulo } = Astro.props;
+---
+
+<div class="previa" data-player>
+  <button
+    class="previa__botao"
+    type="button"
+    data-player-botao
+    aria-label={`Tocar prévia de “${titulo}”`}
+    data-rotulo-tocar={`Tocar prévia de “${titulo}”`}
+    data-rotulo-pausar={`Pausar prévia de “${titulo}”`}
+  >
+    <svg class="previa__anel" viewBox="0 0 64 64" aria-hidden="true">
+      <circle class="previa__anel-fundo" cx="32" cy="32" r="30"></circle>
+      <circle class="previa__anel-progresso" cx="32" cy="32" r="30" pathLength="1"></circle>
+    </svg>
+    <span class="previa__icone previa__icone--tocar"><Icone nome="play" tamanho={22} /></span>
+    <span class="previa__icone previa__icone--pausar"><Icone nome="pause" tamanho={22} /></span>
+  </button>
+  <div class="previa__texto">
+    <span class="previa__titulo">Ouça um trecho</span>
+    <span class="previa__sub">
+      <span class="previa__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span data-player-tempo>0:30</span> · prévia de 30s
+    </span>
+  </div>
+  <audio preload="none" src={url(src)} data-player-audio></audio>
+</div>
+
+<style>
+  .previa {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 28px;
+    /* Folga para o anel de progresso (6px além do botão) não encostar na borda. */
+    padding: 13px 24px 13px 13px;
+    border: 1px solid var(--linha-forte);
+    border-radius: 999px;
+    background: rgb(236 230 216 / 0.04);
+  }
+
+  .previa__botao {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--perola);
+    color: var(--ink-900);
+    transition:
+      transform 0.4s var(--ease-elastico),
+      background-color 0.25s;
+  }
+
+  .previa__botao:hover {
+    background: var(--acento);
+    transform: scale(1.06);
+  }
+
+  .previa__anel {
+    position: absolute;
+    inset: -6px;
+    width: calc(100% + 12px);
+    height: calc(100% + 12px);
+    /* Sem isto, o "max-width: 100%" global dos SVGs encolhe a largura e o
+       anel sai do centro do botão. */
+    max-width: none;
+    rotate: -90deg;
+    pointer-events: none;
+  }
+
+  .previa__anel circle {
+    fill: none;
+    stroke-width: 2.5;
+  }
+
+  .previa__anel-fundo {
+    stroke: var(--linha);
+  }
+
+  .previa__anel-progresso {
+    stroke: var(--acento);
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: calc(1 - var(--progresso, 0));
+    transition: stroke-dashoffset 0.25s linear;
+  }
+
+  .previa__icone {
+    grid-area: 1 / 1;
+    display: grid;
+    place-items: center;
+  }
+
+  .previa__icone--tocar :global(svg) {
+    translate: 2px 0;
+  }
+
+  .previa__icone--pausar,
+  :global(.tocando) .previa__icone--tocar {
+    opacity: 0;
+    scale: 0.6;
+  }
+
+  :global(.tocando) .previa__icone--pausar {
+    opacity: 1;
+    scale: 1;
+  }
+
+  .previa__icone {
+    transition:
+      opacity 0.2s,
+      scale 0.3s var(--ease-elastico);
+  }
+
+  .previa__texto {
+    display: grid;
+    gap: 2px;
+    line-height: 1.25;
+  }
+
+  .previa__titulo {
+    font-weight: 600;
+  }
+
+  .previa__sub {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--perola-3);
+    font-size: 0.86rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .previa__eq {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+  }
+
+  .previa__eq i {
+    width: 3px;
+    height: 30%;
+    border-radius: 1px;
+    background: var(--acento);
+    transition: height 0.3s;
+  }
+
+  :global(.tocando) .previa__eq i {
+    animation: eq 0.9s ease-in-out infinite alternate;
+  }
+
+  :global(.tocando) .previa__eq i:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+
+  :global(.tocando) .previa__eq i:nth-child(3) {
+    animation-delay: -0.6s;
+  }
+
+  :global(.tocando) .previa__eq i:nth-child(4) {
+    animation-delay: -0.15s;
+  }
+
+  @keyframes eq {
+    from {
+      height: 20%;
+    }
+    to {
+      height: 100%;
+    }
+  }
+</style>

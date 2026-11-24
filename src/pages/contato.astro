@@ -1,0 +1,155 @@
+---
+import { Image } from 'astro:assets';
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import CompositorWhatsApp from '../components/CompositorWhatsApp.astro';
+import Copiar from '../components/Copiar.astro';
+import Icone from '../components/Icone.astro';
+import Pendente from '../components/Pendente.astro';
+import Base from '../layouts/Base.astro';
+import { imagemObrigatoria } from '../lib/imagens';
+import { linkWhatsApp, site } from '../lib/site';
+import { url } from '../lib/url';
+
+const polaroid = imagemObrigatoria('fotos/polaroids/grupo-areia.webp');
+---
+
+<Base titulo="Contato" descricao={`Fale com ${site.nome}: shows, imprensa e parcerias.`}>
+  <CabecalhoPagina
+    num="07"
+    rotulo="Contato"
+    titulo="Bora <em>conversar?</em>"
+    intro="Shows, imprensa, parcerias ou só pra dizer que ouviu a música. Escreva aqui e a mensagem sai pronta no WhatsApp."
+  />
+
+  <section class="secao secao--colada">
+    <div class="container contato">
+      <div data-revelar>
+        <CompositorWhatsApp />
+      </div>
+
+      <aside class="contato__canais" data-revelar style="--atraso: .12s">
+        <h2 class="contato__titulo">Ou direto por aqui</h2>
+        <ul role="list" class="canais">
+          <li class="canal">
+            <Icone nome="whatsapp" tamanho={26} />
+            <div>
+              <p class="rotulo">WhatsApp</p>
+              <a class="canal__valor" href={linkWhatsApp()} target="_blank" rel="noopener">
+                {site.contato.whatsappExibicao}
+              </a>
+            </div>
+            <Copiar texto={site.contato.whatsappExibicao} />
+          </li>
+          <li class="canal">
+            <Icone nome="email" tamanho={26} />
+            <div>
+              <p class="rotulo">E-mail</p>
+              {
+                site.contato.email ? (
+                  <a class="canal__valor" href={`mailto:${site.contato.email}`}>
+                    {site.contato.email}
+                  </a>
+                ) : (
+                  <p class="canal__valor canal__valor--vazio">em breve</p>
+                )
+              }
+              <Pendente texto={site.contato.pendente} />
+            </div>
+            {site.contato.email && <Copiar texto={site.contato.email} />}
+          </li>
+          {
+            site.redes
+              .filter((r) => r.url)
+              .map((r) => (
+                <li class="canal">
+                  <Icone nome={r.rede === 'YouTube' ? 'youtube' : 'instagram'} tamanho={26} />
+                  <div>
+                    <p class="rotulo">{r.rede}</p>
+                    <a class="canal__valor" href={r.url} target="_blank" rel="noopener">
+                      {r.usuario}
+                    </a>
+                  </div>
+                  <Copiar texto={r.usuario} />
+                </li>
+              ))
+          }
+        </ul>
+
+        <p class="contato__imprensa">
+          É da imprensa? No <a class="sublinhado" href={url('/imprensa/')}>kit de imprensa</a> tem bio, release, fotos
+          em alta e ficha técnica.
+        </p>
+
+        <div class="contato__polaroid">
+          <Image src={polaroid} alt="Polaroid da banda sentada na areia" widths={[260, 400]} sizes="240px" />
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contato {
+    display: grid;
+    gap: clamp(48px, 6vw, 80px);
+    align-items: start;
+  }
+
+  @media (min-width: 1000px) {
+    .contato {
+      grid-template-columns: 1.25fr 0.75fr;
+    }
+  }
+
+  .contato__titulo {
+    margin-bottom: 20px;
+    font-size: 2rem;
+  }
+
+  .canais {
+    border-top: 1px solid var(--linha);
+  }
+
+  .canal {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .canal > :global(svg) {
+    color: var(--kraft);
+  }
+
+  .canal__valor {
+    font-family: var(--fonte-display);
+    font-size: 1.3rem;
+    transition: color 0.2s;
+  }
+
+  a.canal__valor:hover {
+    color: var(--acento);
+  }
+
+  .canal__valor--vazio {
+    color: var(--perola-3);
+  }
+
+  .contato__imprensa {
+    margin-top: 28px;
+    color: var(--perola-2);
+  }
+
+  .contato__polaroid {
+    width: 220px;
+    margin: 48px 0 0 auto;
+    rotate: 6deg;
+    filter: drop-shadow(0 18px 22px rgb(0 0 0 / 0.5));
+  }
+
+  .contato__polaroid :global(img) {
+    width: 100%;
+  }
+</style>

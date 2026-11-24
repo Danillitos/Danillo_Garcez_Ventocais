@@ -1,0 +1,23 @@
+---
+/**
+ * Selo amarelo com o que falta confirmar. Só aparece em `npm run dev`;
+ * no site publicado ele não existe.
+ */
+interface Props {
+  texto?: string;
+  rascunho?: boolean;
+  class?: string;
+}
+
+const { texto, rascunho = false, class: classe } = Astro.props;
+const mostrar = import.meta.env.DEV && Boolean(texto || rascunho);
+---
+
+{
+  mostrar && (
+    <span class:list={['pendente', classe]} data-pendente>
+      {rascunho && <strong>rascunho</strong>}
+      {texto && <span>{texto}</span>}
+    </span>
+  )
+}

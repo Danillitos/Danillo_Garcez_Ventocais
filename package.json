@@ -1,0 +1,24 @@
+{
+  "name": "danillo-garcez-ventocais",
+  "description": "Site oficial de Danillo Garcez & Ventocais",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.6",
+    "@fontsource-variable/caveat": "5.3.0",
+    "@fontsource-variable/fraunces": "5.3.0",
+    "@fontsource-variable/instrument-sans": "5.3.0",
+    "astro": "7.4.1"
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  }
+}

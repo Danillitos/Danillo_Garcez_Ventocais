@@ -1,0 +1,325 @@
+---
+import { Image } from 'astro:assets';
+import Icone from './Icone.astro';
+import { obterLancamentos } from '../lib/conteudo';
+import { imagemObrigatoria } from '../lib/imagens';
+import { paginas } from '../lib/navegacao';
+import { linkWhatsApp, site } from '../lib/site';
+import { ehAtual, url } from '../lib/url';
+
+const atual = Astro.url.pathname;
+const { destaque } = await obterLancamentos();
+const logo = imagemObrigatoria('logo/ventocais-logo.png');
+const redes = site.redes.filter((r) => r.url);
+---
+
+<header class="topo" data-topo transition:name="topo" transition:animate="none">
+  <div class="container topo__barra">
+    <a class="topo__marca" href={url('/')} aria-label={`${site.nome}, página inicial`}>
+      <Image class="topo__logo" src={logo} alt="" height={64} densities={[1, 2]} loading="eager" />
+    </a>
+
+    <nav class="topo__nav" aria-label="Principal">
+      <ul role="list">
+        {
+          paginas.map((p) => (
+            <li>
+              <a href={url(p.href)} aria-current={ehAtual(atual, p.href) ? 'page' : undefined}>
+                {p.rotulo}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    {
+      destaque && (
+        <a class="botao botao--pequeno botao--primario topo__ouvir" href={url(`/musica/${destaque.id}/`)}>
+          <Icone nome="play" tamanho={14} />
+          Ouvir
+        </a>
+      )
+    }
+
+    <button
+      class="topo__abrir"
+      type="button"
+      data-menu-abrir
+      aria-haspopup="dialog"
+      aria-controls="menu-movel"
+      aria-expanded="false"
+    >
+      <span>Menu</span>
+      <Icone nome="menu" tamanho={22} />
+    </button>
+  </div>
+</header>
+
+<dialog class="menu" id="menu-movel" data-menu aria-label="Menu">
+  <div class="container menu__topo">
+    <Image class="topo__logo" src={logo} alt="" height={64} densities={[1, 2]} />
+    <button class="menu__fechar" type="button" data-menu-fechar aria-label="Fechar menu">
+      <Icone nome="fechar" tamanho={26} />
+    </button>
+  </div>
+  <nav class="container menu__nav" aria-label="Menu principal">
+    <ol role="list">
+      {
+        paginas.map((p, i) => (
+          <li style={`--i: ${i}`}>
+            <a href={url(p.href)} aria-current={ehAtual(atual, p.href) ? 'page' : undefined}>
+              {p.rotulo}
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+  <div class="container menu__rodape">
+    <a class="link-icone" href={linkWhatsApp()} target="_blank" rel="noopener">
+      <Icone nome="whatsapp" /> WhatsApp
+    </a>
+    {
+      redes.map((r) => (
+        <a class="link-icone" href={r.url} target="_blank" rel="noopener">
+          <Icone nome={r.rede === 'YouTube' ? 'youtube' : 'instagram'} /> {r.usuario}
+        </a>
+      ))
+    }
+    <a class="link-icone" href={url('/links/')}><Icone nome="link" /> Todos os links</a>
+  </div>
+</dialog>
+
+<style>
+  .topo {
+    position: fixed;
+    z-index: 50;
+    inset: 0 0 auto;
+    border-bottom: 1px solid transparent;
+    transition:
+      transform 0.5s var(--ease-out),
+      background-color 0.35s,
+      border-color 0.35s,
+      backdrop-filter 0.35s;
+  }
+
+  .topo[data-rolou] {
+    border-color: var(--linha);
+    background: rgb(13 19 32 / 0.74);
+    backdrop-filter: blur(14px) saturate(1.3);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  }
+
+  .topo[data-escondido] {
+    transform: translateY(-105%);
+  }
+
+  .topo__barra {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: var(--altura-topo);
+  }
+
+  /* Logo: a cadeira + "VENTOCAIS" com fundo transparente
+     (src/assets/logo/ventocais-logo.png). */
+  .topo__marca {
+    display: inline-grid;
+    place-items: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Levemente inclinado, como um desenho feito à mão. */
+  .topo :global(.topo__logo),
+  .menu :global(.topo__logo) {
+    width: auto;
+    height: 54px;
+    flex: none;
+    rotate: -3deg;
+    transition:
+      rotate 0.5s var(--ease-elastico),
+      scale 0.5s var(--ease-elastico);
+  }
+
+  /* No hover o adesivo dá uma balançadinha. */
+  .topo__marca:hover :global(.topo__logo) {
+    rotate: 3deg;
+    scale: 1.06;
+  }
+
+  @media (min-width: 900px) {
+    .topo :global(.topo__logo),
+    .menu :global(.topo__logo) {
+      height: 64px;
+    }
+  }
+
+  .topo__nav {
+    margin-left: auto;
+  }
+
+  .topo__nav ul {
+    display: flex;
+    gap: 2px;
+  }
+
+  .topo__nav a {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 3px;
+    padding: 8px 11px;
+    border-radius: 999px;
+    color: var(--perola-2);
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition:
+      color 0.2s,
+      background-color 0.2s;
+  }
+
+  .topo__nav a:hover {
+    background: rgb(236 230 216 / 0.06);
+    color: var(--perola);
+  }
+
+  .topo__nav a[aria-current='page'] {
+    color: var(--perola);
+  }
+
+  .topo__nav a[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 11px;
+    right: 11px;
+    bottom: 3px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--acento);
+  }
+
+  .topo__abrir {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    margin-left: auto;
+    padding: 0 6px 0 14px;
+    border: 1px solid var(--linha-forte);
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+
+  @media (max-width: 1100px) {
+    .topo__nav,
+    .topo__ouvir {
+      display: none;
+    }
+
+    .topo__abrir {
+      display: inline-flex;
+    }
+  }
+
+  /* --- Menu do celular ---------------------------------------------------- */
+  .menu {
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background:
+      radial-gradient(ellipse 90% 60% at 100% 0%, rgb(61 99 224 / 0.22), transparent 60%),
+      var(--ink-900);
+    color: var(--perola);
+  }
+
+  .menu::backdrop {
+    background: transparent;
+  }
+
+  .menu[open] {
+    display: flex;
+    flex-direction: column;
+    animation: menu-entrar 0.45s var(--ease-out);
+  }
+
+  .menu__topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--altura-topo);
+  }
+
+  .menu__fechar {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--linha-forte);
+    border-radius: 50%;
+  }
+
+  .menu__nav {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .menu__nav ol {
+    display: grid;
+    gap: 2px;
+  }
+
+  .menu__nav li {
+    animation: menu-item 0.6s var(--ease-out) both;
+    animation-delay: calc(var(--i) * 45ms + 80ms);
+  }
+
+  .menu__nav a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-block: 4px;
+    font-family: var(--fonte-display);
+    font-size: clamp(2.3rem, 10.5vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .menu__nav a[aria-current='page'] {
+    color: var(--kraft);
+    font-style: italic;
+  }
+
+  .menu__rodape {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    padding-block: 24px 32px;
+    border-top: 1px solid var(--linha);
+  }
+
+  @keyframes menu-entrar {
+    from {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @keyframes menu-item {
+    from {
+      opacity: 0;
+      translate: 0 24px;
+    }
+  }
+</style>

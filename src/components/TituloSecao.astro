@@ -1,0 +1,27 @@
+---
+/**
+ * Cabeçalho de seção: "01 — LANÇAMENTO" + título grande + anotação à mão.
+ * O título aceita <em> para o itálico em kraft.
+ */
+interface Props {
+  num?: string;
+  rotulo: string;
+  titulo: string;
+  anotacao?: string;
+  id?: string;
+  centro?: boolean;
+  nivel?: 'h1' | 'h2';
+}
+
+const { num, rotulo, titulo, anotacao, id, centro = false, nivel: Tag = 'h2' } = Astro.props;
+---
+
+<header class:list={['ts', { 'ts--centro': centro }]} data-revelar>
+  <p class="ts__rotulo rotulo">
+    {num && <span class="ts__num">{num}</span>}
+    {rotulo}
+  </p>
+  <Tag class="ts__titulo" id={id} set:html={titulo} />
+  {anotacao && <p class="ts__anotacao anotacao">{anotacao}</p>}
+  <slot />
+</header>

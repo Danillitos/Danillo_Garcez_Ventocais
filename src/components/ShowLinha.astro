@@ -1,0 +1,157 @@
+---
+/**
+ * Linha do portfólio de shows já realizados (página Agenda).
+ */
+import { getImage, Image } from 'astro:assets';
+import Pendente from './Pendente.astro';
+import { descricaoLocal } from '../lib/agenda';
+import type { Show } from '../lib/conteudo';
+import { diaPontoMes, formatarPreco, listaNatural, partes } from '../lib/datas';
+import { imagem } from '../lib/imagens';
+
+interface Props {
+  show: Show;
+}
+
+const { show } = Astro.props;
+const s = show.data;
+const cartaz = imagem(s.cartaz);
+const cartazGrande = cartaz ? await getImage({ src: cartaz, width: 1100, format: 'webp' }) : undefined;
+const preco = s.precoTexto ?? formatarPreco(s.preco);
+const ano = s.data ? String(partes(s.data).ano) : 'sem-data';
+---
+
+<li class="sl" id={`show-${show.id}`} data-filtro-ano={ano} data-filtro-cidade={s.local.cidade} data-revelar>
+  <div class="sl__data">
+    {
+      s.data ? (
+        <time datetime={s.data}>
+          <span class="sl__dia">{diaPontoMes(s.data)}</span>
+          <span class="sl__ano">{partes(s.data).ano}</span>
+        </time>
+      ) : (
+        <span class="sl__ano">data a confirmar</span>
+      )
+    }
+  </div>
+
+  <div class="sl__info">
+    <h4 class="sl__evento">{s.evento}</h4>
+    <p class="sl__local">{descricaoLocal(s)}</p>
+    {s.lineup.length > 0 && <p class="sl__detalhe">Com {listaNatural(s.lineup)}</p>}
+    {s.formato && <p class="sl__detalhe">{s.formato}</p>}
+    {s.notas && <p class="sl__detalhe">{s.notas}</p>}
+    {s.destaque && <p class="sl__destaque">✦ {s.destaque}</p>}
+    {preco && <p class="sl__preco">{preco}</p>}
+    <Pendente texto={s.pendente} rascunho={s.rascunho} />
+  </div>
+
+  {
+    cartaz && cartazGrande && (
+      <button
+        class="sl__cartaz"
+        type="button"
+        data-lightbox="cartazes"
+        data-src={cartazGrande.src}
+        data-legenda={`Cartaz: ${s.evento}${s.data ? ` (${s.data.split('-').reverse().join('/')})` : ''}`}
+        aria-label={`Ver o cartaz de ${s.evento}`}
+      >
+        <Image src={cartaz} alt="" width={180} />
+      </button>
+    )
+  }
+</li>
+
+<style>
+  .sl {
+    display: grid;
+    grid-template-columns: 112px 1fr auto;
+    gap: 8px 28px;
+    padding-block: 26px;
+    border-top: 1px solid var(--linha);
+  }
+
+  .sl[hidden] {
+    display: none;
+  }
+
+  .sl__data time {
+    display: grid;
+  }
+
+  .sl__dia {
+    font-family: var(--fonte-display);
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .sl__ano {
+    color: var(--perola-3);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .sl__evento {
+    font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+    font-weight: 420;
+  }
+
+  .sl__local {
+    margin-top: 6px;
+    color: var(--perola);
+    font-weight: 500;
+  }
+
+  .sl__detalhe,
+  .sl__preco {
+    margin-top: 4px;
+    color: var(--perola-2);
+    font-size: 0.95rem;
+  }
+
+  .sl__destaque {
+    margin-top: 8px;
+    color: var(--kraft);
+    font-family: var(--fonte-mao);
+    font-size: 1.35rem;
+    line-height: 1.1;
+  }
+
+  .sl__cartaz {
+    width: 92px;
+    rotate: 3deg;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px -10px rgb(0 0 0 / 0.7);
+    transition:
+      rotate 0.45s var(--ease-elastico),
+      scale 0.45s var(--ease-elastico);
+  }
+
+  .sl__cartaz:hover {
+    rotate: 0deg;
+    scale: 1.08;
+  }
+
+  .sl__cartaz :global(img) {
+    width: 100%;
+  }
+
+  @media (max-width: 640px) {
+    .sl {
+      grid-template-columns: 76px 1fr;
+    }
+
+    .sl__dia {
+      font-size: 1.6rem;
+    }
+
+    .sl__cartaz {
+      grid-column: 2;
+      width: 110px;
+      margin-top: 10px;
+    }
+  }
+</style>

@@ -1,0 +1,48 @@
+[
+  {
+    "id": "danillo-garcez",
+    "nome": "Danillo Garcez",
+    "nomeCompleto": "Danillo Matos Garcez",
+    "funcao": "Voz, guitarra e composição",
+    "foto": "fotos/polaroids/integrante-1.webp",
+    "instagram": "https://www.instagram.com/danillogarcez_/",
+    "ordem": 1,
+    "pendente": "Foto provisória: confirmar quem é quem"
+  },
+  {
+    "id": "vitor",
+    "nome": "Vitor",
+    "nomeCompleto": "Vitor de Almeida Brito",
+    "funcao": "Guitarra",
+    "foto": "fotos/polaroids/integrante-2.webp",
+    "ordem": 2,
+    "pendente": "Foto provisória: confirmar quem é quem"
+  },
+  {
+    "id": "joao-pedro",
+    "nome": "João Pedro",
+    "nomeCompleto": "João Pedro França Lino",
+    "funcao": "Baixo",
+    "foto": "fotos/polaroids/integrante-3.webp",
+    "ordem": 3,
+    "pendente": "Foto provisória: confirmar quem é quem"
+  },
+  {
+    "id": "guima",
+    "nome": "Guima",
+    "nomeCompleto": "Guilherme Mateus Santos Oliveira",
+    "funcao": "Bateria",
+    "foto": "fotos/polaroids/integrante-4.webp",
+    "ordem": 4,
+    "pendente": "Foto provisória: confirmar quem é quem"
+  },
+  {
+    "id": "lauro",
+    "nome": "Lauro",
+    "nomeCompleto": "Lauro Antenor Augusto de Souza Santos",
+    "funcao": "Teclado",
+    "foto": "fotos/polaroids/integrante-5.webp",
+    "ordem": 5,
+    "pendente": "Foto provisória: confirmar quem é quem"
+  }
+]

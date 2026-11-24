@@ -1,0 +1,128 @@
+---
+import '@fontsource-variable/fraunces/full.css';
+import '@fontsource-variable/fraunces/full-italic.css';
+import '@fontsource-variable/instrument-sans/index.css';
+import '@fontsource-variable/caveat/index.css';
+import '../styles/global.css';
+
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+import { ClientRouter } from 'astro:transitions';
+import Lightbox from '../components/Lightbox.astro';
+import Rodape from '../components/Rodape.astro';
+import Topo from '../components/Topo.astro';
+import { MODO_EDICAO } from '../lib/conteudo';
+import { site } from '../lib/site';
+import { url, urlAbsoluta } from '../lib/url';
+
+interface Props {
+  /** Título da página (o nome da banda é adicionado no fim). */
+  titulo?: string;
+  descricao?: string;
+  /** Imagem para compartilhamento (WhatsApp, Instagram, Google...). */
+  imagem?: ImageMetadata | string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  tipo?: 'website' | 'music.song' | 'music.album' | 'video.other';
+  /** Página sem cabeçalho e rodapé (ex.: /links). */
+  minima?: boolean;
+  semIndice?: boolean;
+}
+
+const {
+  titulo,
+  descricao = site.descricao,
+  imagem,
+  jsonLd,
+  tipo = 'website',
+  minima = false,
+  semIndice = false,
+} = Astro.props;
+
+const tituloCompleto = titulo
+  ? `${titulo} · ${site.nome}`
+  : `${site.nome} · Banda autoral de ${site.cidade} (${site.uf})`;
+const canonica = new URL(Astro.url.pathname, Astro.site).toString();
+
+let imagemCompartilhar: string;
+if (imagem && typeof imagem !== 'string') {
+  const otimizada = await getImage({ src: imagem, width: 1200, format: 'jpg', quality: 82 });
+  imagemCompartilhar = new URL(otimizada.src, Astro.site).toString();
+} else {
+  imagemCompartilhar = urlAbsoluta(typeof imagem === 'string' ? imagem : '/og/og-padrao.jpg', Astro.site);
+}
+
+const dadosEstruturados = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const jsonSeguro = (obj: unknown) => JSON.stringify(obj).replace(/</g, '\\u003c');
+
+/* Transição entre páginas: o conteúdo sai subindo e o novo entra de baixo. */
+const sair = { name: 'vt-sair', duration: '0.3s', easing: 'cubic-bezier(.7,0,.84,0)', fillMode: 'both' };
+const entrar = { name: 'vt-entrar', duration: '0.65s', delay: '0.1s', easing: 'cubic-bezier(.16,1,.3,1)', fillMode: 'both' };
+const transicao = {
+  forwards: { old: [sair], new: [entrar] },
+  backwards: { old: [sair], new: [entrar] },
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descricao} />
+    <link rel="canonical" href={canonica} />
+    {semIndice && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#0d1320" />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="icon" href={url('/favicon.ico')} sizes="any" />
+    <link rel="icon" href={url('/favicon.png')} type="image/png" />
+    <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
+    <link rel="sitemap" href={url('/sitemap-index.xml')} />
+
+    <meta property="og:type" content={tipo} />
+    <meta property="og:site_name" content={site.nome} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={titulo ?? site.nome} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={imagemCompartilhar} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo ?? site.nome} />
+    <meta name="twitter:description" content={descricao} />
+    <meta name="twitter:image" content={imagemCompartilhar} />
+
+    {dadosEstruturados.map((ld) => <script type="application/ld+json" set:html={jsonSeguro(ld)} />)}
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    <ClientRouter />
+  </head>
+
+  <body class:list={{ 'pagina-minima': minima }}>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    {!minima && <Topo />}
+
+    <main id="conteudo" transition:animate={transicao}>
+      <slot />
+    </main>
+
+    {!minima && <Rodape />}
+    <Lightbox />
+    <div class="grao" aria-hidden="true"></div>
+
+    {
+      MODO_EDICAO && (
+        <button class="modo-edicao" type="button" data-modo-edicao hidden>
+          <span aria-hidden="true">⚑</span>
+          <span data-modo-edicao-texto />
+        </button>
+      )
+    }
+
+    <script>
+      import '../scripts/principal';
+    </script>
+  </body>
+</html>

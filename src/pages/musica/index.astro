@@ -1,0 +1,139 @@
+---
+import CabecalhoPagina from '../../components/CabecalhoPagina.astro';
+import CartaoLancamento from '../../components/CartaoLancamento.astro';
+import ChamadaContato from '../../components/ChamadaContato.astro';
+import LancamentoDestaque from '../../components/LancamentoDestaque.astro';
+import Pendente from '../../components/Pendente.astro';
+import TituloSecao from '../../components/TituloSecao.astro';
+import Base from '../../layouts/Base.astro';
+import { obterLancamentos, obterPlaylists } from '../../lib/conteudo';
+import { imagem } from '../../lib/imagens';
+import { site } from '../../lib/site';
+
+const { destaque, lancados, ineditas } = await obterLancamentos();
+const playlists = await obterPlaylists();
+const outros = lancados.filter((l) => l.id !== destaque?.id);
+---
+
+<Base
+  titulo="Música"
+  descricao={`Discografia de ${site.nome}: “Promessas de Orfeu”, o EP Rosa Afim, “Tudo é Mar” e as inéditas que vêm por aí.`}
+  imagem={imagem(destaque?.data.capa)}
+>
+  <CabecalhoPagina
+    num="03"
+    rotulo="Música"
+    titulo="Canções pra <em>ouvir de frente pro mar</em>"
+    intro="Singles, EP, live session e o que ainda está na gaveta. Passe o mouse nas capas: o disco sai da capa."
+  />
+
+  {
+    destaque && (
+      <section class="secao secao--colada">
+        <div class="container">
+          <LancamentoDestaque lancamento={destaque} />
+        </div>
+      </section>
+    )
+  }
+
+  {
+    outros.length > 0 && (
+      <section class="secao secao--escura" id="discografia">
+        <div class="container">
+          <TituloSecao num="03.1" rotulo="Discografia" titulo="Todos os <em>lançamentos</em>" />
+          <div class="discos">
+            {outros.map((l, i) => (
+              <CartaoLancamento lancamento={l} atraso={(i % 3) * 0.1} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    ineditas.length > 0 && (
+      <section class="secao" id="ineditas">
+        <div class="container">
+          <TituloSecao num="03.2" rotulo="Na gaveta" titulo="Inéditas <em>a caminho</em>" anotacao="spoiler: tem muito groove vindo aí" />
+          <div class="discos">
+            {ineditas.map((l, i) => (
+              <CartaoLancamento lancamento={l} atraso={(i % 3) * 0.1} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    playlists.length > 0 && (
+      <section class="secao secao--colada" id="playlists">
+        <div class="container">
+          <TituloSecao num="03.3" rotulo="Playlists" titulo="Onde a gente <em>já tocou</em>" />
+          <ul role="list" class="playlists">
+            {playlists.map((p, i) => (
+              <li class="playlists__item" data-revelar style={`--atraso: ${(i % 4) * 0.06}s`}>
+                <span class="playlists__nome">
+                  {p.data.link ? (
+                    <a href={p.data.link} target="_blank" rel="noopener">
+                      {p.data.nome}
+                    </a>
+                  ) : (
+                    p.data.nome
+                  )}
+                </span>
+                {(p.data.faixa || p.data.curador) && (
+                  <span class="playlists__info">
+                    {p.data.faixa && `com “${p.data.faixa}”`}
+                    {p.data.faixa && p.data.curador && ' · '}
+                    {p.data.curador}
+                  </span>
+                )}
+                <Pendente texto={p.data.pendente} rascunho={p.data.rascunho} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <ChamadaContato />
+</Base>
+
+<style>
+  .discos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: clamp(48px, 6vw, 72px) clamp(28px, 4vw, 48px);
+  }
+
+  .playlists {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    border-top: 1px solid var(--linha);
+  }
+
+  .playlists__item {
+    display: grid;
+    gap: 4px;
+    padding: 20px 4px;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .playlists__nome {
+    font-family: var(--fonte-display);
+    font-size: 1.35rem;
+  }
+
+  .playlists__nome a:hover {
+    color: var(--acento);
+  }
+
+  .playlists__info {
+    color: var(--perola-3);
+    font-size: 0.9rem;
+  }
+</style>

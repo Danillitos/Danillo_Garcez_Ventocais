@@ -1,0 +1,24 @@
+---
+/**
+ * Visualizador de imagens em tela cheia. Qualquer botão com
+ * data-lightbox="grupo" data-src="..." abre aqui (ver scripts/lightbox.ts).
+ */
+import Icone from './Icone.astro';
+---
+
+<dialog class="lightbox" data-lightbox-dialogo aria-label="Visualizar imagem">
+  <figure class="lightbox__figura">
+    <img class="lightbox__img" data-lightbox-img alt="" />
+    <figcaption class="lightbox__legenda" data-lightbox-legenda></figcaption>
+  </figure>
+  <span class="lightbox__contador" data-lightbox-contador></span>
+  <button class="lightbox__botao lightbox__fechar" type="button" data-lightbox-fechar aria-label="Fechar">
+    <Icone nome="fechar" tamanho={22} />
+  </button>
+  <button class="lightbox__botao lightbox__ant" type="button" data-lightbox-ant aria-label="Imagem anterior">
+    <Icone nome="seta-esquerda" tamanho={22} />
+  </button>
+  <button class="lightbox__botao lightbox__prox" type="button" data-lightbox-prox aria-label="Próxima imagem">
+    <Icone nome="seta" tamanho={22} />
+  </button>
+</dialog>

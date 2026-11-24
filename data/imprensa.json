@@ -1,0 +1,92 @@
+[
+  {
+    "id": "disconecta-tudo-e-mar",
+    "veiculo": "Disconecta",
+    "tipo": "Matéria",
+    "titulo": "Danillo Garcez lança “Tudo é Mar” e inicia nova fase musical",
+    "link": "",
+    "pendente": "Link da matéria"
+  },
+  {
+    "id": "divergent-beats",
+    "veiculo": "Divergent Beats",
+    "tipo": "Resenha",
+    "autor": "Ivan J Gorini",
+    "resumo": "Textos sobre o EP Rosa Afim e sobre o show na Freedom Discos.",
+    "link": "",
+    "pendente": "Links dos textos"
+  },
+  {
+    "id": "tmdqa-tudo-e-mar",
+    "veiculo": "TMDQA!",
+    "tipo": "Matéria",
+    "resumo": "Sobre “Tudo é Mar”: a faixa contempla várias brasilidades sem cair em clichês.",
+    "link": "",
+    "pendente": "Link"
+  },
+  {
+    "id": "discoemcena",
+    "veiculo": "DiscoEmCena",
+    "tipo": "Resenha",
+    "autor": "Iuri Freire",
+    "resumo": "“Arranjo matador” e “forte potencial radiofônico”.",
+    "link": "",
+    "pendente": "Link"
+  },
+  {
+    "id": "mangue-jornalismo",
+    "veiculo": "Mangue Jornalismo",
+    "tipo": "Agenda",
+    "resumo": "Agenda cultural com o show de estreia, em janeiro de 2024.",
+    "link": ""
+  },
+  {
+    "id": "be-guimaraes",
+    "veiculo": "Blog Be Guimarães",
+    "tipo": "Blog",
+    "link": "",
+    "pendente": "Link do texto"
+  },
+  {
+    "id": "canastra-records",
+    "veiculo": "Canastra Records",
+    "tipo": "Matéria",
+    "link": "",
+    "pendente": "O que saiu e o link"
+  },
+  {
+    "id": "music-es-un-voyage",
+    "veiculo": "Music es un Voyage",
+    "tipo": "Blog",
+    "link": "",
+    "pendente": "O que saiu e o link"
+  },
+  {
+    "id": "radio-ufs-setlist",
+    "veiculo": "Rádio UFS",
+    "tipo": "Rádio",
+    "titulo": "Entrevista no programa Setlist",
+    "autor": "Helder Santos Ferreira",
+    "data": "2026-10-29",
+    "resumo": "“Promessas de Orfeu” e as músicas da Origami Aquém estão na programação da rádio."
+  },
+  {
+    "id": "cultura-a-diesel",
+    "veiculo": "FM Cultura 107,7 · Porto Alegre",
+    "tipo": "Rádio",
+    "titulo": "Cultura a Diesel",
+    "autor": "Camila Diesel",
+    "resumo": "Programa de Camila Diesel, aos sábados, às 11h."
+  },
+  {
+    "id": "ez1-fm",
+    "veiculo": "Ez1 FM",
+    "tipo": "Rádio",
+    "resumo": "Na programação e na playlist Sente a Paz."
+  },
+  {
+    "id": "vitropolis",
+    "veiculo": "Vitrópolis Web Rock Radio",
+    "tipo": "Rádio"
+  }
+]

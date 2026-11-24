@@ -1,0 +1,62 @@
+---
+/**
+ * Faixa que rola sem parar (marquee). O conteúdo é duplicado para o loop
+ * ficar contínuo; a cópia fica escondida de leitores de tela.
+ */
+interface Props {
+  rotulo?: string;
+  /** Segundos para uma volta completa. */
+  duracao?: number;
+  reverso?: boolean;
+  class?: string;
+}
+
+const { rotulo, duracao = 40, reverso = false, class: classe } = Astro.props;
+const html = await Astro.slots.render('default');
+---
+
+<div
+  class:list={['letreiro', classe, { 'letreiro--reverso': reverso }]}
+  style={`--duracao: ${duracao}s`}
+  role={rotulo ? 'region' : undefined}
+  aria-label={rotulo}
+>
+  <div class="letreiro__trilho">
+    <div class="letreiro__grupo" set:html={html} />
+    <div class="letreiro__grupo" aria-hidden="true" inert set:html={html} />
+  </div>
+</div>
+
+<style>
+  .letreiro {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+
+  .letreiro__trilho {
+    display: flex;
+    width: max-content;
+    animation: letreiro var(--duracao) linear infinite;
+  }
+
+  .letreiro--reverso .letreiro__trilho {
+    animation-direction: reverse;
+  }
+
+  .letreiro:hover .letreiro__trilho {
+    animation-play-state: paused;
+  }
+
+  .letreiro__grupo {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+
+  @keyframes letreiro {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

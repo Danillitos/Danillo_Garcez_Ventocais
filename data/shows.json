@@ -1,0 +1,211 @@
+[
+  {
+    "id": "2026-11-29-festival-autoral-che",
+    "data": "2026-11-29",
+    "evento": "Festival autoral",
+    "local": {
+      "nome": "Che Music Bar",
+      "endereco": "Av. Joaquim Martins Fontes, 180",
+      "bairro": "Farolândia",
+      "cidade": "Aracaju",
+      "uf": "SE"
+    },
+    "pendente": "Horário, line-up, preço e link de ingressos"
+  },
+  {
+    "id": "2026-12-10-turne-onca-aracaju",
+    "data": "2026-12-10",
+    "evento": "Turnê Promessas de Orfeu: abertura",
+    "turne": "Promessas de Orfeu",
+    "local": {
+      "nome": "Onça",
+      "cidade": "Aracaju",
+      "uf": "SE"
+    },
+    "lineup": [
+      "Chevie",
+      "DJ"
+    ],
+    "pendente": "Horário, endereço, preço, ingressos e nome do DJ"
+  },
+  {
+    "id": "2026-12-11-turne-popfuzz-maceio",
+    "data": "2026-12-11",
+    "evento": "Turnê Promessas de Orfeu",
+    "turne": "Promessas de Orfeu",
+    "local": {
+      "nome": "Popfuzz",
+      "cidade": "Maceió",
+      "uf": "AL"
+    },
+    "pendente": "Horário, endereço, preço e link de ingressos"
+  },
+  {
+    "id": "2026-12-12-turne-arapiraca",
+    "data": "2026-12-12",
+    "evento": "Turnê Promessas de Orfeu",
+    "turne": "Promessas de Orfeu",
+    "local": {
+      "cidade": "Arapiraca",
+      "uf": "AL"
+    },
+    "pendente": "Local do show em Arapiraca"
+  },
+  {
+    "id": "2026-11-14-festival-aquece",
+    "data": "2026-11-14",
+    "hora": "17:00",
+    "evento": "Festival Aquece",
+    "local": {
+      "nome": "Vila Caju",
+      "endereco": "R. Estância, 53",
+      "bairro": "Centro",
+      "cidade": "Aracaju",
+      "uf": "SE"
+    },
+    "lineup": [
+      "GuardaMar",
+      "rota banal",
+      "Bacoos"
+    ],
+    "preco": 15,
+    "destaque": "Festival organizado pela própria banda",
+    "notas": "Set gravado por Guilherme Viana Bagio."
+  },
+  {
+    "id": "2026-10-18-feirinha-da-gambiarra",
+    "data": "2026-10-18",
+    "evento": "Feirinha da Gambiarra",
+    "local": {
+      "cidade": "Aracaju",
+      "uf": "SE"
+    },
+    "formato": "Trio acústico: voz, baixo e cajón",
+    "pendente": "Local exato da Feirinha"
+  },
+  {
+    "id": "2026-09-26-freedom-session",
+    "data": "2026-09-26",
+    "hora": "18:00",
+    "evento": "Freedom Session",
+    "local": {
+      "nome": "Freedom Discos",
+      "endereco": "R. Santa Luzia, 151",
+      "bairro": "Centro",
+      "cidade": "Aracaju",
+      "uf": "SE"
+    },
+    "lineup": [
+      "Vico Fontes"
+    ],
+    "preco": 15,
+    "destaque": "Silvio, da Freedom Discos, contou que foi um dos melhores shows que a casa já recebeu",
+    "notas": "Rendeu matéria na Divergent Beats.",
+    "pendente": "Nome certo: Vico Fontes ou Vitor Fontes?"
+  },
+  {
+    "id": "2025-05-30-freedom-sessions",
+    "data": "2025-05-30",
+    "hora": "19:00",
+    "evento": "Freedom Sessions",
+    "local": {
+      "nome": "Freedom Discos",
+      "endereco": "R. Santa Luzia, 151",
+      "bairro": "Centro",
+      "cidade": "Aracaju",
+      "uf": "SE"
+    },
+    "lineup": [
+      "Alquimistas de Atlântida"
+    ],
+    "preco": 15
+  },
+  {
+    "id": "2024-08-16-che-anne-carol-luno-torres",
+    "data": "2024-08-16",
+    "hora": "21:00",
+    "evento": "Anne Carol, Luno Torres & Ventocais",
+    "local": {
+      "nome": "Che Music Bar",
+      "endereco": "Av. Joaquim Martins Fontes, 180",
+      "bairro": "Farolândia",
+      "cidade": "Aracaju",
+      "uf": "SE"
+    },
+    "lineup": [
+      "Anne Carol",
+      "Luno Torres"
+    ],
+    "notas": "Uma noite de jazz, soul e rock psicodélico.",
+    "cartaz": "cartazes/2024-08-16-che-music-bar-anne-carol-luno-torres.jpg"
+  },
+  {
+    "id": "2024-04-26-naufragio-ii",
+    "data": "2024-04-26",
+    "hora": "20:00",
+    "evento": "Naufrágio II",
+    "local": {
+      "nome": "Taberna Rock Bar",
+      "endereco": "R. Urquiza Leal, 595",
+      "bairro": "Grageru",
+      "cidade": "Aracaju",
+      "uf": "SE"
+    },
+    "lineup": [
+      "GuardaMar",
+      "Os Augustos"
+    ],
+    "preco": 20,
+    "cartaz": "cartazes/2024-04-26-naufragio-ii.jpg"
+  },
+  {
+    "id": "2024-01-12-estreia",
+    "data": "2024-01-12",
+    "hora": "21:00",
+    "evento": "Show de estreia",
+    "local": {
+      "nome": "Che Music Bar",
+      "endereco": "Av. Joaquim Martins Fontes, 180",
+      "bairro": "Farolândia",
+      "cidade": "Aracaju",
+      "uf": "SE"
+    },
+    "lineup": [
+      "Alquimistas de Atlântida",
+      "Yves Deluc & Fábio Aricawa"
+    ],
+    "preco": 22.5,
+    "destaque": "A primeira vez da Ventocais num palco",
+    "cartaz": "cartazes/2024-01-12-estreia-che-music-bar.jpg"
+  },
+  {
+    "id": "caju-summer-vibes",
+    "data": null,
+    "evento": "Caju Summer Vibes",
+    "local": {
+      "nome": "Taberna Rock Bar",
+      "cidade": "Aracaju",
+      "uf": "SE"
+    },
+    "lineup": [
+      "Damacena"
+    ],
+    "notas": "Produção da Caju Juice.",
+    "pendente": "Data do show"
+  },
+  {
+    "id": "onca-anne-carol",
+    "data": null,
+    "evento": "Show com Anne Carol",
+    "local": {
+      "nome": "Onça",
+      "cidade": "Aracaju",
+      "uf": "SE"
+    },
+    "lineup": [
+      "Anne Carol"
+    ],
+    "destaque": "Casa lotada",
+    "pendente": "Data do show"
+  }
+]
