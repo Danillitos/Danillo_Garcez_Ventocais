@@ -1,0 +1,163 @@
+{
+  "atualizado": "2026-11-24",
+  "formacoes": [
+    {
+      "nome": "Solo",
+      "integrantes": [
+        "Danillo Garcez (voz e guitarra)"
+      ]
+    },
+    {
+      "nome": "Duo",
+      "integrantes": [
+        "Danillo Garcez (voz e guitarra)",
+        "Jompas (baixo) ou Guima (bateria e backing vocal)"
+      ]
+    },
+    {
+      "nome": "Trio",
+      "integrantes": [
+        "Danillo Garcez (voz e guitarra)",
+        "Jompas (baixo)",
+        "Guima (bateria e backing vocal)"
+      ]
+    },
+    {
+      "nome": "Quarteto",
+      "integrantes": [
+        "Danillo Garcez (voz e guitarra)",
+        "Jompas (baixo)",
+        "Guima (bateria e backing vocal)",
+        "Vitor (guitarra) ou Lauro (teclado)"
+      ]
+    },
+    {
+      "nome": "Quinteto",
+      "integrantes": [
+        "Danillo Garcez (voz e guitarra)",
+        "Jompas (baixo)",
+        "Guima (bateria e backing vocal)",
+        "Vitor (guitarra)",
+        "Lauro (teclado)"
+      ],
+      "padrao": true
+    }
+  ],
+  "canais": [
+    {
+      "canal": "Bumbo",
+      "fonte": "Microfone",
+      "quem": "Guima"
+    },
+    {
+      "canal": "Caixa",
+      "fonte": "Microfone",
+      "quem": "Guima"
+    },
+    {
+      "canal": "Chimbal",
+      "fonte": "Microfone",
+      "quem": "Guima"
+    },
+    {
+      "canal": "Tom",
+      "fonte": "Microfone",
+      "quem": "Guima"
+    },
+    {
+      "canal": "Surdo",
+      "fonte": "Microfone",
+      "quem": "Guima"
+    },
+    {
+      "canal": "Overhead E",
+      "fonte": "Microfone condensador",
+      "quem": "Guima"
+    },
+    {
+      "canal": "Overhead D",
+      "fonte": "Microfone condensador",
+      "quem": "Guima"
+    },
+    {
+      "canal": "Baixo",
+      "fonte": "Direct box (DI)",
+      "quem": "Jompas"
+    },
+    {
+      "canal": "Guitarra 1",
+      "fonte": "Microfone no amplificador",
+      "quem": "Danillo"
+    },
+    {
+      "canal": "Guitarra 2",
+      "fonte": "Microfone no amplificador",
+      "quem": "Vitor"
+    },
+    {
+      "canal": "Teclado E",
+      "fonte": "Direct box (DI)",
+      "quem": "Lauro"
+    },
+    {
+      "canal": "Teclado D",
+      "fonte": "Direct box (DI)",
+      "quem": "Lauro"
+    },
+    {
+      "canal": "Voz principal",
+      "fonte": "Microfone dinâmico + pedestal",
+      "quem": "Danillo"
+    },
+    {
+      "canal": "Backing vocal",
+      "fonte": "Microfone dinâmico + pedestal girafa",
+      "quem": "Guima"
+    }
+  ],
+  "retorno": "Retorno por fones (in-ear) com 1 mixagem para toda a banda: precisamos de 1 saída auxiliar da mesa. A banda usa metrônomo (click), que vai só para os fones, nunca para o PA.",
+  "palco": [
+    "Linha da frente: Danillo ao centro (voz e guitarra).",
+    "Linha do meio, com os lados vistos de quem está no palco: Jompas à esquerda (baixo), Lauro à meia-direita (teclado), um pouco atrás do Vitor, e Vitor à direita (guitarra).",
+    "Fundo: bateria ao centro (Guima, com microfone de backing vocal).",
+    "Uma régua de energia em cada posição."
+  ],
+  "tempos": [
+    {
+      "rotulo": "Montagem",
+      "valor": "20 minutos"
+    },
+    {
+      "rotulo": "Passagem de som",
+      "valor": "10 minutos"
+    },
+    {
+      "rotulo": "Desmontagem",
+      "valor": "15 a 20 minutos"
+    },
+    {
+      "rotulo": "Duração do show",
+      "valor": "de 1 a 2 horas (mínimo de 45 minutos)"
+    }
+  ],
+  "tecnico": "Temos técnico de som próprio, Guilherme Viana Bagio. Se preferirem, trabalhamos com o técnico da casa.",
+  "equipe": "Até 7 pessoas: os 5 integrantes, o técnico de som e, quando houver, um fotógrafo.",
+  "camarim": [
+    "Água",
+    "Alimentação"
+  ],
+  "contatos": [
+    {
+      "nome": "Danillo Garcez",
+      "papel": "Banda",
+      "telefone": "(79) 9 8847-6001",
+      "whatsapp": "5579988476001"
+    },
+    {
+      "nome": "Guilherme Viana Bagio",
+      "papel": "Técnico de som",
+      "email": "guilhermevbagio@gmail.com"
+    }
+  ],
+  "backline": "Amplificadores, bateria e sistema de fones são da casa. A banda também tem equipamento próprio e pode levá-lo, com acréscimo no valor do cachê."
+}

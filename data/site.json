@@ -23,7 +23,6 @@
   ],
   "origemDoNome": "O nome “Ventocais” surgiu da música “Cais”, de Milton Nascimento. Danillo entendia o verso “Invento o cais” como “Em Ventocais”, como se fosse um lugar a se visitar e viver. O nome acabou escolhido por unanimidade para o projeto.",
   "formatoAcustico": "Também tocamos em formato acústico: um trio com voz, baixo e cajón, que já passou pela Feirinha da Gambiarra e está disponível para rádio e TV.",
-  "formacaoPendente": "Formação oficial: quarteto ou quinteto?",
   "influencias": [
     {
       "grupo": "Citadas pela banda",
@@ -93,9 +92,12 @@
   ],
   "plataformas": [
     {
-      "nome": "Spotify",
-      "url": "",
-      "pendente": "Link do perfil no Spotify (e unificar os perfis “Danillo Garcez” e “Ventocais”)"
+      "nome": "Spotify · Danillo Garcez",
+      "url": "https://open.spotify.com/artist/0SxIDdKqu5c7ii1LOIOas5"
+    },
+    {
+      "nome": "Spotify · Ventocais",
+      "url": "https://open.spotify.com/artist/6vZR9m9gHEYGpFQ8eReAhx"
     },
     {
       "nome": "Apple Music",
@@ -122,5 +124,6 @@
     "capa": "Rodrigowod (@rodrigowod)",
     "fotos": "Lia Teles, Luca Skate e arquivo da banda",
     "pendente": "Crédito das fotos do ensaio no campo e do show no Onça"
-  }
+  },
+  "avisoFormacao": "A formação é um quinteto, mas também fazemos shows em formações reduzidas."
 }

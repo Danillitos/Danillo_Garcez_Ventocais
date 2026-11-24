@@ -1,11 +1,20 @@
 [
   {
+    "id": "tudo-e-mar-incendiar-ao-vivo",
+    "titulo": "Tudo é Mar | Incendiar (ao vivo no estúdio)",
+    "tipo": "Live session",
+    "data": "2026-11-24",
+    "youtubeId": "SppgwLYrQSE",
+    "descricao": "“Tudo é Mar” e “Incendiar” ao vivo no estúdio, com a banda completa.",
+    "destaque": true
+  },
+  {
     "id": "promessas-de-orfeu-ao-vivo",
     "titulo": "Promessas de Orfeu (ao vivo)",
     "tipo": "Live session",
     "data": "2026-11-06",
     "youtubeId": "8p71zpeq0wg",
     "descricao": "A live session de “Promessas de Orfeu”, gravada com a banda completa em 2 de novembro de 2026.",
-    "destaque": true
+    "destaque": false
   }
 ]

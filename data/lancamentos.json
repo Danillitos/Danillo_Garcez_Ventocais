@@ -82,6 +82,21 @@
     }
   },
   {
+    "id": "tudo-e-mar-incendiar-ao-vivo",
+    "titulo": "Tudo é Mar | Incendiar (ao vivo)",
+    "tipo": "Live session",
+    "data": "2026-11-24",
+    "capa": "capas/tudo-e-mar-incendiar-ao-vivo.jpg",
+    "cor": "#f2a65a",
+    "resumo": "“Tudo é Mar” e “Incendiar” ao vivo no estúdio, com a banda completa.",
+    "texto": [
+      "Depois de “Promessas de Orfeu”, mais uma sessão ao vivo no estúdio: “Tudo é Mar”, o primeiro lançamento da banda, emendada com “Incendiar”, do EP Rosa Afim."
+    ],
+    "links": {
+      "youtube": "https://www.youtube.com/watch?v=SppgwLYrQSE"
+    }
+  },
+  {
     "id": "promessas-de-orfeu-ao-vivo",
     "titulo": "Promessas de Orfeu (ao vivo)",
     "tipo": "Live session",
@@ -199,23 +214,5 @@
       "Não sei mais quanto eu vou mais suportar\nO medo dos meus sonhos sempre vai me afundar\nO que custa nem ao menos eu tentar\nEu vi que tudo é mundo, tudo é sorte, tudo é mar",
       "De volta ao meu lugar\nDe volta a sonhar\nDe volta ao meu lugar\nDe volta a sonhar\nDe voltar ao meu lugar\nDe volta a sonhar\nDe volta ao meu lugar\nDe volta a sonhar"
     ]
-  },
-  {
-    "id": "parar-pra-ver",
-    "titulo": "Parar pra Ver",
-    "tipo": "Inédita",
-    "data": null,
-    "cor": "#e5b454",
-    "resumo": "Ainda na gaveta: uma inédita fortemente inspirada em Quincy Jones, Jamiroquai e Ed Motta.",
-    "texto": [
-      "Música fortemente inspirada em Quincy Jones, Jamiroquai e Ed Motta: bem técnica de se performar e igualmente divertida de tocar. Ainda inédita, já aparece nos shows e no Zine da banda."
-    ],
-    "referencias": [
-      "Quincy Jones",
-      "Jamiroquai",
-      "Ed Motta"
-    ],
-    "links": {},
-    "pendente": "Confirmar se querem anunciar a inédita no site"
   }
 ]

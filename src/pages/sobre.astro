@@ -125,6 +125,7 @@ const jsonLd = musicGroup(
     <div class="container">
       <TituloSecao num="02.1" rotulo="Formação" titulo="Quem <em>toca</em>" anotacao="passa o mouse nas polaroids" />
       <Pendente texto={site.formacaoPendente} />
+      {site.avisoFormacao && <p class="sobre-aviso" data-revelar>{site.avisoFormacao}</p>}
       <div class="formacao">
         {
           integrantes.map((m, i) => (
@@ -201,6 +202,7 @@ const jsonLd = musicGroup(
           <ul role="list" class="equipe">
             {equipe.map((p, i) => {
               const foto = imagem(p.data.foto);
+              const logo = imagem(p.data.logo);
               const iniciais = p.data.nome
                 .split(' ')
                 .filter((n) => n.length > 2)
@@ -229,6 +231,15 @@ const jsonLd = musicGroup(
                         </span>
                       )}
                     </div>
+                  )}
+                  {logo && (
+                    <Image
+                      class="equipe__logo"
+                      src={logo}
+                      alt={`Logo de ${p.data.nome}`}
+                      widths={[180, 360]}
+                      sizes="180px"
+                    />
                   )}
                   <div class="equipe__texto">
                     <h3 class="equipe__nome">{p.data.nome}</h3>
@@ -378,6 +389,21 @@ const jsonLd = musicGroup(
     letter-spacing: 0;
   }
 
+  .sobre-aviso {
+    margin: -4px 0 28px;
+    color: var(--kraft);
+    font-family: var(--fonte-mao);
+    font-size: 1.45rem;
+    rotate: -1deg;
+    transform-origin: left;
+  }
+
+  .sobre-credito {
+    margin-top: 18px;
+    color: var(--perola-3);
+    font-size: 0.88rem;
+  }
+
   .equipe {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
@@ -404,6 +430,12 @@ const jsonLd = musicGroup(
     .equipe__item--destaque {
       grid-template-columns: 260px 1fr;
     }
+  }
+
+  .equipe__item :global(.equipe__logo) {
+    width: 180px;
+    height: auto;
+    margin-bottom: 18px;
   }
 
   .equipe__foto {

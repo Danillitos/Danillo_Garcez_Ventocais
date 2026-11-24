@@ -9,8 +9,9 @@
   },
   {
     "id": "produtora-sinestra",
-    "nome": "Produtora Sinestra",
+    "nome": "Sinestra Produções",
     "papel": "Produção",
-    "detalhes": "Articulou a turnê de dezembro."
+    "detalhes": "Articulou a turnê de dezembro.",
+    "logo": "logos/sinestra.png"
   }
 ]

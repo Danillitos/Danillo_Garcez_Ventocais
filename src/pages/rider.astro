@@ -1,0 +1,555 @@
+---
+/**
+ * Rider técnico: formações, mapa de palco, lista de canais, tempos, camarim
+ * e contatos. Conteúdo em data/rider.json. O PDF para download fica em
+ * public/rider-danillo-garcez-ventocais.pdf (ver README).
+ */
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import Icone from '../components/Icone.astro';
+import Pendente from '../components/Pendente.astro';
+import TituloSecao from '../components/TituloSecao.astro';
+import Base from '../layouts/Base.astro';
+import rider from '../../data/rider.json';
+import { dataLonga } from '../lib/datas';
+import { site } from '../lib/site';
+import { url } from '../lib/url';
+
+const pdf = url('/rider-danillo-garcez-ventocais.pdf');
+---
+
+<Base titulo="Rider técnico" descricao={`Rider técnico de ${site.nome}: formações, mapa de palco, lista de canais e contatos.`}>
+  <CabecalhoPagina
+    num="06"
+    rotulo="Imprensa · Rider"
+    titulo="Rider <em>técnico</em>"
+    intro="Formações, mapa de palco, lista de canais, tempos e contatos. Qualquer dúvida, fale com a gente."
+  >
+    <div class="rider-acoes">
+      <a class="botao botao--primario" href={pdf} download>
+        <Icone nome="baixar" tamanho={18} /> Baixar PDF
+      </a>
+      <button class="botao" type="button" data-imprimir>
+        <Icone nome="imprimir" tamanho={18} /> Imprimir
+      </button>
+    </div>
+  </CabecalhoPagina>
+
+  <section class="secao secao--colada rider">
+    <div class="container">
+      <Pendente texto={rider.pendente} />
+
+      <TituloSecao num="06.1" rotulo="Formações" titulo="Do solo <em>ao quinteto</em>" />
+      <ul role="list" class="rider-formacoes">
+        {
+          rider.formacoes.map((f) => (
+            <li class:list={['rider-card', { 'rider-card--padrao': f.padrao }]} data-revelar>
+              <h3>
+                {f.nome}
+                {f.padrao && <span class="chip">formação padrão</span>}
+              </h3>
+              <ul role="list">
+                {f.integrantes.map((i) => (
+                  <li>{i}</li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ul>
+
+      <TituloSecao num="06.2" rotulo="Palco" titulo="Mapa de <em>palco</em>" anotacao="quinteto, visto da plateia" />
+      <div class="rider-palco">
+        <svg class="rider-mapa" viewBox="0 0 800 520" role="img" aria-labelledby="mapa-titulo">
+          <title id="mapa-titulo">
+            Mapa de palco visto da plateia: bateria ao fundo no centro; na linha do meio, guitarra e teclado à esquerda e baixo à direita; voz e guitarra na frente, ao centro.
+          </title>
+          <rect class="m-palco" x="30" y="20" width="740" height="420" rx="18"></rect>
+          <text class="m-fundo" x="400" y="46">FUNDO DO PALCO</text>
+
+          <!-- Bateria -->
+          <g transform="translate(400 130)">
+            <rect class="m-praticavel" x="-110" y="-60" width="220" height="120" rx="10"></rect>
+            <circle class="m-peca" cx="0" cy="18" r="26"></circle>
+            <circle class="m-peca" cx="-46" cy="-8" r="14"></circle>
+            <circle class="m-peca" cx="40" cy="-20" r="15"></circle>
+            <circle class="m-peca" cx="62" cy="22" r="19"></circle>
+            <circle class="m-prato" cx="-78" cy="-34" r="18"></circle>
+            <circle class="m-prato" cx="84" cy="-38" r="20"></circle>
+            <text class="m-nome" x="0" y="86">Guima</text>
+            <text class="m-funcao" x="0" y="104">bateria + backing vocal</text>
+          </g>
+
+          <!-- Linha do meio -->
+          <g transform="translate(620 270)">
+            <rect class="m-amp" x="-30" y="-74" width="60" height="30" rx="4"></rect>
+            <text class="m-amp-txt" x="0" y="-54">amp</text>
+            <circle class="m-pessoa" r="26"></circle>
+            <text class="m-nome" x="0" y="50">Jompas</text>
+            <text class="m-funcao" x="0" y="68">baixo (DI)</text>
+          </g>
+          <g transform="translate(270 262)">
+            <rect class="m-teclado" x="-56" y="-14" width="112" height="22" rx="4"></rect>
+            <circle class="m-pessoa" cx="0" cy="-40" r="22"></circle>
+            <text class="m-nome" x="0" y="34">Lauro</text>
+            <text class="m-funcao" x="0" y="52">teclado (2 DI)</text>
+          </g>
+          <g transform="translate(150 310)">
+            <rect class="m-amp" x="-30" y="-74" width="60" height="30" rx="4"></rect>
+            <text class="m-amp-txt" x="0" y="-54">amp</text>
+            <circle class="m-pessoa" r="26"></circle>
+            <text class="m-nome" x="0" y="50">Vitor</text>
+            <text class="m-funcao" x="0" y="68">guitarra</text>
+          </g>
+
+          <!-- Frente -->
+          <g transform="translate(400 360)">
+            <rect class="m-amp" x="60" y="-60" width="60" height="30" rx="4"></rect>
+            <text class="m-amp-txt" x="90" y="-40">amp</text>
+            <circle class="m-pessoa m-pessoa--frente" r="28"></circle>
+            <line class="m-mic" x1="0" y1="-28" x2="0" y2="-48"></line>
+            <text class="m-nome" x="0" y="52">Danillo</text>
+            <text class="m-funcao" x="0" y="70">voz + guitarra</text>
+          </g>
+
+          <text class="m-plateia" x="400" y="490">PLATEIA</text>
+        </svg>
+        <ul role="list" class="rider-notas">
+          {rider.palco.map((n) => <li>{n}</li>)}
+        </ul>
+      </div>
+
+      <TituloSecao num="06.3" rotulo="Canais" titulo="Lista de <em>canais</em>" anotacao="quinteto completo" />
+      <div class="rider-tabela-wrap">
+        <table class="rider-tabela">
+          <thead>
+            <tr><th>#</th><th>Canal</th><th>Fonte</th><th>Quem</th></tr>
+          </thead>
+          <tbody>
+            {
+              rider.canais.map((c, i) => (
+                <tr>
+                  <td>{i + 1}</td>
+                  <td>{c.canal}</td>
+                  <td>{c.fonte}</td>
+                  <td>{c.quem}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="rider-destaque"><Icone nome="som" tamanho={20} /> {rider.retorno}</p>
+
+      <div class="rider-grade">
+        <div class="rider-card" data-revelar>
+          <h3>Tempos</h3>
+          <dl class="rider-dl">
+            {
+              rider.tempos.map((t) => (
+                <div>
+                  <dt>{t.rotulo}</dt>
+                  <dd>{t.valor}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+        <div class="rider-card" data-revelar>
+          <h3>Equipe e camarim</h3>
+          <p>{rider.tecnico}</p>
+          <p>{rider.equipe}</p>
+          <p><strong>Backline:</strong> {rider.backline}</p>
+          <p><strong>Camarim:</strong> {rider.camarim.join(' e ').toLowerCase()}.</p>
+        </div>
+        <div class="rider-card" data-revelar>
+          <h3>Contatos técnicos</h3>
+          <ul role="list" class="rider-contatos">
+            {
+              rider.contatos.map((c) => (
+                <li>
+                  <strong>{c.nome}</strong> · {c.papel}
+                  <br />
+                  {c.whatsapp && (
+                    <a class="sublinhado" href={`https://wa.me/${c.whatsapp}`} target="_blank" rel="noopener">
+                      {c.telefone}
+                    </a>
+                  )}
+                  {c.email && (
+                    <a class="sublinhado" href={`mailto:${c.email}`}>
+                      {c.email}
+                    </a>
+                  )}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+
+      <p class="rider-rodape">{site.nome} · Rider técnico · atualizado em {dataLonga(rider.atualizado)}</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .rider-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .rider :global(.ts) {
+    margin-top: clamp(56px, 7vw, 88px);
+  }
+
+  .rider-formacoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+    gap: 16px;
+  }
+
+  .rider-card {
+    padding: 22px 24px;
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+    background: rgb(236 230 216 / 0.03);
+  }
+
+  .rider-card h3 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 1.5rem;
+  }
+
+  .rider-card .chip {
+    min-height: 24px;
+    padding: 0.1em 0.6em;
+    font-family: var(--fonte-texto);
+    font-size: 0.7rem;
+  }
+
+  .rider-card--padrao {
+    border-color: var(--kraft);
+  }
+
+  .rider-card li,
+  .rider-card p {
+    color: var(--perola-2);
+    font-size: 0.95rem;
+  }
+
+  .rider-card p + p {
+    margin-top: 8px;
+  }
+
+  .rider-palco {
+    display: grid;
+    gap: 28px;
+    align-items: center;
+  }
+
+  @media (min-width: 1000px) {
+    .rider-palco {
+      grid-template-columns: 1.5fr 1fr;
+    }
+  }
+
+  .rider-mapa {
+    width: 100%;
+    height: auto;
+  }
+
+  .m-palco {
+    fill: rgb(236 230 216 / 0.04);
+    stroke: var(--linha-forte);
+    stroke-width: 2;
+  }
+
+  .m-praticavel {
+    fill: rgb(201 166 121 / 0.12);
+    stroke: var(--kraft);
+    stroke-dasharray: 6 5;
+  }
+
+  .m-peca {
+    fill: none;
+    stroke: var(--perola-2);
+    stroke-width: 2;
+  }
+
+  .m-prato {
+    fill: rgb(201 166 121 / 0.25);
+    stroke: var(--kraft);
+  }
+
+  .m-pessoa {
+    fill: var(--ink-700);
+    stroke: var(--acento);
+    stroke-width: 2.5;
+  }
+
+  .m-pessoa--frente {
+    stroke: var(--kraft);
+  }
+
+  .m-mic {
+    stroke: var(--perola);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  .m-amp,
+  .m-teclado {
+    fill: rgb(236 230 216 / 0.1);
+    stroke: var(--perola-3);
+  }
+
+  .m-amp-txt,
+  .m-fundo,
+  .m-plateia {
+    fill: var(--perola-3);
+    font: 600 12px var(--fonte-texto);
+    letter-spacing: 0.15em;
+    text-anchor: middle;
+  }
+
+  .m-plateia {
+    font-size: 15px;
+  }
+
+  .m-nome {
+    fill: var(--perola);
+    font: 600 17px var(--fonte-texto);
+    text-anchor: middle;
+  }
+
+  .m-funcao {
+    fill: var(--perola-3);
+    font: 13px var(--fonte-texto);
+    text-anchor: middle;
+  }
+
+  .rider-notas {
+    display: grid;
+    gap: 10px;
+    padding-left: 1.1em;
+    color: var(--perola-2);
+    list-style: disc;
+  }
+
+  .rider-tabela-wrap {
+    overflow-x: auto;
+  }
+
+  .rider-tabela {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .rider-tabela th,
+  .rider-tabela td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--linha);
+    text-align: left;
+  }
+
+  .rider-tabela th {
+    color: var(--perola-3);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .rider-tabela td:first-child {
+    width: 3em;
+    color: var(--perola-3);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .rider-destaque {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    padding: 18px 22px;
+    border: 1px dashed var(--kraft);
+    border-radius: var(--raio);
+    color: var(--perola);
+  }
+
+  .rider-destaque :global(svg) {
+    margin-top: 3px;
+    color: var(--kraft);
+  }
+
+  .rider-grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 16px;
+    margin-top: clamp(48px, 6vw, 72px);
+  }
+
+  .rider-dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .rider-dl dt {
+    color: var(--perola-3);
+  }
+
+  .rider-dl dd {
+    margin: 0;
+    text-align: right;
+  }
+
+  .rider-contatos {
+    display: grid;
+    gap: 12px;
+  }
+
+  .rider-rodape {
+    margin-top: 48px;
+    color: var(--perola-3);
+    font-size: 0.85rem;
+  }
+
+  /* Versão para imprimir / PDF: fundo branco, sem cabeçalho, rodapé e efeitos. */
+  @media print {
+    @page {
+      margin: 14mm;
+    }
+
+    :global(.topo),
+    :global(.menu),
+    :global(.rodape),
+    :global(.grao),
+    :global(.modo-edicao),
+    :global(.pendente),
+    :global(.cp__onda),
+    :global(.ts__anotacao),
+    .rider-acoes {
+      display: none !important;
+    }
+
+    :global(html),
+    :global(body),
+    :global(.cp),
+    :global(.secao) {
+      background: #fff !important;
+    }
+
+    :global(*) {
+      color: #111 !important;
+      box-shadow: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      translate: none !important;
+    }
+
+    :global(.cp) {
+      padding: 0 0 8pt !important;
+    }
+
+    :global(.cp__titulo) {
+      font-size: 34pt !important;
+    }
+
+    :global(.secao) {
+      padding: 0 !important;
+    }
+
+    .rider :global(.ts) {
+      margin: 18pt 0 8pt !important;
+    }
+
+    :global(.ts__titulo) {
+      font-size: 20pt !important;
+    }
+
+    .rider-card,
+    .rider-destaque {
+      border-color: #bbb !important;
+      background: none !important;
+      break-inside: avoid;
+    }
+
+    .rider-palco {
+      grid-template-columns: 1fr;
+      gap: 10pt;
+      break-inside: avoid;
+    }
+
+    .rider-mapa {
+      width: 82%;
+      margin-inline: auto;
+    }
+
+    .rider-notas {
+      grid-template-columns: 1fr 1fr;
+      font-size: 10pt;
+    }
+
+    .rider-grade {
+      grid-template-columns: 1fr 1fr;
+      gap: 8pt;
+      margin-top: 14pt !important;
+    }
+
+    /* Tempos e Contatos à esquerda; Equipe e camarim ocupa a coluna da direita. */
+    .rider-grade > :nth-child(2) {
+      grid-row: span 2;
+    }
+
+    .rider-rodape {
+      margin-top: 10pt;
+    }
+
+    .rider-card {
+      padding: 10pt 12pt;
+    }
+
+    .rider-tabela th,
+    .rider-tabela td {
+      padding: 4pt 6pt;
+      border-color: #ccc;
+    }
+
+    .m-palco {
+      fill: #fafafa;
+      stroke: #888;
+    }
+
+    .m-pessoa,
+    .m-amp,
+    .m-teclado {
+      fill: #fff;
+      stroke: #333;
+    }
+
+    .m-praticavel,
+    .m-prato {
+      fill: #f2f2f2;
+      stroke: #666;
+    }
+
+    .m-peca,
+    .m-mic {
+      stroke: #333;
+    }
+
+    .m-nome,
+    .m-funcao,
+    .m-amp-txt,
+    .m-fundo,
+    .m-plateia {
+      fill: #111 !important;
+    }
+  }
+</style>

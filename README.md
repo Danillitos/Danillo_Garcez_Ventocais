@@ -116,7 +116,7 @@ qual campo.
 2. No GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 3. Faça push para a branch `main`. O workflow `.github/workflows/publicar.yml`
    gera e publica o site em
-   **https://danillitos.github.io/Danillo_Garcez_Ventocais/**.
+   **https://danillitos.github.io/Danillo_Garcez_Ventocais/** (em breve: ventocais.com.br).
 
 O workflow também roda **todo dia às 6h** (horário de Aracaju) para tirar dos
 "Próximos" os shows que já passaram. Dá para rodar na mão em **Actions →
@@ -170,9 +170,9 @@ o adaptador de servidor Node, que o site não usa.
 
 Do dossiê, mais o que apareceu montando o site. Todas estão marcadas no modo de edição.
 
-- [ ] **Formação:** quarteto ou quinteto?
+- [x] **Formação:** quinteto (com aviso de formações reduzidas na Sobre).
 - [x] **Fotos dos integrantes:** confirmadas.
-- [ ] **Links:** perfil do Spotify (e unificar "Danillo Garcez" e "Ventocais"). Canal do YouTube, live session e smartlinks dos lançamentos já estão no site.
+- [x] **Links:** Spotify (Danillo Garcez e Ventocais), YouTube, live sessions e smartlinks.
 - [x] **Links das matérias:** Disconecta, Divergent Beats, Mangue Jornalismo, Be Guimarães e o reel da Canastra Records (confirmar).
 - [x] **E-mail:** ventocaisbanda@gmail.com (banda) e danillo.garcez@live.com.
 - [ ] **Créditos das fotos.** (A capa de "Promessas de Orfeu" já está creditada: Rodrigowod.)
@@ -180,11 +180,11 @@ Do dossiê, mais o que apareceu montando o site. Todas estão marcadas no modo d
 - [x] **Letras:** todas as músicas lançadas têm letra no site.
 - [x] **Nome:** Vico Fontes (confirmado pelo cartaz).
 - [x] **Datas:** todos os shows do portfólio têm data.
-- [ ] **Turnê:** local em Arapiraca; horários, preços e links de ingresso.
+- [ ] **Turnê:** horários, preços e links de ingresso (Arapiraca: Pub Treze). Line-up das noites quando estiver certo.
 - [x] **Prévia de áudio:** trecho de 1:39 a 2:09 de "Promessas de Orfeu".
-- [ ] **"Parar pra Ver":** querem anunciar a inédita no site?
-- [ ] **Rider técnico** e mapa de palco.
-- [ ] **Domínio próprio?**
+- [x] **"Parar pra Ver":** saiu do site até o lançamento.
+- [x] **Rider técnico:** página /rider/ e PDF (dados em data/rider.json).
+- [ ] **Domínio próprio:** ventocais.com.br comprado; falta configurar o DNS no registro.br e trocar o endereço no astro.config.mjs.
 
 ---
 

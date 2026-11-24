@@ -24,6 +24,8 @@ const esquema = z.object({
   origemDoNome: z.string(),
   formatoAcustico: z.string(),
   formacaoPendente: z.string().optional(),
+  /** Aviso sob as polaroids da formação (página Sobre). */
+  avisoFormacao: z.string().optional(),
   influencias: z.array(
     z.object({ grupo: z.string(), nomes: z.array(z.string()), nota: z.string().optional() }),
   ),

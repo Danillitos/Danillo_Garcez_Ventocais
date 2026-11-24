@@ -22,11 +22,7 @@
       "cidade": "Aracaju",
       "uf": "SE"
     },
-    "lineup": [
-      "Chevie",
-      "DJ"
-    ],
-    "pendente": "Horário, endereço, preço, ingressos e nome do DJ"
+    "pendente": "Horário, endereço, preço e link de ingressos"
   },
   {
     "id": "2026-12-11-turne-popfuzz-maceio",
@@ -46,10 +42,11 @@
     "evento": "Turnê Promessas de Orfeu",
     "turne": "Promessas de Orfeu",
     "local": {
+      "nome": "Pub Treze",
       "cidade": "Arapiraca",
       "uf": "AL"
     },
-    "pendente": "Local do show em Arapiraca"
+    "pendente": "Horário, endereço, preço e link de ingressos"
   },
   {
     "id": "2026-11-14-festival-aquece",

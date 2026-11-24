@@ -327,12 +327,17 @@ const fatos = [
     <div class="container epk-rider">
       <TituloSecao num="06.6" rotulo="Técnico" titulo="Rider e <em>mapa de palco</em>" />
       <div class="epk-rider__caixa papel rasgado" data-revelar>
-        <p class="anotacao">em breve por aqui</p>
+        <p class="anotacao">tudo pronto pra passagem</p>
         <p>
-          Enquanto o rider não sobe, fale com a banda pelo WhatsApp {site.contato.whatsappExibicao}. Temos formato com
-          banda completa e trio acústico (voz, baixo e cajón).
+          Formações do solo ao quinteto, mapa de palco, lista de canais, retorno, tempos de montagem, camarim e
+          contatos técnicos.
         </p>
-        <Pendente texto="Adicionar o rider técnico e o mapa de palco (PDF em /public)" />
+        <p class="epk-rider__acoes">
+          <a class="botao botao--pequeno" href={url('/rider/')}>Ver o rider</a>
+          <a class="botao botao--pequeno" href={url('/rider-danillo-garcez-ventocais.pdf')} download>
+            <Icone nome="baixar" tamanho={16} /> Baixar PDF
+          </a>
+        </p>
       </div>
     </div>
   </section>
@@ -563,6 +568,18 @@ const fatos = [
 
   .epk-rider__caixa p + p {
     margin-top: 10px;
+  }
+
+  .epk-rider__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px !important;
+  }
+
+  .epk-rider__caixa .botao {
+    --botao-cor: var(--kraft-texto);
+    --botao-borda: rgb(43 32 21 / 0.4);
   }
 
   @keyframes cp-entrar {

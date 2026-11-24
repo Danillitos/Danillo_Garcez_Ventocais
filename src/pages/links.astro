@@ -51,7 +51,7 @@ const links: { rotulo: string; detalhe?: string; href: string; icone: NomeIcone;
         },
       ]
     : []),
-  ...site.plataformas.filter((p) => p.url).map((p) => ({ rotulo: p.nome, href: p.url, icone: icones[p.nome] ?? 'ondas', externo: true })),
+  ...site.plataformas.filter((p) => p.url).map((p) => ({ rotulo: p.nome, href: p.url, icone: icones[p.nome.split(' · ')[0]] ?? 'ondas', externo: true })),
   ...site.redes.filter((r) => r.url).map((r) => ({ rotulo: `${r.rede} ${r.usuario}`, href: r.url, icone: icones[r.rede] ?? 'link', externo: true })),
   { rotulo: 'Fale com a gente', detalhe: 'WhatsApp', href: linkWhatsApp(), icone: 'whatsapp', externo: true },
   { rotulo: 'Kit de imprensa', href: url('/imprensa/'), icone: 'baixar' },

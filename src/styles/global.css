@@ -831,3 +831,27 @@ button.chip:hover {
     translate: none;
   }
 }
+
+/* ==========================================================================
+   Impressão / PDF (kit de imprensa, rider)
+   ========================================================================== */
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  .pular,
+  .grao,
+  .modo-edicao {
+    display: none !important;
+  }
+
+  .ts {
+    break-after: avoid;
+  }
+}
