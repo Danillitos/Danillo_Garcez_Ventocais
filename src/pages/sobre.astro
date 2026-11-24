@@ -161,14 +161,51 @@ const jsonLd = musicGroup(
         <div class="container">
           <TituloSecao num="02.5" rotulo="Equipe e parceiros" titulo="Quem faz <em>junto</em>" />
           <ul role="list" class="equipe">
-            {equipe.map((p, i) => (
-              <li class="equipe__item" data-revelar style={`--atraso: ${i * 0.08}s`}>
-                <h3 class="equipe__nome">{p.data.nome}</h3>
-                <p class="equipe__papel">{p.data.papel}</p>
-                {p.data.detalhes && <p class="equipe__detalhes">{p.data.detalhes}</p>}
-                <Pendente texto={p.data.pendente} rascunho={p.data.rascunho} />
-              </li>
-            ))}
+            {equipe.map((p, i) => {
+              const foto = imagem(p.data.foto);
+              const iniciais = p.data.nome
+                .split(' ')
+                .filter((n) => n.length > 2)
+                .map((n) => n[0])
+                .slice(0, 2)
+                .join('');
+              return (
+                <li
+                  class:list={['equipe__item', { 'equipe__item--destaque': p.data.destaque }]}
+                  data-revelar
+                  style={`--atraso: ${i * 0.08}s`}
+                >
+                  {p.data.destaque && (
+                    <div class="equipe__foto fita">
+                      {foto ? (
+                        <Image
+                          src={foto}
+                          alt={`Foto de ${p.data.nome}`}
+                          widths={[280, 420, 600]}
+                          sizes="(max-width: 700px) 70vw, 280px"
+                        />
+                      ) : (
+                        <span class="equipe__foto-vazia papel" aria-hidden="true">
+                          <span class="equipe__iniciais">{iniciais}</span>
+                          <span class="anotacao">foto em breve</span>
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  <div class="equipe__texto">
+                    <h3 class="equipe__nome">{p.data.nome}</h3>
+                    <p class="equipe__papel">{p.data.papel}</p>
+                    {p.data.detalhes && <p class="equipe__detalhes">{p.data.detalhes}</p>}
+                    {p.data.link && (
+                      <a class="link-icone" href={p.data.link} target="_blank" rel="noopener">
+                        <Icone nome="instagram" tamanho={18} /> Instagram
+                      </a>
+                    )}
+                    <Pendente texto={p.data.pendente} rascunho={p.data.rascunho} />
+                  </div>
+                </li>
+              );
+            })}
           </ul>
           <p class="equipe__selo">
             Distribuição: {site.distribuidora} · Associação de direitos: {site.associacao}
@@ -331,8 +368,73 @@ const jsonLd = musicGroup(
     border-radius: var(--raio);
   }
 
+  /* Cartão de destaque (o produtor): foto em moldura + texto maior. */
+  .equipe__item--destaque {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 28px 44px;
+    align-items: center;
+    padding: clamp(28px, 4vw, 44px);
+    background: rgb(236 230 216 / 0.03);
+  }
+
+  @media (min-width: 760px) {
+    .equipe__item--destaque {
+      grid-template-columns: 260px 1fr;
+    }
+  }
+
+  .equipe__foto {
+    width: min(100%, 260px);
+    margin: 8px auto 0;
+    padding: 10px 10px 38px;
+    rotate: -2.5deg;
+    background: #efe8d8;
+    box-shadow: 0 30px 50px -24px rgb(0 0 0 / 0.8);
+  }
+
+  .equipe__foto :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .equipe__foto-vazia {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 6px;
+    aspect-ratio: 4 / 5;
+  }
+
+  .equipe__iniciais {
+    font-family: var(--fonte-display);
+    font-size: 4rem;
+    font-style: italic;
+    line-height: 1;
+  }
+
+  .equipe__foto-vazia .anotacao {
+    color: #7a3416;
+  }
+
+  .equipe__texto {
+    display: grid;
+    gap: 6px;
+    justify-items: start;
+  }
+
   .equipe__nome {
     font-size: 1.55rem;
+  }
+
+  .equipe__item--destaque .equipe__nome {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .equipe__item--destaque .equipe__detalhes {
+    max-width: 52ch;
+    font-size: 1.05rem;
   }
 
   .equipe__papel {

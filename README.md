@@ -171,7 +171,7 @@ o adaptador de servidor Node, que o site não usa.
 Do dossiê, mais o que apareceu montando o site. Todas estão marcadas no modo de edição.
 
 - [ ] **Formação:** quarteto ou quinteto?
-- [ ] **Fotos dos integrantes:** as polaroids em `data/integrantes.json` estão numa ordem provisória. Confirmar quem é quem.
+- [x] **Fotos dos integrantes:** confirmadas.
 - [ ] **Links:** perfil do Spotify (e unificar "Danillo Garcez" e "Ventocais"). Canal do YouTube, live session e smartlinks dos lançamentos já estão no site.
 - [ ] **Links das matérias:** Disconecta, Divergent Beats, Be Guimarães, TMDQA!, DiscoEmCena, Canastra Records, Music es un Voyage.
 - [ ] **E-mail** de contato da banda.

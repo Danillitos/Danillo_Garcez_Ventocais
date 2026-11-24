@@ -2,19 +2,16 @@
   {
     "id": "guilherme-viana-bagio",
     "nome": "Guilherme Viana Bagio",
-    "papel": "Gravação, mixagem e masterização",
-    "detalhes": "Coprodutor musical de “Promessas de Orfeu”. Também gravou o set do Festival Aquece."
+    "papel": "Produtor musical",
+    "detalhes": "Coprodutor de “Promessas de Orfeu” e responsável pela gravação, mixagem e masterização. Também gravou o set do Festival Aquece.",
+    "destaque": true,
+    "foto": "",
+    "pendente": "Foto do Guilherme: coloque em src/assets/fotos/equipe/ e escreva o caminho em \"foto\" (ex.: \"fotos/equipe/guilherme.jpg\")"
   },
   {
     "id": "produtora-sinestra",
     "nome": "Produtora Sinestra",
     "papel": "Produção",
     "detalhes": "Articulou a turnê de dezembro."
-  },
-  {
-    "id": "manoel-choles",
-    "nome": "Manoel Choles",
-    "papel": "Sax em “Rosa Afim”",
-    "detalhes": "Participação especial na gravação de estúdio."
   }
 ]

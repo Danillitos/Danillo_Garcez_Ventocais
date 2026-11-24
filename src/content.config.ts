@@ -150,6 +150,9 @@ const equipe = defineCollection({
     papel: z.string(),
     detalhes: z.string().optional(),
     link: z.string().optional(),
+    /** Destaque: cartão grande, com foto (caminho em src/assets). */
+    destaque: z.boolean().default(false),
+    foto: z.string().optional(),
     ...controle,
   }),
 });

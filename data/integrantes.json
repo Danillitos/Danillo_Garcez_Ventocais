@@ -6,17 +6,16 @@
     "funcao": "Voz, guitarra e composição",
     "foto": "fotos/polaroids/integrante-1.webp",
     "instagram": "https://www.instagram.com/danillogarcez_/",
-    "ordem": 1,
-    "pendente": "Foto provisória: confirmar quem é quem"
+    "ordem": 1
   },
   {
     "id": "vitor",
     "nome": "Vitor",
     "nomeCompleto": "Vitor de Almeida Brito",
     "funcao": "Guitarra",
-    "foto": "fotos/polaroids/integrante-2.webp",
-    "ordem": 2,
-    "pendente": "Foto provisória: confirmar quem é quem"
+    "foto": "fotos/polaroids/integrante-5.webp",
+    "instagram": "https://www.instagram.com/vitor.guitarra/",
+    "ordem": 2
   },
   {
     "id": "joao-pedro",
@@ -24,25 +23,25 @@
     "nomeCompleto": "João Pedro França Lino",
     "funcao": "Baixo",
     "foto": "fotos/polaroids/integrante-3.webp",
-    "ordem": 3,
-    "pendente": "Foto provisória: confirmar quem é quem"
+    "instagram": "https://www.instagram.com/_jompas_/",
+    "ordem": 3
   },
   {
     "id": "guima",
     "nome": "Guima",
     "nomeCompleto": "Guilherme Mateus Santos Oliveira",
     "funcao": "Bateria",
-    "foto": "fotos/polaroids/integrante-4.webp",
-    "ordem": 4,
-    "pendente": "Foto provisória: confirmar quem é quem"
+    "foto": "fotos/polaroids/integrante-2.webp",
+    "instagram": "https://www.instagram.com/guimakkjk/",
+    "ordem": 4
   },
   {
     "id": "lauro",
     "nome": "Lauro",
     "nomeCompleto": "Lauro Antenor Augusto de Souza Santos",
     "funcao": "Teclado",
-    "foto": "fotos/polaroids/integrante-5.webp",
-    "ordem": 5,
-    "pendente": "Foto provisória: confirmar quem é quem"
+    "foto": "fotos/polaroids/integrante-4.webp",
+    "instagram": "https://www.instagram.com/lauro_agst/",
+    "ordem": 5
   }
 ]
