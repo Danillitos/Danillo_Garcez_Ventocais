@@ -37,7 +37,8 @@
       },
       {
         "funcao": "Gravação, mixagem e masterização",
-        "nome": "Guilherme Viana Bagio"
+        "nome": "Guilherme Viana Bagio",
+        "link": "https://www.instagram.com/guimixagem"
       },
       {
         "funcao": "Voz",
@@ -92,6 +93,13 @@
     "texto": [
       "Depois de “Promessas de Orfeu”, mais uma sessão ao vivo no estúdio: “Tudo é Mar”, o primeiro lançamento da banda, emendada com “Incendiar”, do EP Rosa Afim."
     ],
+    "ficha": [
+      {
+        "funcao": "Gravação, mixagem e masterização",
+        "nome": "Guilherme Viana Bagio",
+        "link": "https://www.instagram.com/guimixagem"
+      }
+    ],
     "links": {
       "youtube": "https://www.youtube.com/watch?v=SppgwLYrQSE"
     }
@@ -106,6 +114,13 @@
     "resumo": "A live session de “Promessas de Orfeu”, gravada em 2 de novembro de 2026 e lançada no YouTube.",
     "texto": [
       "Uma semana depois do lançamento, “Promessas de Orfeu” ganhou uma versão ao vivo, gravada com a banda completa em 2 de novembro de 2026."
+    ],
+    "ficha": [
+      {
+        "funcao": "Gravação, mixagem e masterização",
+        "nome": "Guilherme Viana Bagio",
+        "link": "https://www.instagram.com/guimixagem"
+      }
     ],
     "links": {
       "youtube": "https://www.youtube.com/watch?v=8p71zpeq0wg"
@@ -154,6 +169,23 @@
         ]
       }
     ],
+    "ficha": [
+      {
+        "funcao": "Produção musical",
+        "nome": "Guilherme Viana Bagio",
+        "link": "https://www.instagram.com/guimixagem"
+      },
+      {
+        "funcao": "Gravação, mixagem e masterização",
+        "nome": "Guilherme Viana Bagio",
+        "link": "https://www.instagram.com/guimixagem"
+      },
+      {
+        "funcao": "Captação de bateria",
+        "nome": "Vivico (Doghouse Audio)",
+        "link": "https://www.instagram.com/doghouseaudio.aju"
+      }
+    ],
     "links": {
       "smartlink": "https://ditto.fm/rosa-afim"
     }
@@ -170,9 +202,6 @@
       "“Sensação do Mundo” era completamente diferente do que é hoje: em vez de uma MPB puxada para o samba, a canção era bem mais introspectiva, com uma levada de R&B.",
       "Ela mudou depois que Guima, o baterista, sugeriu a troca de estilo no ensaio da véspera do primeiro show. A banda gostou tanto que essa virou a versão definitiva."
     ],
-    "links": {
-      "smartlink": "https://ditto.fm/sensacao-do-mundo"
-    },
     "letra": [
       "Quando eu era mais novo\nOs pássaros cantavam mais\nQuando ainda era cedo\nQuando tudo era história ou tanto faz",
       "Noites tão lindas num jardim\nTempo que limpa e não desfaz\nSensação do mundo\nA noção de um mundo",
@@ -182,7 +211,27 @@
       "Noites tão lindas num jardim\nTempo que limpa e não desfaz\nSensação do mundo\nA noção de um mundo",
       "Então, viva\nOlhe ao redor\nEntão, sinta\nVeja do melhor",
       "Então, viva\nOlhe ao redor\nEntão, sinta\nVeja do melhor"
-    ]
+    ],
+    "ficha": [
+      {
+        "funcao": "Produção musical",
+        "nome": "Guilherme Viana Bagio",
+        "link": "https://www.instagram.com/guimixagem"
+      },
+      {
+        "funcao": "Gravação, mixagem e masterização",
+        "nome": "Guilherme Viana Bagio",
+        "link": "https://www.instagram.com/guimixagem"
+      },
+      {
+        "funcao": "Captação de bateria",
+        "nome": "Vivico (Doghouse Audio)",
+        "link": "https://www.instagram.com/doghouseaudio.aju"
+      }
+    ],
+    "links": {
+      "smartlink": "https://ditto.fm/sensacao-do-mundo"
+    }
   },
   {
     "id": "tudo-e-mar",
@@ -197,6 +246,21 @@
       "O lançamento virou matéria na Disconecta e no blog Be Guimarães."
     ],
     "ficha": [
+      {
+        "funcao": "Produção musical",
+        "nome": "Guilherme Viana Bagio",
+        "link": "https://www.instagram.com/guimixagem"
+      },
+      {
+        "funcao": "Gravação, mixagem e masterização",
+        "nome": "Guilherme Viana Bagio",
+        "link": "https://www.instagram.com/guimixagem"
+      },
+      {
+        "funcao": "Captação de bateria",
+        "nome": "Vivico (Doghouse Audio)",
+        "link": "https://www.instagram.com/doghouseaudio.aju"
+      },
       {
         "funcao": "Percussão",
         "nome": "Daniel Nanume"
