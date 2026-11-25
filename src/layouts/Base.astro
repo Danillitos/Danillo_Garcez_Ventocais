@@ -75,9 +75,10 @@ const transicao = {
     <meta name="theme-color" content="#0d1320" />
     <meta name="generator" content={Astro.generator} />
 
-    <link rel="icon" href={url('/favicon.ico')} sizes="any" />
-    <link rel="icon" href={url('/favicon.png')} type="image/png" />
-    <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
+    <!-- ?v=2 força o navegador a trocar o ícone antigo guardado em cache. -->
+    <link rel="icon" href={`${url('/favicon.ico')}?v=2`} sizes="any" />
+    <link rel="icon" href={`${url('/favicon.png')}?v=2`} type="image/png" />
+    <link rel="apple-touch-icon" href={`${url('/apple-touch-icon.png')}?v=2`} />
     <link rel="sitemap" href={url('/sitemap-index.xml')} />
 
     <meta property="og:type" content={tipo} />
