@@ -4,7 +4,7 @@ export const paginas = [
   { href: '/sobre/', rotulo: 'Sobre' },
   { href: '/musica/', rotulo: 'Música' },
   { href: '/agenda/', rotulo: 'Agenda' },
-  { href: '/videos/', rotulo: 'Vídeos' },
+  { href: '/videos/', rotulo: 'Mídias' },
   { href: '/imprensa/', rotulo: 'Imprensa' },
   { href: '/contato/', rotulo: 'Contato' },
 ] as const;
