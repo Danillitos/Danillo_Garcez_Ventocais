@@ -12,8 +12,8 @@ import sitemap from '@astrojs/sitemap';
  *   - SITE_URL = 'https://ventocais.com.br'
  *   - BASE_PATH = '/'
  */
-const SITE_URL = process.env.SITE_URL ?? 'https://danillitos.github.io';
-const BASE_PATH = process.env.BASE_PATH ?? '/Danillo_Garcez_Ventocais';
+const SITE_URL = process.env.SITE_URL ?? 'https://ventocais.com.br';
+const BASE_PATH = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
   site: SITE_URL,

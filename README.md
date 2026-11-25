@@ -16,7 +16,7 @@ npm install     # só na primeira vez
 npm run dev     # modo de edição
 ```
 
-Abra **http://localhost:4321/Danillo_Garcez_Ventocais/**. A página atualiza
+Abra **http://localhost:4321/**. A página atualiza
 sozinha quando você salva um arquivo.
 
 No modo de edição aparecem coisas que **não vão para o site publicado**:
@@ -111,23 +111,24 @@ qual campo.
 
 ## Publicar no GitHub Pages
 
-1. Crie o repositório no GitHub com o nome **`Danillo_Garcez_Ventocais`**. Ele
-   precisa bater com o `BASE_PATH` em `astro.config.mjs`.
-2. No GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-3. Faça push para a branch `main`. O workflow `.github/workflows/publicar.yml`
+1. No GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. Faça push para a branch `main`. O workflow `.github/workflows/publicar.yml`
    gera e publica o site em
-   **https://danillitos.github.io/Danillo_Garcez_Ventocais/** (em breve: ventocais.com.br).
+   **https://ventocais.com.br/**.
 
 O workflow também roda **todo dia às 6h** (horário de Aracaju) para tirar dos
 "Próximos" os shows que já passaram. Dá para rodar na mão em **Actions →
 Publicar no GitHub Pages → Run workflow**.
 
-### Domínio próprio (ex.: ventocais.com.br)
+### Domínio (ventocais.com.br)
 
-1. Em `astro.config.mjs`: `SITE_URL = 'https://ventocais.com.br'` e `BASE_PATH = '/'`.
-2. Crie `public/CNAME` contendo só `ventocais.com.br`.
-3. No registro do domínio, aponte o DNS para o GitHub Pages e configure o
-   domínio em **Settings → Pages → Custom domain**.
+- `astro.config.mjs` usa `SITE_URL = 'https://ventocais.com.br'` e `BASE_PATH = '/'`,
+  e `public/CNAME` contém `ventocais.com.br`.
+- DNS no registro.br (modo avançado): 4 registros A para `185.199.108.153`,
+  `185.199.109.153`, `185.199.110.153` e `185.199.111.153`, e CNAME de `www`
+  para `danillitos.github.io`.
+- No GitHub: **Settings → Pages → Custom domain** = `ventocais.com.br`, com
+  **Enforce HTTPS** ligado.
 
 ---
 
